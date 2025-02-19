@@ -1,50 +1,97 @@
 @import "tailwindcss";
 
 :root[data-theme='light'] {
-    --containerColor: #edf2f7; 
-    --backgroundColor: #3b82f6;
-    --navBackgroundColor: #edf2f7;
-    --tableHeadBackground: #3bffec;
+    --containerColor: #9bc1ff; 
+    --backgroundLinear: linear-gradient(to bottom, #105C93, #9bc1ff 50%, #105C93);
     --radialGradient: radial-gradient(circle, #9333ea, #dbb5ff);
     --linearGradient: linear-gradient(135deg, #3bffec, #3b82f6);
-    --effectGradient: linear-gradient(135deg, #745594, #2c2891);
-    --textColor: #2C2891; 
-    --titleColor: #1f2937;
+    --specialBorder: #EDD5BB;
+    --textColor: #105C93; 
+    --titleColor: #0576B1;
   }
 
   :root[data-theme='dark'] {
-    --containerColor: #004aad; 
-    --backgroundColor: #1f2937;
-    --navBackgroundColor: #333;
-    --tableHeadBackground: #2C2891;
+    --containerColor: #001F3F; 
+    --backgroundLinear: linear-gradient(to bottom, #105C93, #9bc1ff 50%, #105C93);
     --radialGradient: radial-gradient(circle, #9333ea, #2C2891);
-    --linearGradient: linear-gradient(135deg, #2575fc, #6a11cb);
     --inputGradient: linear-gradient(135deg, #3bffec, #3b82f6);
-    --textColor: #3b82f6; 
+    --specialBorder: #AE4947;
+    --textColor: #9bc1ff; 
     --titleColor: #3bffec;
   }
 
 
 body {
     @apply flex flex-col min-h-screen relative;
-    background-image: var(--radialGradient);
+    background: var(--backgroundLinear);
     margin: 0;
     padding: 0;
 }
 
 /* Backgrounds */
+.banner-background {
+  width: 100%;
+  height: 500px;
+  position: absolute;
+  z-index: 0; /* Manda la imagen al fondo */
+}
+
+@media (max-width: 480px) { /* Para pantallas pequeñas */
+  .custom-grid {
+    grid-template-columns: 1fr; /* Una sola columna */
+  }
+}
+
+.body-background {
+  @apply absolute top-0 left-0 w-full h-full object-cover;
+}
+
 .modal-background {
     @apply fixed inset-0 z-40 flex items-center justify-center bg-black/50 outline-none focus:outline-none;
 }
 
+.special-text-background {
+  padding: 1rem;
+  background-color: var(--containerColor);
+  border: 5px solid var(--specialBorder);
+}
+
+.text-background {
+  padding: 1rem;
+  background-color: var(--containerColor);
+}
+
 /* Containers */
+.banner-container {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  contain: layout paint; /* Evita que el contenido se expanda más allá del contenedor */
+}
+
+.fix-container-left {
+  position: absolute;
+  left: 20px;  /* Ajusta según sea necesario */
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.fix-container-right {
+  position: absolute;
+  right: 20px;  /* Ajusta según sea necesario */
+  top: 50%;
+  transform: translateY(-50%);
+}
+
 .footer-container {
     @apply relative w-full p-4 ;
   }
 
 .modal-container {
     @apply rounded-lg relative p-6 flex flex-col h-1/2 w-full z-50;
-    background-color: var(--backgroundColor);
+    background-color: var(--containerColor);
 }
 
 .nav-container{
@@ -61,9 +108,21 @@ body {
 
 /* Distribution */
 .custom-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 2rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(10vw, 1fr));
+  gap: 2rem;
+  justify-content: center;
+  max-width: 90vw; /* No permitirá que el contenido crezca más allá del 80% del viewport */
+  max-height: 90vh; /* Evita que crezca más del 80% del alto de la ventana */
+  padding: 2vw;
+  box-sizing: border-box;
+  z-index: 10;
+}
+
+@media (max-width: 480px) { /* Para pantallas pequeñas */
+  .custom-grid {
+    grid-template-columns: 1fr; /* Una sola columna */
+  }
 }
 
 /* Effects */
@@ -88,6 +147,15 @@ body {
 }
 
 /* Images || Icons */
+.ilustration {
+  width: 100%;
+  height: 100%;
+}
+
+.logo {
+  @apply h-20 w-20 rounded-full m-4;
+}
+
 .theme-button-size {
   border-radius: 2rem;
   height: 4rem;
@@ -95,9 +163,19 @@ body {
   margin: auto;
 }
 
+/* Sections */
+.nav-section
+{
+  @apply fixed top-0 left-0 w-full h-24 z-30 p-4;
+  background-color: var(--containerColor);
+}
+
 /* Text */
 .paragraph {
-  @apply sm:text-base md:text-2xl text-center m-auto;
+  font-family: 'Lato', serif;
+  font-weight: 400;
+  font-size: clamp(1rem, 2vw, 2.5rem);
+  text-align: start;
   color: var(--textColor);
 }
 
@@ -110,20 +188,3 @@ body {
     @apply sm:text-2xl md:text-4xl;
     color: var(--titleColor);
 }
-
-/* OPCIONALES */
-
-/* NavBark Logos Extremos */
-.fix-container-left {
-    position: absolute;
-    left: 20px;  /* Ajusta según sea necesario */
-    top: 50%;
-    transform: translateY(-50%);
-  }
-  
-  .fix-container-right {
-    position: absolute;
-    right: 20px;  /* Ajusta según sea necesario */
-    top: 50%;
-    transform: translateY(-50%);
-  }

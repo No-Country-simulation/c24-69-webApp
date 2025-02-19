@@ -2,6 +2,7 @@ import ThemeButton from "../../components/ThemeButton/index";
 import ConfirmModal from "../../components/ConfirmModal/index";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import logo from "../../assets/logo1.png";
 
 const NavBar: React.FC = () => {
 
@@ -24,6 +25,9 @@ const NavBar: React.FC = () => {
     <div>
       <div className="nav-container">
           <div className="nav-links-container">
+          <div className="fix-container-left ">
+            <img src={logo} alt="Logo" className="logo" />
+          </div>
           <Link
             className=""
             to="/home"
@@ -32,9 +36,9 @@ const NavBar: React.FC = () => {
           </Link>
             </div>
             </div>
-            <div className="fix-container-right ">
-          <ThemeButton />
-        </div>
+          <div className="fix-container-right ">
+            <ThemeButton />
+          </div>
 
       {/* Modal de confirmación de logout */}
       <ConfirmModal

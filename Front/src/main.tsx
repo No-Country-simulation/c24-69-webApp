@@ -10,10 +10,13 @@ createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
     <ThemeProvider>
-    <nav className='bg-blue-400/70 fixed top-0 left-0 w-full z-30'>
+      <img src="" alt="Page Background" className='body-background' />
+    <nav className='nav-section'>
         <NavBar />
     </nav>
-    <App />
+    <main className="pt-14">
+      <App />
+    </main>
     </ThemeProvider>
     </BrowserRouter>
   </StrictMode>,
