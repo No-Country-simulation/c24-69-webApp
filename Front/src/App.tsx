@@ -1,10 +1,11 @@
 import './index.css'
+import { AppRoutes } from './routes/routes'
 
 function App() {
 
   return (
     <>
-
+    <AppRoutes/>
     </>
   )
 }

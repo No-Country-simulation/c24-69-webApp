@@ -1,5 +1,129 @@
 @import "tailwindcss";
 
+:root[data-theme='light'] {
+    --containerColor: #edf2f7; 
+    --backgroundColor: #3b82f6;
+    --navBackgroundColor: #edf2f7;
+    --tableHeadBackground: #3bffec;
+    --radialGradient: radial-gradient(circle, #9333ea, #dbb5ff);
+    --linearGradient: linear-gradient(135deg, #3bffec, #3b82f6);
+    --effectGradient: linear-gradient(135deg, #745594, #2c2891);
+    --textColor: #2C2891; 
+    --titleColor: #1f2937;
+  }
+
+  :root[data-theme='dark'] {
+    --containerColor: #004aad; 
+    --backgroundColor: #1f2937;
+    --navBackgroundColor: #333;
+    --tableHeadBackground: #2C2891;
+    --radialGradient: radial-gradient(circle, #9333ea, #2C2891);
+    --linearGradient: linear-gradient(135deg, #2575fc, #6a11cb);
+    --inputGradient: linear-gradient(135deg, #3bffec, #3b82f6);
+    --textColor: #3b82f6; 
+    --titleColor: #3bffec;
+  }
+
+
 body {
-    @apply bg-gray-600 m-0 p-0;
+    @apply flex flex-col min-h-screen relative;
+    background-image: var(--radialGradient);
+    margin: 0;
+    padding: 0;
 }
+
+/* Backgrounds */
+.modal-background {
+    @apply fixed inset-0 z-40 flex items-center justify-center bg-black/50 outline-none focus:outline-none;
+}
+
+/* Containers */
+.footer-container {
+    @apply relative w-full p-4 ;
+  }
+
+.modal-container {
+    @apply rounded-lg relative p-6 flex flex-col h-1/2 w-full z-50;
+    background-color: var(--backgroundColor);
+}
+
+.nav-container{
+    @apply flex flex-wrap items-center justify-center my-4;
+}
+
+.nav-links-container {
+  @apply items-center justify-center w-2/3 ml-4;
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    margin: auto;
+}
+
+/* Distribution */
+.custom-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 2rem;
+}
+
+/* Effects */
+.input-effect{
+    padding: 5px;
+    border-radius: 1rem;
+    width: 100%;
+  }
+  
+  .input-effect:focus-within {
+    background: var(--effectGradient);
+  }
+  
+  .input-effect:hover {
+    background: var(--effectGradient);
+  }
+
+.modal-effect {
+    padding: 5px;
+    background: var(--effectGradient);
+    width:75%;
+}
+
+/* Images || Icons */
+.theme-button-size {
+  border-radius: 2rem;
+  height: 4rem;
+  width: 4rem;
+  margin: auto;
+}
+
+/* Text */
+.paragraph {
+  @apply sm:text-base md:text-2xl text-center m-auto;
+  color: var(--textColor);
+}
+
+.sub-title {
+    @apply sm:text-xl md:text-2xl;
+    color: var(--titleColor);
+}
+
+.title {
+    @apply sm:text-2xl md:text-4xl;
+    color: var(--titleColor);
+}
+
+/* OPCIONALES */
+
+/* NavBark Logos Extremos */
+.fix-container-left {
+    position: absolute;
+    left: 20px;  /* Ajusta según sea necesario */
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  
+  .fix-container-right {
+    position: absolute;
+    right: 20px;  /* Ajusta según sea necesario */
+    top: 50%;
+    transform: translateY(-50%);
+  }
