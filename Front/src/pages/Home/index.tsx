@@ -1,9 +1,15 @@
+import { FirstBanner } from "../../components/Banners/HomeBanner 1/index";
+import { SecondBanner } from "../../components/Banners/HomeBanner 2/index";
+import { ThirdBanner } from "../../components/Banners/HomeBanner 3";
+import { FourthBanner } from "../../components/Banners/HomeBanner 4";
 
 const Home = () => {
 return (
-    <div>
-        <h1 className="title">Welcome to Obsidian Vault!</h1>
-        <p className="paragraph">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Eum voluptatibus earum, culpa nam corporis vero sequi dolorem commodi ipsum non consequatur tenetur similique dicta, eligendi distinctio ducimus et inventore eius!</p>
+    <div className="flex flex-col justify-between">
+        <FirstBanner />
+        <SecondBanner />
+        <ThirdBanner/>
+        <FourthBanner/>
     </div>
 )
 }
