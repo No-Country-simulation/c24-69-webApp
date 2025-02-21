@@ -28,12 +28,14 @@ body {
     padding: 0;
 }
 
+/* Animations | Actions */
+.text-action {
+  @apply cursor-pointer p-4 border-4 rounded-md transition duration-300;
+}
+
 /* Backgrounds */
-.banner-background {
-  width: 100%;
-  height: 500px;
-  position: absolute;
-  z-index: 0; /* Manda la imagen al fondo */
+.ilustration-background {
+@apply absolute w-full h-full object-cover;
 }
 
 @media (max-width: 480px) { /* Para pantallas pequeñas */
@@ -63,12 +65,17 @@ body {
 
 /* Containers */
 .banner-container {
-  width: 100%;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  contain: layout paint; /* Evita que el contenido se expanda más allá del contenedor */
+  @apply flex items-center justify-center h-3/4 p-4;
+}
+
+.banner-child-container {
+@apply grid grid-cols-2 gap-4 w-full max-w-6xl shadow-lg p-6 rounded-lg;
+background: var(--containerColor);
+  contain: layout paint;
+}
+
+.carousel-container {
+  @apply relative flex justify-center items-center overflow-hidden;
 }
 
 .fix-container-left {
@@ -125,6 +132,14 @@ body {
   }
 }
 
+.ilustration-banner-area {
+  @apply relative w-full h-full flex justify-center items-center rounded-lg overflow-hidden;
+}
+
+.text-banner-area {
+  @apply flex flex-col justify-center space-y-4;
+}
+
 /* Effects */
 .input-effect{
     padding: 5px;
@@ -148,8 +163,7 @@ body {
 
 /* Images || Icons */
 .ilustration {
-  width: 100%;
-  height: 100%;
+@apply relative z-10 rounded-md border-4;
 }
 
 .logo {
@@ -171,12 +185,19 @@ body {
 }
 
 /* Text */
-.paragraph {
+.text-active {
   font-family: 'Lato', serif;
-  font-weight: 400;
+  font-weight: bold;
   font-size: clamp(1rem, 2vw, 2.5rem);
   text-align: start;
   color: var(--textColor);
+}
+
+.text-inactive {
+  font-family: 'Lato', serif;
+  font-size: clamp(1rem, 2vw, 2.5rem);
+  text-align: start;
+  color: lightgray;
 }
 
 .sub-title {
