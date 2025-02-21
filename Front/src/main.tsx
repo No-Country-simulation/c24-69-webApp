@@ -14,7 +14,7 @@ createRoot(document.getElementById('root')!).render(
     <nav className='nav-section'>
         <NavBar />
     </nav>
-    <main className="pt-14">
+    <main className="mt-24">
       <App />
     </main>
     </ThemeProvider>

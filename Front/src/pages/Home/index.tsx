@@ -1,15 +1,12 @@
-import { FirstBanner } from "../../components/Banners/HomeBanner 1/index";
-import { SecondBanner } from "../../components/Banners/HomeBanner 2/index";
-import { ThirdBanner } from "../../components/Banners/HomeBanner 3";
-import { FourthBanner } from "../../components/Banners/HomeBanner 4";
+import { First_Interactive_Banner } from "../../components/Banners/HomeBanner 1/index";
+import { Second_Interactive_Banner } from "../../components/Banners/HomeBanner 2";
+
 
 const Home = () => {
 return (
     <div className="flex flex-col justify-between">
-        <FirstBanner />
-        <SecondBanner />
-        <ThirdBanner/>
-        <FourthBanner/>
+        <First_Interactive_Banner />
+        <Second_Interactive_Banner/>
     </div>
 )
 }
