@@ -1,23 +1,25 @@
 @import "tailwindcss";
 
 :root[data-theme='light'] {
-    --containerColor: #9bc1ff; 
-    --backgroundLinear: linear-gradient(to bottom, #105C93, #9bc1ff 50%, #105C93);
-    --radialGradient: radial-gradient(circle, #9333ea, #dbb5ff);
-    --linearGradient: linear-gradient(135deg, #3bffec, #3b82f6);
+    --containerColor: #9bc1ff;
+    --layoutBackground: #0037B5;
+    --themeBackground: #73C0FC; 
+    --backgroundLinear: linear-gradient(to bottom, #9bc1ff, #105C93 50%, #9bc1ff);
+    --linearGradient: linear-gradient(30deg, #9bc1ff, #105C93);
     --specialBorder: #EDD5BB;
-    --textColor: #105C93; 
-    --titleColor: #0576B1;
+    --textColor: #001F3F; 
+    --titleColor: #105C93;
   }
 
   :root[data-theme='dark'] {
     --containerColor: #001F3F; 
+    --layoutBackground: #010016; 
+    --themeBackground: #183153; 
     --backgroundLinear: linear-gradient(to bottom, #105C93, #9bc1ff 50%, #105C93);
-    --radialGradient: radial-gradient(circle, #9333ea, #2C2891);
-    --inputGradient: linear-gradient(135deg, #3bffec, #3b82f6);
+    --linearGradient: linear-gradient(30deg, #0400ff, #4ce3f7);
     --specialBorder: #AE4947;
     --textColor: #9bc1ff; 
-    --titleColor: #3bffec;
+    --titleColor: #4DACE1;
   }
 
 
@@ -29,13 +31,17 @@ body {
 }
 
 /* Animations | Actions */
+.animation-404 {
+@apply w-full h-auto;
+}
+
 .text-action {
   @apply cursor-pointer p-4 border-4 rounded-md transition duration-300;
 }
 
 /* Backgrounds */
 .ilustration-background {
-@apply absolute w-full h-full object-cover;
+@apply absolute w-full h-full object-cover border-4;
 }
 
 @media (max-width: 480px) { /* Para pantallas pequeñas */
@@ -65,7 +71,7 @@ body {
 
 /* Containers */
 .banner-container {
-  @apply flex items-center justify-center h-3/4 p-4;
+  @apply flex items-center justify-center h-3/4 w-full p-4;
 }
 
 .banner-child-container {
@@ -76,6 +82,11 @@ background: var(--containerColor);
 
 .carousel-container {
   @apply relative flex justify-center items-center overflow-hidden;
+}
+
+.container-404 {
+  @apply flex flex-col justify-center items-center text-center w-full max-w-7xl shadow-lg p-6 rounded-lg;
+  background: var(--containerColor);
 }
 
 .fix-container-left {
@@ -102,15 +113,11 @@ background: var(--containerColor);
 }
 
 .nav-container{
-    @apply flex flex-wrap items-center justify-center my-4;
+    @apply flex flex-wrap items-center justify-center;
 }
 
 .nav-links-container {
-  @apply items-center justify-center w-2/3 ml-4;
-    flex-grow: 1;
-    display: flex;
-    justify-content: center;
-    margin: auto;
+  @apply flex items-center justify-center w-2/3 gap-4 grow;
 }
 
 /* Distribution */
@@ -163,7 +170,7 @@ background: var(--containerColor);
 
 /* Images || Icons */
 .ilustration {
-@apply relative z-10 rounded-md border-4;
+@apply relative z-10 rounded-md p-8;
 }
 
 .logo {
@@ -180,24 +187,37 @@ background: var(--containerColor);
 /* Sections */
 .nav-section
 {
-  @apply fixed top-0 left-0 w-full h-24 z-30 p-4;
-  background-color: var(--containerColor);
+  @apply fixed top-0 left-0 w-full h-24 z-30 p-4 flex items-center justify-center;
+  background-color: var(--layoutBackground);
 }
 
 /* Text */
+.text-404 {
+  @apply flex items-center;
+  color: var(--titleColor);
+  font-family: 'Poppins', serif;
+  font-size: 15rem;
+  text-align: center;
+}
+
+@media (max-width: 480px) { /* Para pantallas pequeñas */
+  .text-404 {
+    font-size: 4rem; /* Una sola columna */
+  }
+}
+
 .text-active {
-  font-family: 'Lato', serif;
+  font-family: 'Quicksand', serif;
   font-weight: bold;
   font-size: clamp(1rem, 2vw, 2.5rem);
-  text-align: start;
   color: var(--textColor);
 }
 
 .text-inactive {
-  font-family: 'Lato', serif;
+  font-family: 'Quicksand', serif;
   font-size: clamp(1rem, 2vw, 2.5rem);
   text-align: start;
-  color: lightgray;
+  color: #333;
 }
 
 .sub-title {
@@ -207,5 +227,7 @@ background: var(--containerColor);
 
 .title {
     @apply sm:text-2xl md:text-4xl;
+    font-family: 'Poppins', serif;
+    font-weight: bold;
     color: var(--titleColor);
 }

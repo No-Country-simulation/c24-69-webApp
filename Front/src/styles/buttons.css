@@ -1,0 +1,107 @@
+@import 'tailwindcss';
+
+/* Nav Button */
+.nav-btn {
+  border: none;
+  color: var(--textColor);
+  background-image: var(--linearGradient);
+  border-radius: 20px;
+  background-size: 100% auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Quicksand', serif;
+  font-size: 1.5rem;
+  font-weight: bold;
+  width: 12rem;
+  height: 4rem;
+  padding: 0.6em 1.5em;
+  text-wrap: nowrap;
+ }
+ 
+ .nav-btn:hover {
+  background-position: right center;
+  background-size: 200% auto;
+  -webkit-animation: pulse 2s infinite;
+  animation: pulse512 1.5s infinite;
+ }
+ 
+ @keyframes pulse512 {
+  0% {
+   box-shadow: 0 0 0 0 #05bada66;
+  }
+ 
+  70% {
+   box-shadow: 0 0 0 20px rgb(218 103 68 / 0%);
+  }
+ 
+  100% {
+   box-shadow: 0 0 0 0 rgb(218 103 68 / 0%);
+  }
+ }
+
+.nav-btn-active {
+  background: var(--containerColor);
+  border: 2px solid var(--textColor);
+}
+
+/* Theme Button */
+.theme-switch {
+  @apply relative flex items-center cursor-pointer;
+}
+
+.theme-area {
+  @apply w-20 h-14 rounded-full flex items-center px-1 transition-all duration-300;
+  background-color: var(--themeBackground);
+}
+
+.sun {
+  @apply absolute right-1 w-10 h-10 flex items-center justify-center transition-all duration-300;
+}
+
+.moon {
+  @apply absolute left-1 w-8 h-8 flex items-center justify-center transition-all duration-300;
+  fill: #73C0FC;
+}
+
+.theme-switch:hover .sun {
+  animation: rotate 2s linear infinite;
+}
+
+@keyframes rotate {
+ 
+  0% {
+    transform: rotate(0);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.theme-switch:hover .moon {
+  animation: tilt 1s linear infinite;
+}
+
+@keyframes tilt {
+ 
+  0% {
+    transform: rotate(0deg);
+  }
+
+  25% {
+    transform: rotate(-10deg);
+  }
+
+  75% {
+    transform: rotate(10deg);
+  }
+
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+.theme-slider {
+  @apply absolute w-5 h-5 bg-white rounded-full shadow-md transition-all duration-300;
+}
