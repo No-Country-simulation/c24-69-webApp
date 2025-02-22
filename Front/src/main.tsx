@@ -10,7 +10,7 @@ createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
     <ThemeProvider>
-      <img src="" alt="Page Background" className='body-background' />
+      <area className='body-background' />
     <nav className='nav-section'>
         <NavBar />
     </nav>

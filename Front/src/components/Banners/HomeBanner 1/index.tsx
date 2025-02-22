@@ -81,12 +81,12 @@ export const First_Interactive_Banner = () => {
                     src={banner.bg}
                     alt="Background"
                     className="ilustration-background"
+                    style={{ borderColor: banner.borderColor }}
                   />
                   <img
                     src={banner.img}
                     alt="Illustration"
                     className="ilustration"
-                    style={{ borderColor: banner.borderColor }}
                   />
                 </div>
               </SwiperSlide>

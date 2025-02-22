@@ -4,7 +4,7 @@ import { Second_Interactive_Banner } from "../../components/Banners/HomeBanner 2
 
 const Home = () => {
 return (
-    <div className="flex flex-col justify-between">
+    <div className="flex flex-col">
         <First_Interactive_Banner />
         <Second_Interactive_Banner/>
     </div>
