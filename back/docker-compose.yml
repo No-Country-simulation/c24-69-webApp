@@ -1,0 +1,16 @@
+version: '3.7'
+
+
+services:
+  truck-scanDB: 
+    image: postgres:16.2
+    restart: always
+    ports:
+      - 5433:5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: truckscan2025
+      POSTGRES_DB: truckscanDB
+    container_name: Truck-scan-db
+    volumes:
+      - ./postgres:/var/lib/postgresql/data
