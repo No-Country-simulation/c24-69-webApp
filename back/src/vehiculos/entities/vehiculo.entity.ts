@@ -1,9 +1,9 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { BeforeInsert, BeforeUpdate, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Vehiculo {
 
-    @PrimaryGeneratedColumn('increment')
+    @PrimaryGeneratedColumn()
     id: number
 
     @Column({
@@ -15,7 +15,6 @@ export class Vehiculo {
     @Column({
         type: 'text',
         nullable: false,
-        unique: true,
     })
     marca: string
 
@@ -26,10 +25,17 @@ export class Vehiculo {
     })
     patente: string
 
+
+    @Column({
+        type: 'boolean',
+        nullable: false,
+        default: true,
+    })
+    status: boolean
+
     @Column({
         type: 'date',
         nullable: false,
-        default: new Date(),
     })
     createdAt: Date
 
@@ -44,4 +50,15 @@ export class Vehiculo {
         nullable: true,
     })
     checkedAt: Date
+
+    @BeforeInsert()
+    setCreatedAt(){
+        this.createdAt = new Date()
+    }
+
+    @BeforeUpdate()
+    setUpdatedAt(){
+        this.updatedAt = new Date()
+    }
+
 }

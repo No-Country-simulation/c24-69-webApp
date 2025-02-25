@@ -57,12 +57,12 @@ const NavBar: React.FC = () => {
             Iniciar Sesion
           </Link>
           <Link
-            to="/about"
+            to="/form"
             className={`nav-btn ${
-              location.pathname === "/about" ? "nav-btn-active" : ""
+              location.pathname === "/form" ? "nav-btn-active" : ""
             }`}
           >
-            About
+            Form
           </Link>
         </div>
       </div>
