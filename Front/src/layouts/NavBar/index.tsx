@@ -23,53 +23,56 @@ const NavBar: React.FC = () => {
     isSuccess: false,
   });
 
-  return (
-    <div>
-      <div className="nav-container">
-        <div className="nav-links-container">
+return (
+  <div>
+    <section className="nav-container">
+
           <div className="fix-container-left">
             <img src={logo} alt="Logo" className="logo" />
           </div>
-
-          {/* Botón Home con clase activa si está en la ruta "/" */}
-          <Link
-            to="/"
-            className={`nav-btn ${
-              location.pathname === "/" ? "nav-btn-active" : ""
-            }`}
-          >
-            Home
-          </Link>
-          <Link
-            to="/signup"
-            className={`nav-btn ${
-              location.pathname === "/signup" ? "nav-btn-active" : ""
-            }`}
-          >
-            Registrarse
-          </Link>
-          <Link
-            to="/login"
-            className={`nav-btn ${
-              location.pathname === "/login" ? "nav-btn-active" : ""
-            }`}
-          >
-            Iniciar Sesion
-          </Link>
-          <Link
-            to="/about"
-            className={`nav-btn ${
-              location.pathname === "/about" ? "nav-btn-active" : ""
-            }`}
-          >
-            About
-          </Link>
+          <div className="nav-links-container">
+            <div className="nav-links-grid">
+              <Link
+                to="/"
+                
+                className={`nav-btn ${
+                  location.pathname === "/" ? "nav-btn-active" : ""
+                }`}
+              >
+                Home
+              </Link>
+              <Link
+                to="/signup"
+                className={`nav-btn ${
+                  location.pathname === "/signup" ? "nav-btn-active" : ""
+                }`}
+              >
+                Registrarse
+              </Link>
+              <Link
+                to="/login"
+                className={`nav-btn ${
+                  location.pathname === "/login" ? "nav-btn-active" : ""
+                }`}
+                >
+                Iniciar Sesion
+              </Link>
+              <Link
+                to="/about"
+                className={`nav-btn ${
+                  location.pathname === "/about" ? "nav-btn-active" : ""
+                }`}
+                >
+                About
+              </Link>
+            </div>
         </div>
-      </div>
 
       <div className="fix-container-right">
         <ThemeButton />
       </div>
+
+    </section>
 
       {/* Modal de confirmación */}
       <ConfirmModal
@@ -80,7 +83,7 @@ const NavBar: React.FC = () => {
         onCancel={modalData.onCancel}
         singleButton={modalData.singleButton}
       />
-    </div>
+  </div>
   );
 };
 
