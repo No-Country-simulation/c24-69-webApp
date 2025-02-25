@@ -4,6 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { VehiculosModule } from './vehiculos/vehiculos.module';
+import { CommonModule } from './common/common.module';
 
 @Module({
 
@@ -22,10 +23,14 @@ import { VehiculosModule } from './vehiculos/vehiculos.module';
       database:process.env.DB_NAME,
       username:process.env.DB_USERNAME,
       password:process.env.DB_PASSWORD,
+      entities: ['dist/**/*.entity{.ts,.js}'],
     }),
 
 
-    VehiculosModule
+    VehiculosModule,
+
+
+    CommonModule
 
 
   ],
