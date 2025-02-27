@@ -12,9 +12,7 @@ createRoot(document.getElementById('root')!).render(
     <BrowserRouter>
     <ThemeProvider>
       <area className='body-background' />
-    <nav className='nav-section'>
         <NavBar />
-    </nav>
     <main className="flex-grow min-h-screen mt-24">
       <App />
     </main>

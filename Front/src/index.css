@@ -36,18 +36,12 @@ body {
 }
 
 .text-action {
-  @apply cursor-pointer p-4 border-4 rounded-md transition duration-300;
+  @apply cursor-pointer p-2 border-4 rounded-md transition duration-300;
 }
 
 /* Backgrounds */
 .ilustration-background {
-@apply absolute w-auto h-auto object-cover border-4;
-}
-
-@media (max-width: 480px) { /* Para pantallas pequeñas */
-  .custom-grid {
-    grid-template-columns: 1fr; /* Una sola columna */
-  }
+@apply absolute w-auto h-full object-cover border-4;
 }
 
 .body-background {
@@ -80,6 +74,12 @@ background: var(--containerColor);
   contain: layout paint;
 }
 
+
+.burger-menu {
+  @apply lg:hidden absolute top-4 right-1/4 z-40 flex flex-col w-[50vw] h-auto rounded-md;
+  background: var(--textColor);
+}
+
 .carousel-container {
   @apply relative flex justify-center items-center overflow-hidden;
 }
@@ -90,17 +90,11 @@ background: var(--containerColor);
 }
 
 .fix-container-left {
-  position: absolute;
-  left: 10px;  /* Ajusta según sea necesario */
-  top: 50%;
-  transform: translateY(-50%);
+  @apply absolute left-[10px] top-1/2 -translate-y-1/2;
 }
 
 .fix-container-right {
-  position: absolute;
-  right: 20px;  /* Ajusta según sea necesario */
-  top: 50%;
-  transform: translateY(-50%);
+  @apply absolute flex items-center right-[10px] top-1/2 -translate-y-1/2;
 }
 
 .footer-container {
@@ -113,25 +107,8 @@ background: var(--containerColor);
     background-color: var(--containerColor);
 }
 
-.nav-container{
-    @apply flex flex-wrap items-center justify-center w-full;
-}
-
-.nav-links-container {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: auto;
-}
-
-.nav-links-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); /* 120px como mínimo */
-  gap: 2rem;
-  justify-content: center;
-  align-items: center;
-  max-width: 70vw; /* Ajusta según sea necesario */
+.nav-links {
+  @apply hidden md:flex flex-1 justify-center items-center gap-x-8 mx-4; /* Ajusta según sea necesario */
 }
 
 /* Distribution */
@@ -148,8 +125,10 @@ background: var(--containerColor);
 }
 
 @media (max-width: 480px) { /* Para pantallas pequeñas */
-  .custom-grid {
-    grid-template-columns: 1fr; /* Una sola columna */
+  .custom-grid, .banner-child-container {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    padding: 1rem; /* Una sola columna */
   }
 }
 
@@ -188,7 +167,7 @@ background: var(--containerColor);
 }
 
 .logo {
-  @apply h-20 w-20 rounded-full m-4;
+  @apply h-20 w-20 rounded-full;
 }
 
 .theme-button-size {
@@ -199,36 +178,44 @@ background: var(--containerColor);
 }
 
 /* Sections */
-.nav-section
-{
-  @apply fixed top-0 left-0 w-full h-auto z-30 p-4 flex items-center justify-center;
+.nav-section {
+  @apply fixed top-0 left-0 w-full h-24 z-20 p-4 flex;
   background-color: var(--layoutBackground);
 }
 
 /* Text */
-.text-404 {
-  @apply flex items-center;
-  color: var(--titleColor);
-  font-family: 'Poppins', serif;
-  font-size: 15rem;
+.footer-title {
+  @apply sm:text-base md:text-3xl;
+  color: var(--textColor);
+  font-family: "Poppins", serif;
+  font-weight: bold;
   text-align: center;
 }
 
+.text-404 {
+  @apply flex items-center text-center text-[15rem];
+  color: var(--titleColor);
+  font-family: 'Poppins', serif;
+}
+
 @media (max-width: 480px) {
-  .text-404, .text-active, .text-inactive {
-    font-size: 10px;
+  .text-active, .text-inactive {
+    font-size: 12px;
+  }
+  .text-404 {
+    font-size: 3rem;
   }
 }
 
 .text-active {
-  @apply text-xl;
+  @apply sm:text-sm md:text-xl;
   font-family: 'Quicksand', serif;
   font-weight: bold;
   color: var(--textColor);
 }
 
 .text-inactive {
-  @apply text-xl;
+  @apply sm:text-sm md:text-xl;
   font-family: 'Quicksand', serif;
   text-align: start;
   color: var(--titleColor);
