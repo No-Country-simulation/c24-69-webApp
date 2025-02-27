@@ -234,3 +234,43 @@ background: var(--containerColor);
     font-weight: bold;
     color: var(--titleColor);
 }
+
+.background-form{
+  background-image: url("./assets/blue-gold BKG - copia.jpg");
+  background-position: center;
+  background-size: cover;
+  width: 400px;
+}
+
+/* styles for custom checkbox */
+.custom-checkbox {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #d1d5db; /* Gray border */
+  border-radius: 4px; /* Rounded corners */
+  display: inline-block;
+  position: relative;
+  cursor: pointer;
+  transition: background-color 0.3s, border-color 0.3s;
+}
+
+.custom-checkbox::after {
+  content: '';
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background-color: #3b82f6; /* Blue background */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  border-radius: 2px; /* Rounded corners */
+  transition: transform 0.3s;
+}
+
+input[type="checkbox"]:checked + .custom-checkbox::after {
+  transform: translate(-50%, -50%) scale(1);
+}
+
+input[type="checkbox"]:checked + .custom-checkbox {
+  border-color: #3b82f6; /* Change border color when checked */
+}

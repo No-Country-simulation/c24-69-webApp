@@ -89,6 +89,14 @@ const NavBar: React.FC = () => {
           <Link to="/about" className="block py-2 px-4 text-white" onClick={() => setIsMenuOpen(false)}>
             Sobre Nos
           </Link>
+          <Link
+            to="/form"
+            className={`nav-btn ${
+              location.pathname === "/form" ? "nav-btn-active" : ""
+            }`}
+          >
+            Form
+          </Link>
         </div>
       )}
 
