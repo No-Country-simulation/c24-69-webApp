@@ -40,6 +40,12 @@ const NavBar: React.FC = () => {
     Inicio
     </Link>
     <Link
+    to="/admin"
+    className={`nav-btn ${location.pathname === "/admin" ? "nav-btn-active" : ""}`}
+    >
+    Admin
+    </Link>
+    <Link
     to="/signup"
     className={`nav-btn ${location.pathname === "/signup" ? "nav-btn-active" : ""}`}
     >
@@ -56,6 +62,14 @@ const NavBar: React.FC = () => {
     className={`nav-btn ${location.pathname === "/about" ? "nav-btn-active" : ""}`}
     >
     Sobre Nos
+    </Link>
+    <Link
+    to="/form"
+    className={`nav-btn ${
+    location.pathname === "/form" ? "nav-btn-active" : ""
+    }`}
+    >
+    Form
     </Link>
   </div>
 
@@ -88,14 +102,6 @@ const NavBar: React.FC = () => {
           </Link>
           <Link to="/about" className="block py-2 px-4 text-white" onClick={() => setIsMenuOpen(false)}>
             Sobre Nos
-          </Link>
-          <Link
-            to="/form"
-            className={`nav-btn ${
-              location.pathname === "/form" ? "nav-btn-active" : ""
-            }`}
-          >
-            Form
           </Link>
         </div>
       )}

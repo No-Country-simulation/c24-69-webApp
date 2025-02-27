@@ -1,5 +1,32 @@
 @import 'tailwindcss';
 
+/* Filters Buttons */
+/* From Uiverse.io by Creatlydev */ 
+.filter-button {
+  line-height: 1;
+  text-decoration: none;
+  display: inline-flex;
+  border: none;
+  cursor: pointer;
+  align-items: center;
+  gap: 0.75rem;
+  background: var(--linearGradient);
+  color: var(--textColor);
+  border-radius: 10rem;
+  font-family: "Poppins", serif;
+  font-weight: bold;
+  padding: 0.75rem 1.5rem;
+  padding-left: 20px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.filter-button:hover, .filter-button-active:hover {
+  transition: 1s;
+  background: var(--layoutBackground);
+}
+
 /* Nav Button */
 .nav-btn {
   border: none;
@@ -39,7 +66,7 @@
   }
  }
 
-.nav-btn-active {
+.nav-btn-active, .filter-button-active {
   background: var(--containerColor);
   border: 2px solid var(--textColor);
 }
