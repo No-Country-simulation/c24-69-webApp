@@ -12,8 +12,9 @@ const Step: React.FC<StepProps> = ({ stepNumber, questions }) => {
   const { answers, setAnswer } = useFormContext();
 
   return (
-    <div className="h-64 w-80">
-      <h2 className="text-xl font-bold mb-4">Parte {stepNumber + 1}</h2>
+    <form className="flex flex-col w-full">
+      <h2 className="text-center text-xl font-bold mb-4">Parte {stepNumber + 1}</h2>
+      <div className="flex flex-col justify-between gap-4">
       {questions.map((question, index) => (
         <Checkbox 
           key={index}
@@ -23,7 +24,8 @@ const Step: React.FC<StepProps> = ({ stepNumber, questions }) => {
           onChange={(value) => setAnswer(stepNumber, value)}
         />
       ))}
-    </div>
+      </div>
+    </form>
   );
 };
 

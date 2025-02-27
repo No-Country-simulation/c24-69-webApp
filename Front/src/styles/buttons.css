@@ -5,17 +5,16 @@
   border: none;
   color: var(--textColor);
   background-image: var(--linearGradient);
-  border-radius: 20px;
+  border-radius: 1.2rem;
   background-size: 100% auto;
   display: flex;
   align-items: center;
   justify-content: center;
   font-family: 'Quicksand', serif;
-  font-size: 1.5rem;
   font-weight: bold;
-  width: 12rem;
-  height: 4rem;
-  padding: 0.6em 1.5em;
+  width: 8rem;
+  height: auto;
+  padding: 1rem;
   text-wrap: nowrap;
  }
  

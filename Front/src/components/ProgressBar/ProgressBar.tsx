@@ -2,12 +2,12 @@ import React from "react";
 import { motion } from "framer-motion";
 import { useFormContext } from "../../context/FormContext";
 
-const ProgressBar = () => {
+const ProgressBar: React.FC = () => {
   const { currentStep } = useFormContext();
   const totalSteps = 7;
 
   return (
-    <div className="flex items-center justify-center mt-6">
+    <div className="flex items-center justify-center">
       {Array.from({ length: totalSteps }, (_, index) => (
         <div key={index} className="flex items-center">
           {/* Punto con animación */}
