@@ -4,6 +4,8 @@ import ConfirmModal from '../../ConfirmModal';
 import { IUser, IUserFilters } from "../../../types/Users/interfaceUser";
 import { banUser, fetchUsers, reactivateUser } from '../../../services/fetchUsers';
 import UsersPie from './UsersPie';
+import animation from "../../../assets/404-animation.json";
+import Lottie from 'lottie-react';
 
 
 const UsersArea: React.FC = () => {
@@ -140,6 +142,25 @@ const inactiveUsers = users.filter(user => !user.state).length;
 const handleChangeView = (view: string) => {
     setView(view);
 };
+
+if (users.length === 0) {
+    return (
+        <div className='banner-container'>
+            <div className='banner-child-container'>
+                <div className='text-banner-area'>
+            <h1 className='title text-center'>¡Algo salió mal!</h1>
+            <p className='text-active text-center'>No hay usuarios registrados o activos aún...</p>
+                </div>
+            <div>
+            <Lottie 
+                    animationData={animation} 
+                    loop 
+                    className="animation-404" 
+                />            </div>
+            </div>
+        </div>
+    );
+}
 
 return(
     <div>
