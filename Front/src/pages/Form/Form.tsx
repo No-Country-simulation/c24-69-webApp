@@ -3,13 +3,15 @@ import MultiStepForm from "../../components/MultiStepForm/MultiStepForm";
 import { FormProvider } from "../../context/FormContext";
 import ProgressBar from "../../components/ProgressBar/ProgressBar";
 
-const FormPage: React.FC = () => {
+const FormPage = () => {
   return (
     <FormProvider>
-      {/* Contenedor sin márgenes innecesarios y con alineación correcta */}
-      <div className="flex flex-col items-center w-full gap-2">
-        <MultiStepForm />
-        <ProgressBar />
+      <div className="flex flex-col items-center min-h-screen justify-center w-full">
+        {/* Contenedor del ProgressBar y Formulario */}
+        <div className="w-full max-w-lg space-y-4">
+          <MultiStepForm />
+          <ProgressBar />
+        </div>
       </div>
     </FormProvider>
   );

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X } from "lucide-react";
+import { Menu, X } from "lucide-react"; // Ensure lucide-react is installed
 import ThemeButton from "../../components/ThemeButton/index";
 import ConfirmModal from "../../components/ConfirmModal/index";
 import logo from "../../assets/logo1.png";
