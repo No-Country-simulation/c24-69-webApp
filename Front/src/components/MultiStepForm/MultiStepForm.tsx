@@ -39,7 +39,7 @@ const MultiStepForm: React.FC = () => {
         className="background-form overflow-hidden w-full max-w-[400px] p-6 mx-auto text-white rounded-lg shadow-xl relative flex flex-col flex-grow"
       >
         {/* Contenido del formulario */}
-        <Step stepNumber={currentStep} questions={questionsPerStep[currentStep]} />
+        <Step type={"checkbox"} stepNumber={currentStep} questions={questionsPerStep[currentStep]} />
 
         {/* Botones de navegación */}
         <div className="flex justify-between mt-auto">

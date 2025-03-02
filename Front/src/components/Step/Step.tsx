@@ -4,11 +4,12 @@ import Checkbox from "../CheckBox/CheckBox";
 import { useFormContext } from "../../context/FormContext";
 
 interface StepProps {
+  type: string;
   stepNumber: number;
   questions: string[];
 }
 
-const Step: React.FC<StepProps> = ({ stepNumber, questions }) => {
+const Step: React.FC<StepProps> = ({ stepNumber, questions, type }) => {
   const { answers, setAnswer } = useFormContext();
 
   return (
@@ -17,6 +18,7 @@ const Step: React.FC<StepProps> = ({ stepNumber, questions }) => {
       <div className="flex flex-col justify-between gap-4">
       {questions.map((question, index) => (
         <Checkbox 
+          type ={type}
           key={index}
           label={question}
           value={question}

@@ -240,6 +240,7 @@ background: var(--containerColor);
 }
 
 .background-form{
+  border: 5px solid var(--specialBorder);
   background-image: url("./assets/blue-gold BKG - copia.jpg");
   background-position: center;
   background-size: cover;
@@ -277,4 +278,9 @@ input[type="checkbox"]:checked + .custom-checkbox::after {
 
 input[type="checkbox"]:checked + .custom-checkbox {
   border-color: #3b82f6; /* Change border color when checked */
+}
+
+.container-form{
+  width: 800px;
+  background-color: var(--containerColor);
 }
