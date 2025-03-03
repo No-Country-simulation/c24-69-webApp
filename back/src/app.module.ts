@@ -1,11 +1,13 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { VehiculosModule } from './vehiculos/vehiculos.module';
 import { CommonModule } from './common/common.module';
-import { UsersModule } from './users/users.module'; // Import UsersModule
+import { UsersModule } from './users/users.module';
+import { JwtModule } from '@nestjs/jwt';
+import { PassportModule } from '@nestjs/passport';
 
 @Module({
     imports: [
@@ -22,9 +24,17 @@ import { UsersModule } from './users/users.module'; // Import UsersModule
             password: process.env.DB_PASSWORD,
             entities: ['dist/**/*.entity{.ts,.js}'],
        }),
+        PassportModule.register({ defaultStrategy: 'jwt' }),
+        JwtModule.registerAsync({
+            inject: [ConfigService],
+            useFactory: (configService: ConfigService) => ({
+              secret: configService.get<string>('JWT_SECRET'),
+              signOptions: { expiresIn: '15m' }, // Access token expires in 15 minutes
+            }),
+          }),
         VehiculosModule,
         CommonModule,
-        UsersModule, // Add UsersModule
+        UsersModule,
     ],
     controllers: [AppController],
     providers: [AppService],
