@@ -72,6 +72,16 @@ export class VehiculosService {
     
   }
 
+  async searchByPatente(patente: string) {
+    try {
+      const vehiculo = await this.vehiculoRepository.findOne({where: {patente}})
+      if(!vehiculo) throw new NotFoundException('Vehiculo no encontrado')
+      return vehiculo
+    } catch (error) {
+      throw error
+    }
+  }
+
   async update(id: number, updateVehiculoDto: UpdateVehiculoDto) {
     const vehiculo = this.vehiculoRepository.update(id, updateVehiculoDto)
     return {
