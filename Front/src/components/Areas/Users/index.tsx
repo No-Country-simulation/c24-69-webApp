@@ -42,7 +42,7 @@ useEffect(() => {
     (filters.state === 'inactive' && !user.state); // Muestra solo usuarios inactivos
     return stateMatch;
     })
-    .filter((user: { role: string; tournaments: string[]; }) => 
+    .filter((user: { role: string;}) => 
     (filters.role === '' || user.role === filters.role))
     .sort((a: { name: string; }, b: { name: string; }) => {
     if (filters.name === 'asc') {
@@ -56,7 +56,7 @@ useEffect(() => {
     
     setUsers(filteredUsers);
     } catch (error) {
-    console.error("Error fetching users:", error);
+    console.error("Error al presentar usuarios: ", error);
     }
     };
     
@@ -89,19 +89,18 @@ const confirmBanUser = async () => {
     await banUser(userToBan);
     setModalData({
         show: true,
-        title: "User Banned",
-        message: "User Banned Successfully",
+        title: "Banear Usuario",
+        message: "Usuario baneado exitósamente",
         isSuccess: true,
         singleButton: true,
     });
-    
     setUsers(users.map(user => user.id === userToBan ? { ...user, state: false } : user));
     } catch (error) {
-    console.error("Error banning user:", error);
+    console.error("Error al banear usuario: ", error);
     setModalData({
         show: true,
         title: "Error",
-        message: "Failed to ban user.",
+        message: "Error al banear usuario",
         isSuccess: false,
         });    
     }
@@ -111,8 +110,8 @@ const handleReactiveUser = (id: string) => {
     setUserToReactivate(id);
     setModalData({
         show: true,
-        title: "User Banned",
-        message: "User Banned Successfully",
+        title: "Restaurar Usuario",
+        message: "¿Estás seguro de restaurar al Usuario?",
         isSuccess: false,
         singleButton: false,
         onConfirm: confirmReactivateUser,
@@ -122,14 +121,19 @@ const confirmReactivateUser = async () => {
     if (userToReactivate) {
     try {
     await reactivateUser(userToReactivate); // Envia el id del user
-    alert("User Reactivated Successfully");
+    setModalData({
+        show: true,
+        title: "Restaurar Usuario",
+        message: "El usuario ha sido restaurado exitósamente.",
+        isSuccess: true,
+    })
     setUsers(users.map(user => user.id === userToReactivate ? { ...user, state: true } : user));
     } catch (error) {
     console.error("Error reactivating user:", error);
     setModalData({
         show: true,
         title: "Error",
-        message: "Failed to reactivate user.",
+        message: "Restauración de usuario fallida.",
         isSuccess: false,
         });    
 }}};

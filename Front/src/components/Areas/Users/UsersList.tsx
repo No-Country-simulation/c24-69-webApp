@@ -39,7 +39,6 @@ return (
         <thead className='tableHeader flex flex-row justify-around'>
         <th className='text-center w-36'>Nickname</th>
         <th className='text-center w-36'>Role</th>
-        <th className='text-center w-36'>Tournament</th>
         <th className='text-center w-36'>State</th>
         <th className='text-center w-36'>Ban User</th>
         </thead>
@@ -49,7 +48,6 @@ return (
             <tr className="flex flex-row justify-around" key={user.id}>
             <td className='text-center w-36'>{user.name}</td>
             <td className='text-center w-36'>{user.role}</td>
-            <td className='text-center w-36'>{user.tournaments.length > 0 ? 'In Tournament' : 'Out Tournament'}</td>
             <td className='text-center w-36'>{user.state ? 'Active' : 'Inactive'}</td>
             <td className="text-center w-36">
                 {user.state ? (

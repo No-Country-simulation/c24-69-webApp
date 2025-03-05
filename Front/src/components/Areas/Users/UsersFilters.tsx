@@ -1,4 +1,3 @@
-"use client";
 import React, { useState } from 'react';
 import { IUserFilters } from '../../../types/Users/interfaceUser';
 

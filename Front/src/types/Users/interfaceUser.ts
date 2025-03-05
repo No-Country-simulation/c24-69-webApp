@@ -3,7 +3,6 @@ export interface IUser {
     id: string
     email: string
     name: string
-    tokenFirebase: string
     birthdate: string
     role: string
     state: boolean

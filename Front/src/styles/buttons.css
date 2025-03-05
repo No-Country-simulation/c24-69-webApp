@@ -1,25 +1,10 @@
 @import 'tailwindcss';
 
 /* Filters Buttons */
-/* From Uiverse.io by Creatlydev */ 
 .filter-button {
-  line-height: 1;
-  text-decoration: none;
-  display: inline-flex;
-  border: none;
-  cursor: pointer;
-  align-items: center;
-  gap: 0.75rem;
+  @apply inline-flex items-center cursor-pointer gap-3 pl-5 font-bold whitespace-nowrap overflow-hidden text-ellipsis leading-none no-underline border-none rounded-full px-6 py-3 font-[Poppins];
   background: var(--linearGradient);
   color: var(--textColor);
-  border-radius: 10rem;
-  font-family: "Poppins", serif;
-  font-weight: bold;
-  padding: 0.75rem 1.5rem;
-  padding-left: 20px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .filter-button:hover, .filter-button-active:hover {
