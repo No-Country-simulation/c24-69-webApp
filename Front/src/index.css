@@ -80,7 +80,7 @@ background: var(--containerColor);
 }
 
 .filters-container {
-  @apply flex items-center justify-center gap-4 w-full max-w-6xl p-6 m-auto;
+  @apply flex items-center justify-center gap-4 w-full max-w-6xl mt-8;
   contain: layout paint;
 }
 
@@ -113,6 +113,12 @@ background: var(--containerColor);
 
 .nav-links {
   @apply hidden md:flex flex-1 flex-wrap justify-center items-center gap-4 m-auto max-w-[80vw]; /* Ajusta según sea necesario */
+}
+
+.stats-container {
+  @apply max-w-6xl m-auto w-full shadow-lg p-6 rounded-lg;
+  background: var(--containerColor);
+    contain: layout paint;
 }
 
 /* Distribution */
