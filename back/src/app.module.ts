@@ -22,6 +22,8 @@ import { FormulariosModule } from './formularios/formularios.module';
             username: process.env.DB_USERNAME,
             password: process.env.DB_PASSWORD,
             entities: ['dist/**/*.entity{.ts,.js}'],
+            synchronize: true,
+            autoLoadEntities: true,
        }),
         VehiculosModule,
         CommonModule,
