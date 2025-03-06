@@ -15,7 +15,7 @@ interface VehiclesListProps {
 const VehiclesList: React.FC<VehiclesListProps> = ({vehicles, filters, onFilter, onDisapproveVehicle, onReapproveVehicle}) => {
     const filteredVehicles = vehicles
     .filter(vehicle => {
-      const stateMatch = !filters.state || filters.state === 'all' || vehicle.state === filters.state;
+      const stateMatch = !filters.status || filters.status === null || vehicle.status === filters.status;
       const patenteMatch = !filters.patente || vehicle.patente.toLowerCase().includes(filters.patente.toLowerCase());
       return stateMatch && patenteMatch;
     })
@@ -32,49 +32,43 @@ const VehiclesList: React.FC<VehiclesListProps> = ({vehicles, filters, onFilter,
         return 0;
     });
 
-return (
-    <div>
-        <table className='w-full'>
-        <thead className='tableHeader flex flex-row justify-around'>
-        <tr>
-            <th className='text-center w-36'>Marca</th>
-            <th className='text-center w-36'>Modelo</th>
-            <th className='text-center w-36'>Patente</th>
-            <th className='text-center w-36'>Estado</th>
-            <th className='text-center w-36'>Acción</th>
-        </tr>
-        </thead>
-        <VehiclesFilters onFilter={onFilter} />
-        <tbody className="tableBody flex flex-col gap-2">
-        {filteredVehicles.map(vehicle => (
-            <tr className="flex flex-row justify-around" key={vehicle.id}>
-            <td className='text-center w-36'>{vehicle.marca}</td>
-            <td className='text-center w-36'>{vehicle.modelo}</td>
-            <td className='text-center w-36'>{vehicle.patente}</td>
-            <td className='text-center w-36'>{vehicle.state ? 'approved' : 'disapproved'}</td>
-            <td className="text-center w-36">
-                {vehicle.state ? (
-                <button
-                    className=""
-                    onClick={() => onDisapproveVehicle(vehicle.id)}
-                >
-                    <img src={blockIcon} alt="Deactivate Icon" className="h-5 w-5"/>
-                </button>
-                ) : (
-                <button
-                    className=""
-                    onClick={() => onReapproveVehicle(vehicle.id)}
-                >
-                    <img src={checkIcon} alt="Reactivate Icon" />
-                </button>
-                )}
-            </td>
+    return (
+        <div>
+            <VehiclesFilters onFilter={onFilter} /> {/* Mover filtros arriba de la tabla */}
+            <table className='table'>
+            <thead className="table-header">
+            <tr>
+                <th className='table-head'>Marca</th>
+                <th className='table-head-b'>Modelo</th>
+                <th className='table-head-b'>Patente</th>
+                <th className='table-head-b'>Estado</th>
+                <th className='table-head-b'>Acción</th>
             </tr>
-        ))}
-        </tbody>
-    </table>
-    </div>
-)
+            </thead>
+            <tbody className="tableBody flex flex-col gap-2">
+            {filteredVehicles.map(vehicle => (
+                <tr className="flex flex-row justify-around" key={vehicle.id}>
+                <td className='table-data'>{vehicle.marca}</td>
+                <td className='table-data-b'>{vehicle.modelo}</td>
+                <td className='table-data-b'>{vehicle.patente}</td>
+                <td className='table-data-b'>{vehicle.status ? 'Aprobado' : 'Desaprobado'}</td>
+                <td className="table-data-b">
+                    {vehicle.status ? (
+                    <button onClick={() => onDisapproveVehicle(vehicle.id)}>
+                        <img src={blockIcon} alt="Deactivate Icon" className="h-5 w-5"/>
+                    </button>
+                    ) : (
+                    <button onClick={() => onReapproveVehicle(vehicle.id)}>
+                        <img src={checkIcon} alt="Reactivate Icon" />
+                    </button>
+                    )}
+                </td>
+                </tr>
+            ))}
+            </tbody>
+        </table>
+        </div>
+    );
 }
 
 export default VehiclesList;

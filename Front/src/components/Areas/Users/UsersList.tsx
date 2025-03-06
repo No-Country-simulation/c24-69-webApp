@@ -35,21 +35,21 @@ const UsersList: React.FC<UsersListProps> = ({users, filters, onFilter, onDeacti
 
 return (
     <div>
-        <table className='w-full'>
-        <thead className='tableHeader flex flex-row justify-around'>
-        <th className='text-center w-36'>Nickname</th>
-        <th className='text-center w-36'>Role</th>
-        <th className='text-center w-36'>State</th>
-        <th className='text-center w-36'>Ban User</th>
-        </thead>
         <UserFilters onFilter={onFilter} />
+        <table className='table'>
+        <thead className='table-header'>
+        <th className='table-head'>Nickname</th>
+        <th className='table-head-b'>Role</th>
+        <th className='table-head-b'>State</th>
+        <th className='table-head-b'>Ban User</th>
+        </thead>
         <tbody className="tableBody flex flex-col gap-2">
         {filteredUsers.map(user => (
             <tr className="flex flex-row justify-around" key={user.id}>
             <td className='text-center w-36'>{user.name}</td>
-            <td className='text-center w-36'>{user.role}</td>
-            <td className='text-center w-36'>{user.state ? 'Active' : 'Inactive'}</td>
-            <td className="text-center w-36">
+            <td className='table-data-b'>{user.role}</td>
+            <td className='table-data-b'>{user.state ? 'Active' : 'Inactive'}</td>
+            <td className="table-data-b">
                 {user.state ? (
                 <button
                     className=""

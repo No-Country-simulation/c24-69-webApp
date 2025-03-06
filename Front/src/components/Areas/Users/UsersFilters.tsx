@@ -33,30 +33,23 @@ const UserFilters: React.FC<UserFiltersProps> = ({ onFilter }) => {
 };
 
   return (
-    <tr className='flex flex-row justify-around mb-4'>
-      <td className='text-center w-36'>
-        <select name="nickname" value={filters.name} className='filter' onChange={handleFilterChange}>
-          <option value="">Sort by Nickname</option>
+    <section className='grid grid-cols-3 gap-4 justify-center max-w-6xl m-auto'>
+        <select name="name" value={filters.name} className='select-input' onChange={handleFilterChange}>
+          <option value="">Ordenar por Nombre</option>
           <option value="asc">A-Z</option>
           <option value="desc">Z-A</option>
         </select>
-      </td>
-      <td className='text-center w-36'>
-        <select name="role" value={filters.role} className='filter' onChange={handleFilterChange}>
-          <option value="">Select Role</option>
-          <option value="user">User</option>
-          <option value="organizer">Organizer</option>
+        <select name="role" value={filters.role} className='select-input' onChange={handleFilterChange}>
+          <option value="">Seleccionar Rol</option>
+          <option value="user">Operarios</option>
+          <option value="organizer">Encargados</option>
         </select>
-      </td>
-      <td className='text-center w-36'>
-        <select name="state" value={filters.state} className='filter' onChange={handleFilterChange}>
-          <option value="all">All Users</option>
-          <option value="active">Active</option>
-          <option value="inactive">Inactive</option>
+        <select name="state" value={filters.state} className='select-input' onChange={handleFilterChange}>
+          <option value="all">Todos</option>
+          <option value="active">Activos</option>
+          <option value="inactive">Inactivos</option>
         </select>
-      </td>
-      <td className='text-center text-white w-36'>Ban / Reactivate</td>
-    </tr>
+    </section>
   );
 };
 

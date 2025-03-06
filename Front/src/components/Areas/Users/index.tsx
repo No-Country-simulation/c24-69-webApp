@@ -4,9 +4,10 @@ import ConfirmModal from '../../ConfirmModal';
 import { IUser, IUserFilters } from "../../../types/Users/interfaceUser";
 import { banUser, fetchUsers, reactivateUser } from '../../../services/fetchUsers';
 import UsersPie from './UsersPie';
-import animation from "../../../assets/404-animation.json";
-import Lottie from 'lottie-react';
-
+import list from "../../../assets/list-icon.png";
+import stats from "../../../assets/stats-icon.png";
+// import animation from "../../../assets/404-animation.json";
+// import Lottie from 'lottie-react';
 
 const UsersArea: React.FC = () => {
     const [users, setUsers] = useState<IUser[]>([]);
@@ -138,7 +139,7 @@ const confirmReactivateUser = async () => {
         });    
 }}};
     
-const [view, setView] = useState<string>('table');
+const [view, setView] = useState<string>('list');
     
 const activeUsers = users.filter(user => user.state).length;
 const inactiveUsers = users.filter(user => !user.state).length;
@@ -147,33 +148,41 @@ const handleChangeView = (view: string) => {
     setView(view);
 };
 
-if (users.length === 0) {
-    return (
-        <div className='banner-container'>
-            <div className='banner-child-container'>
-                <div className='text-banner-area'>
-            <h1 className='title text-center'>¡Algo salió mal!</h1>
-            <p className='text-active text-center'>No hay usuarios registrados o activos aún...</p>
-                </div>
-            <div>
-            <Lottie 
-                    animationData={animation} 
-                    loop 
-                    className="animation-404" 
-                />            </div>
-            </div>
-        </div>
-    );
-}
+// if (users.length === 0) {
+//     return (
+//         <div className='banner-container'>
+//             <div className='banner-child-container'>
+//                 <div className='text-banner-area'>
+//             <h1 className='title text-center'>¡Algo salió mal!</h1>
+//             <p className='text-active text-center'>No hay usuarios registrados o activos aún...</p>
+//                 </div>
+//             <div>
+//             <Lottie 
+//                     animationData={animation} 
+//                     loop 
+//                     className="animation-404" 
+//                 />            </div>
+//             </div>
+//         </div>
+//     );
+// }
 
 return(
-    <div>
-    <div className="flex flex-row items-center gap-4 mt-4">
-    <button className={`buttonFilter ${view === "table" && "buttonFilterActive"}`} onClick={() => handleChangeView('table')}>Table</button>
-    <button className={`buttonFilter ${view === "pie" && "buttonFilterActive"}`} onClick={() => handleChangeView('pie')}>Graphs</button>
+    <div className='max-w-6xl m-auto'>
+    <div className="flex flex-row justify-center gap-4 mb-4">
+    <button className={`view-button ${view === "table" && "view-button-active"}`} onClick={() => handleChangeView('list')}>
+        <span className="bg-span"></span>
+        <img src={list} alt="List Icon" className='icon' />
+        <span className='view-text'>Lista</span>
+    </button>
+    <button className={`view-button ${view === "pie" && "view-button-active"}`} onClick={() => handleChangeView('pie')}>
+        <span className="bg-span"></span>
+        <img src={stats} alt="Stats Icon" className='icon'/>
+        <span className='view-text'>Gráficos</span>
+    </button>
     </div>
-    {view === 'table' && (
-    <div className='col-span-3'>
+    {view === 'list' && (
+    <div>
     <UsersList
     users={users}
     filters={filters}
@@ -184,7 +193,7 @@ return(
     </div>
     )}
     {view === 'pie' && (
-    <div className='col-span-3'>
+    <div className='max-w-6xl m-auto'>
     <UsersPie
     activeUsers={activeUsers}
     inactiveUsers={inactiveUsers}

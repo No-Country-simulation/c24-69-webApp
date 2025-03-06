@@ -3,7 +3,7 @@ import MultiStepForm from "../../components/MultiStepForm/MultiStepForm";
 import { FormProvider } from "../../context/FormContext";
 import ProgressBar from "../../components/ProgressBar/ProgressBar";
 
-const FormPage = () => {
+const FormPage: React.FC = () => {
   return (
     <FormProvider>
       <div className="flex flex-col items-center justify-center w-full">
