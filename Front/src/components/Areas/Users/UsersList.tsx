@@ -2,7 +2,8 @@ import blockIcon from "../../../assets/block-icon.png";
 import checkIcon from "../../../assets/check-icon.png";
 import { IUser, IUserFilters } from "../../../types/Users/interfaceUser";
 import UserFilters from "./UsersFilters";
-
+import { usePagination } from "../../../hooks/usePagination";
+import Pagination from "../../Pagination/index";
 
 interface UsersListProps {
     users: IUser[];
@@ -33,22 +34,26 @@ const UsersList: React.FC<UsersListProps> = ({users, filters, onFilter, onDeacti
         return 0;
     });
 
+const itemsPerPage = 10;
+const { paginatedData, currentPage, totalPages, nextPage, prevPage, setCurrentPage } =
+  usePagination(filteredUsers, itemsPerPage);
+
 return (
     <div>
         <UserFilters onFilter={onFilter} />
         <table className='table'>
         <thead className='table-header'>
-        <th className='table-head'>Nickname</th>
-        <th className='table-head-b'>Role</th>
-        <th className='table-head-b'>State</th>
-        <th className='table-head-b'>Ban User</th>
+        <th className='table-head'>Nombre</th>
+        <th className='table-head-b'>Rol</th>
+        <th className='table-head-b'>Estado</th>
+        <th className='table-head-b'>Banear Usuario</th>
         </thead>
         <tbody className="tableBody flex flex-col gap-2">
-        {filteredUsers.map(user => (
+        {paginatedData.map(user => (
             <tr className="flex flex-row justify-around" key={user.id}>
             <td className='text-center w-36'>{user.name}</td>
             <td className='table-data-b'>{user.role}</td>
-            <td className='table-data-b'>{user.state ? 'Active' : 'Inactive'}</td>
+            <td className='table-data-b'>{user.state ? 'Activo' : 'Baneado'}</td>
             <td className="table-data-b">
                 {user.state ? (
                 <button
@@ -70,6 +75,13 @@ return (
         ))}
         </tbody>
     </table>
+    <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        nextPage={nextPage}
+        prevPage={prevPage}
+        setCurrentPage={setCurrentPage}
+    />
     </div>
 )
 }

@@ -2,6 +2,8 @@ import blockIcon from "../../../assets/block-icon.png";
 import checkIcon from "../../../assets/check-icon.png";
 import { IVehicles, IVehicleFilters } from "../../../types/Vehicles/interfaceVehicle";
 import VehiclesFilters from "./VehiclesFilters";
+import { usePagination } from "../../../hooks/usePagination";
+import Pagination from "../../Pagination/index";
 
 
 interface VehiclesListProps {
@@ -32,6 +34,10 @@ const VehiclesList: React.FC<VehiclesListProps> = ({vehicles, filters, onFilter,
         return 0;
     });
 
+const itemsPerPage = 10;
+const { paginatedData, currentPage, totalPages, nextPage, prevPage, setCurrentPage } =
+  usePagination(filteredVehicles, itemsPerPage);
+
     return (
         <div>
             <VehiclesFilters onFilter={onFilter} /> {/* Mover filtros arriba de la tabla */}
@@ -46,7 +52,7 @@ const VehiclesList: React.FC<VehiclesListProps> = ({vehicles, filters, onFilter,
             </tr>
             </thead>
             <tbody className="tableBody flex flex-col gap-2">
-            {filteredVehicles.map(vehicle => (
+            {paginatedData.map(vehicle => (
                 <tr className="flex flex-row justify-around" key={vehicle.id}>
                 <td className='table-data'>{vehicle.marca}</td>
                 <td className='table-data-b'>{vehicle.modelo}</td>
@@ -67,6 +73,13 @@ const VehiclesList: React.FC<VehiclesListProps> = ({vehicles, filters, onFilter,
             ))}
             </tbody>
         </table>
+        <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            nextPage={nextPage}
+            prevPage={prevPage}
+            setCurrentPage={setCurrentPage}
+        />
         </div>
     );
 }

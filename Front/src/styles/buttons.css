@@ -58,9 +58,20 @@
   }
  }
 
-.nav-btn-active, .filter-button-active, .view-button-active {
+.nav-btn-active, .filter-button-active, .view-button-active, .page-button-active {
   background: var(--containerColor);
   border: 2px solid var(--textColor);
+}
+
+/* Pagination Button */
+.page-button {
+  @apply inline-flex justify-center items-center cursor-pointer font-medium whitespace-nowrap overflow-hidden text-ellipsis leading-none no-underline border-none rounded-full px-8 font-[Poppins] w-12 h-8 text-xl;
+  background: var(--linearGradient);
+  color: var(--textColor);
+}
+
+.page-button:hover {
+  background-size: 200% auto !important; 
 }
 
 /* Select Button || Input */
