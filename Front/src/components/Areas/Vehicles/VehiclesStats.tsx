@@ -67,12 +67,10 @@ const VehiclesStats: React.FC<VehiclesStatsProps> = () => {
     };
 
     return (
-        <section className="banner-container">
+        <section className="stats-banner">
             <h2 className="title text-center">Estadísticas de Vehículos</h2>
-            <div className="stats-container">
                 {/* Gráfico de barras */}
                 <Bar data={data} options={options} />
-            </div>
         </section>
     );
 };

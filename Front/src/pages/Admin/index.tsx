@@ -40,7 +40,7 @@ const AdminPage: React.FC = () => {
                             animate={{ x: 0, opacity: 1 }}
                             exit={{ x: -100, opacity: 0 }} // Desaparece hacia la izquierda
                             transition={{ duration: 0.5 }}
-                            className="absolute w-full"
+                            className="w-full max-w-6xl mb-8"
                         >
                             <UsersArea />
                         </motion.div>
@@ -53,7 +53,7 @@ const AdminPage: React.FC = () => {
                             animate={{ x: 0, opacity: 1 }}
                             exit={{ x: 100, opacity: 0 }} // Desaparece hacia la derecha
                             transition={{ duration: 0.5 }}
-                            className="absolute w-full h-full"
+                            className="w-full max-w-6xl mb-8"
                         >
                             <VehiclesArea />
                         </motion.div>

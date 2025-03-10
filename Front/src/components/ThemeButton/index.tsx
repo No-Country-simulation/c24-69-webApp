@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { useTheme } from "../../context/hooks/themeHook";
+import { useTheme } from "../../hooks/themeHook";
 import '../../styles/buttons.css'
 
 const ThemeButton: React.FC = () => {

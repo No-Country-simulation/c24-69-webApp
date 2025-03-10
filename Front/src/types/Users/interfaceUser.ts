@@ -1,15 +1,13 @@
 export interface IUser {
-    tournaments: []
     id: string
     email: string
-    name: string
-    birthdate: string
-    role: string
-    state: boolean
+    nombre: string
+    rol: string
+    isActive: boolean
 }
 
 export interface IUserFilters {
-    name: string;
-    role: string;
-    state: 'all' | 'active' | 'inactive';
+    nombre: string;
+    rol: string;
+    isActive: boolean | 'all';
 }

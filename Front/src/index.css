@@ -24,10 +24,13 @@
 
 
 body {
-    @apply flex flex-col min-h-screen;
     background: var(--backgroundLinear);
-    margin: 0;
-    padding: 0;
+}
+
+footer {
+  @apply w-full h-auto z-10;
+  background: var(--layoutBackground);
+  position: relative; /* Cambia absolute a relative */
 }
 
 /* Animations | Actions */
@@ -101,11 +104,6 @@ background: var(--containerColor);
   @apply absolute flex items-center right-[10px] top-1/2 -translate-y-1/2;
 }
 
-.footer-container {
-    @apply relative w-full p-4;
-    background: var(--layoutBackground)
-  }
-
 .modal-container {
     @apply rounded-lg relative p-6 flex flex-col h-1/2 w-full z-50;
     background-color: var(--containerColor);
@@ -115,12 +113,20 @@ background: var(--containerColor);
   @apply hidden md:flex flex-1 flex-wrap justify-center items-center gap-4 m-auto max-w-[80vw]; /* Ajusta según sea necesario */
 }
 
-.stats-container {
-  @apply m-auto w-full shadow-lg p-6 rounded-lg;
+.stats-banner {
+  @apply m-auto max-w-6xl shadow-lg p-6 rounded-lg;
   background: var(--containerColor);
     contain: layout paint;
 }
 
+.users-banner {
+  @apply max-w-6xl h-auto flex flex-row justify-center items-center rounded-lg;
+background: var(--containerColor);
+contain: layout paint;
+
+}
+
+/* Tables */
 .table {
   @apply mt-4 m-auto w-full shadow-lg rounded-lg;
   background: var(--containerColor);

@@ -178,7 +178,7 @@ return (
         <div className="flex flex-row justify-center gap-4 mb-4">
             <button
             className={`view-button ${view === "table" && "view-button-active"}`}
-            onClick={() => handleChangeView('list')}
+            onClick={() => handleChangeView('table')}
             >
             <span className="bg-span"></span> {/* Aquí está el span que controla el fondo */}
             <img src={list} alt="List Icon" className='icon' />
