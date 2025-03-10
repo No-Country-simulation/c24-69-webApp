@@ -11,12 +11,13 @@ createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
     <ThemeProvider>
-      <area className='body-background' />
+    <div className="flex flex-col min-h-screen">
         <NavBar />
-    <main className="flex-grow min-h-screen mt-24">
-      <App />
-    </main>
-    <Footer/>
+        <main className='flex-grow mt-24'>
+          <App />
+        </main>
+        <Footer /> 
+      </div>
     </ThemeProvider>
     </BrowserRouter>
   </StrictMode>,

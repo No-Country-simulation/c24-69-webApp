@@ -18,20 +18,20 @@ const AdminPage: React.FC = () => {
                     className={`filter-button ${activeArea === 'users' ? 'filter-button-active' : ''}`} 
                     onClick={() => setActiveArea('users')}
                 >
-                    <img src={userIcon} alt="User Icon" className="h-15 w-15 rounded-full" />
+                    <img src={userIcon} alt="User Icon"/>
                     Usuarios
                 </button>
                 <button 
                     className={`filter-button ${activeArea === 'vehicles' ? 'filter-button-active' : ''}`} 
                     onClick={() => setActiveArea('vehicles')}
                 >
-                    <img src={truckIcon} alt="Truck Icon" className="h-15 w-15 rounded-full" />
+                    <img src={truckIcon} alt="Truck Icon" />
                     Vehículos
                 </button>
             </div>
 
             {/* Contenedor con animación */}
-            <div className="relative w-full max-w-4xl h-96 overflow-hidden">
+            <section className="flex justify-center w-full max-w-6xl h-full overflow-hidden">
                 <AnimatePresence mode="wait">
                     {activeArea === "users" && (
                         <motion.div
@@ -40,7 +40,7 @@ const AdminPage: React.FC = () => {
                             animate={{ x: 0, opacity: 1 }}
                             exit={{ x: -100, opacity: 0 }} // Desaparece hacia la izquierda
                             transition={{ duration: 0.5 }}
-                            className="absolute w-full h-full"
+                            className="w-full max-w-6xl mb-8"
                         >
                             <UsersArea />
                         </motion.div>
@@ -53,13 +53,13 @@ const AdminPage: React.FC = () => {
                             animate={{ x: 0, opacity: 1 }}
                             exit={{ x: 100, opacity: 0 }} // Desaparece hacia la derecha
                             transition={{ duration: 0.5 }}
-                            className="absolute w-full h-full"
+                            className="w-full max-w-6xl mb-8"
                         >
                             <VehiclesArea />
                         </motion.div>
                     )}
                 </AnimatePresence>
-            </div>
+            </section>
         </div>
     );
 }

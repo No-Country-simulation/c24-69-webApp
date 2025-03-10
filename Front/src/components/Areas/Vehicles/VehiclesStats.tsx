@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useEffect, useState } from 'react';
 import { fetchVehicles } from '../../../services/fetchVehicles'; // Tu función de fetch
 import { Bar } from 'react-chartjs-2';
@@ -14,7 +13,7 @@ interface VehiclesStatsProps {
 }
 
 const VehiclesStats: React.FC<VehiclesStatsProps> = () => {
-    const [vehicles, setVehicles] = useState<IVehicles[]>([]);  // Guardaremos los vehículos obtenidos
+    const [, setVehicles] = useState<IVehicles[]>([]);  // Guardaremos los vehículos obtenidos
     const [approvedCount, setApprovedCount] = useState(0); // Número de vehículos aprobados
     const [disapprovedCount, setDisapprovedCount] = useState(0); // Número de vehículos desaprobados
 
@@ -24,20 +23,20 @@ const VehiclesStats: React.FC<VehiclesStatsProps> = () => {
             try {
                 const vehiclesData = await fetchVehicles();
                 setVehicles(vehiclesData);
-
-                // Contar cuántos vehículos están aprobados y desaprobados
-                const approved = vehiclesData.filter((vehicle: IVehicles) => vehicle.state === "approved").length;
-                const disapproved = vehiclesData.filter((vehicle: IVehicles) => vehicle.state === "disapproved").length;
-
+    
+                // Contar cuántos vehículos están aprobados y desaprobados sin filtrar previamente
+                const approved = vehiclesData.filter((vehicle: IVehicles) => vehicle.status === true).length;
+                const disapproved = vehiclesData.filter((vehicle: IVehicles) => vehicle.status === false).length;
+    
                 setApprovedCount(approved);
                 setDisapprovedCount(disapproved);
             } catch (error) {
                 console.error("Error al obtener los vehículos:", error);
             }
         };
-
+    
         loadVehicles();
-    }, [setVehicles]);  // Solo se ejecuta una vez cuando el componente se monta
+    }, []);  // Solo se ejecuta una vez cuando el componente se monta
 
     // Configuración de los datos del gráfico
     const data = {
@@ -68,12 +67,10 @@ const VehiclesStats: React.FC<VehiclesStatsProps> = () => {
     };
 
     return (
-        <section className="banner-container">
+        <section className="stats-banner">
             <h2 className="title text-center">Estadísticas de Vehículos</h2>
-            <div className="stats-container">
                 {/* Gráfico de barras */}
                 <Bar data={data} options={options} />
-            </div>
         </section>
     );
 };

@@ -10,7 +10,7 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [theme, setThemeState] = useState<"light" | "dark">(() => {
-    return loadTheme() || "dark"; // If there's not a saved theme, use dark as default.
+    return loadTheme() || "dark"; // Si no hay un tema guardado en el navegador, se elegirá "dark" por defecto.
   });
 
   useEffect(() => {

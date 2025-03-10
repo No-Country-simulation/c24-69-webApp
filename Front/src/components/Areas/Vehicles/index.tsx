@@ -2,15 +2,16 @@ import React, { useState, useEffect } from 'react';
 import ConfirmModal from '../../ConfirmModal';
 import { IVehicles, IVehicleFilters } from "../../../types/Vehicles/interfaceVehicle";
 import { fetchVehicles, disapproveVehicle, reapproveVehicle } from '../../../services/fetchVehicles';
-import animation from "../../../assets/404-animation.json";
-import Lottie from 'lottie-react';
+// import animation from "../../../assets/404-animation.json";
+// import Lottie from 'lottie-react';
 import VehiclesList from './VehiclesList';
-import VehiclesFilters from './VehiclesFilters';  // Agregado para los filtros
-import VehiclesStats from './VehiclesStats';  // Agregado para los gráficos
+import VehiclesStats from './VehiclesStats';
+import list from "../../../assets/list-icon.png";
+import stats from "../../../assets/stats-icon.png";
 
 const VehiclesArea: React.FC = () => {
     const [vehicles, setVehicles] = useState<IVehicles[]>([]);
-    const [filters, setFilters] = useState<IVehicleFilters>({marca: '', modelo: '', patente: '', state: 'all' });
+    const [filters, setFilters] = useState<IVehicleFilters>({marca: '', modelo: '', patente: '', status: null });
     const [vehicleToDisapprove, setVehicleToDisapprove] = useState<string | null>(null);
     const [vehicleToReapprove, setVehicleToReapprove] = useState<string | null>(null);
     const [modalData, setModalData] = useState<{
@@ -34,13 +35,13 @@ const VehiclesArea: React.FC = () => {
             try {
                 const allVehicles = await fetchVehicles();
                 const filteredVehicles = allVehicles
-                    .filter((vehicle: { state: boolean; }) => {
-                        const stateMatch =
-                            filters.state === 'all' ||
-                            (filters.state === 'approved' && vehicle.state) ||
-                            (filters.state === 'disapproved' && !vehicle.state);
-                        return stateMatch;
-                    })
+                .filter((vehicle: IVehicles) => {
+                    const stateMatch = filters.status === null || filters.status === undefined 
+                        ? true  // Si status es null, no filtra por estado
+                        : vehicle.status === filters.status; // Si status tiene un valor, filtra por ese valor
+                    
+                    return stateMatch;
+                })
                     .sort((a: { marca: string; }, b: { marca: string; }) => {
                         if (filters.marca === 'asc') {
                             return a.marca.localeCompare(b.marca);
@@ -152,36 +153,46 @@ const VehiclesArea: React.FC = () => {
         setView(view);
     };
 
-    if (vehicles.length === 0) {
-        return (
-            <div className='banner-container'>
-                <div className='banner-child-container'>
-                    <div className='text-banner-area'>
-                        <h1 className='title text-center'>¡Algo salió mal!</h1>
-                        <p className='text-active text-center'>No hay vehículos registrados o activos aún...</p>
-                    </div>
-                    <div>
-                        <Lottie 
-                            animationData={animation} 
-                            loop 
-                            className="animation-404" 
-                        />            
-                    </div>
-                </div>
-            </div>
-        );
-    }
+    // if (vehicles.length === 0) {
+    //     return (
+    //         <div className='banner-container'>
+    //             <div className='banner-child-container'>
+    //                 <div className='text-banner-area'>
+    //                     <h1 className='title text-center'>¡Algo salió mal!</h1>
+    //                     <p className='text-active text-center'>No hay vehículos registrados o activos aún...</p>
+    //                 </div>
+    //                 <div>
+    //                     <Lottie 
+    //                         animationData={animation} 
+    //                         loop 
+    //                         className="animation-404" 
+    //                     />            
+    //                 </div>
+    //             </div>
+    //         </div>
+    //     );
+    // }
 
-    return (
-        <div>
-            <div className="flex flex-row items-center gap-4 mt-4">
-                <button className={`buttonFilter ${view === "table" && "buttonFilterActive"}`} onClick={() => handleChangeView('table')}>Tabla</button>
-                <button className={`buttonFilter ${view === "stats" && "buttonFilterActive"}`} onClick={() => handleChangeView('pie')}>Gráficos</button>
+return (
+    <div>
+        <div className="flex flex-row justify-center gap-4 mb-4">
+            <button
+            className={`view-button ${view === "table" && "view-button-active"}`}
+            onClick={() => handleChangeView('table')}
+            >
+            <span className="bg-span"></span> {/* Aquí está el span que controla el fondo */}
+            <img src={list} alt="List Icon" className='icon' />
+            <span className='view-text'>Lista</span>
+            </button>
+            <button className={`view-button ${view === "stats" && "view-button-active"}`} onClick={() => handleChangeView('stats')}>
+                    <span className="bg-span"></span>
+                    <img src={stats} alt="List Icon" className='icon' />
+                    <span className='view-text'>Gráficos</span>
+            </button>
             </div>
 
             {view === 'table' && (
-                <div className='col-span-3'>
-                    <VehiclesFilters onFilter={handleFilter} />  {/* Agregado el componente de filtros */}
+                <div className='max-w-6xl m-auto px-4'>
                     <VehiclesList
                         vehicles={vehicles}
                         filters={filters}
@@ -192,7 +203,7 @@ const VehiclesArea: React.FC = () => {
                 </div>
             )}
 
-            {view === 'pie' && (
+            {view === 'stats' && (
                 <div className='col-span-3'>
                     <VehiclesStats vehicles={vehicles} filters={filters} />  {/* Agregado el componente de estadísticas */}
                 </div>

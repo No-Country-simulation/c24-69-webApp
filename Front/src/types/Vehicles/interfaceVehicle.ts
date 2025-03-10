@@ -3,12 +3,12 @@ export interface IVehicles {
     marca: string
     modelo: string
     patente: string
-    state: string
+    status: boolean
 }
 
 export interface IVehicleFilters {
     marca: string;
     modelo: string;
-    patente: string,
-    state: 'all' | 'approved' | 'disapproved';
+    patente: string;
+    status: boolean | null;
 }
