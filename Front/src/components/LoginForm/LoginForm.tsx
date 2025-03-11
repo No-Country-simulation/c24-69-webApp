@@ -1,5 +1,5 @@
 import {useState} from "react";
-import { useAuth } from "../../context/hooks/UseAuth";
+import { useAuth } from "../../hooks/UseAuth";
 import InputCustom from "../InputCustom/InputCustom"
 
 
@@ -24,7 +24,7 @@ const LoginForm: React.FC = () => {
           {/* Checkbox de Recordarme */}
           <InputCustom customStyle="custom-checkbox" label="Recordarme" type="checkbox" value="rememberMe" checked={rememberMe} onChange={() => setRememberMe(!rememberMe)} />
   
-          <button type="submit" disabled={isLoading} className="filter-button w-full flex justify-center">
+          <button type="submit" disabled={isLoading} className="filter-button-form w-full flex justify-center ">
             {isLoading ? "Cargando..." : "Iniciar Sesión"}
           </button>
         </form>

@@ -18,7 +18,6 @@ export const useAuth = () => {
     throw new Error("useAuth debe ser usado dentro de un AuthProvider");
   }
 
-  // Obtener el token desde las cookies
   const token = Cookies.get("token");
 
   // Decodificar el token para extraer la información del usuario

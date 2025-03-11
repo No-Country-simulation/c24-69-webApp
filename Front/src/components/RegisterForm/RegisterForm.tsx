@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useAuth } from "../../context/hooks/UseAuth";
+import { useAuth } from "../../hooks/UseAuth";
 import InputCustom from "../../components/InputCustom/InputCustom";
 
 const RegisterForm: React.FC = () => {

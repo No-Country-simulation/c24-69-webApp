@@ -204,3 +204,15 @@
     @apply w-10 h-10;
   }
 }
+
+.filter-button-form {
+  @apply inline-flex justify-center items-center cursor-pointer font-medium whitespace-nowrap overflow-hidden text-ellipsis leading-none no-underline border-none rounded-full gap-4 px-8 font-[Poppins] w-full h-10 text-xl;
+  background: var(--linearGradient);
+  color: var(--textColor);
+}
+.filter-button-form:hover {
+  background-size: 200% auto !important;
+  transition: background-size .3s ease-in;
+}
+
+
