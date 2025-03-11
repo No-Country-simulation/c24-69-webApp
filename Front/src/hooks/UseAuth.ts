@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { AuthContext } from "../AuthContext";
+import { AuthContext } from "../context/AuthContext";
 import Cookies from "js-cookie";
 import {jwtDecode} from "jwt-decode";
 
