@@ -101,4 +101,8 @@ export class VehiculosService {
       vehiculo
     }
   }
+
+  async updateCheckedAt(id: number){
+    const vehiculo = await this.vehiculoRepository.update(id, {checkedAt: new Date()})
+  }
 }

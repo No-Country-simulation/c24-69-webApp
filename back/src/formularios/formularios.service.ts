@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Not, Repository } from 'typeorm';
 
@@ -6,6 +6,8 @@ import { Formulario } from './entities/formulario.entity';
 import { CreateFormularioDto } from './dto/create-formulario.dto';
 import { UpdateFormularioDto } from './dto/update-formulario.dto';
 import { VehiculosService } from 'src/vehiculos/vehiculos.service';
+
+import { PaginationDto } from 'src/common/dto/pagination.dto';
 
 @Injectable()
 export class FormulariosService {
@@ -21,13 +23,18 @@ export class FormulariosService {
   async create(createFormularioDto: CreateFormularioDto) {
     
     try {
+      // Creacion del formulario
       const patente = await this.vehiculoService.searchByPatente(createFormularioDto.patente)
 
       const formulario = this.formularioRepository.create({
         ...createFormularioDto,
-        patente
+        patente,
       })
       await this.formularioRepository.save(formulario)
+
+      // Actualiza la fecha de chequeo del vehiculo
+      await this.vehiculoService.updateCheckedAt(patente.id)
+
       return {
         message: 'Formulario creado con éxito',
         status: 201,
@@ -38,16 +45,74 @@ export class FormulariosService {
     }
   }
 
-  findAll() {
-    return `This action returns all formularios`;
+  async findAll(paginationDto: PaginationDto) {
+
+    const { limit = 10, page = 1 } = paginationDto
+    const totalForms = await this.formularioRepository.count()
+    const totalPages = Math.ceil(totalForms / limit)
+
+    const data = await this.formularioRepository.find({
+      take: limit,
+      skip: (page - 1) * limit,
+      relations: {
+        patente: true
+      }
+    })
+
+    return {
+      data,
+      meta: {
+        totalForms,
+        totalPages,
+        page,
+        limit
+      }
+    }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} formulario`;
+  async findOne(id: string) {
+    
+    try {
+      const formulario = await this.formularioRepository.findOne({
+        where: { id },
+        relations: {
+          patente: true
+        }
+      })
+      if(!formulario){
+        throw new NotFoundException('Formulario no encontrado')
+      }
+      return formulario
+    } catch (error) {
+      throw error
+    }
   }
 
-  update(id: number, updateFormularioDto: UpdateFormularioDto) {
-    return `This action updates a #${id} formulario`;
+  async update(id: string, updateFormularioDto: UpdateFormularioDto) {
+
+    try {
+
+     const formulario = await this.formularioRepository.preload({
+      id,
+      ...updateFormularioDto,
+      patente: { patente: updateFormularioDto.patente }
+     })
+      if(!formulario) {
+        throw new NotFoundException('Formulario no encontrado')
+      }
+
+      await this.formularioRepository.save(formulario)
+
+
+      return {
+        message: 'Formulario actualizado con éxito',
+        status: 200,
+        formulario
+      }
+
+    } catch (error) {
+      throw error
+    }
   }
 
   remove(id: number) {
