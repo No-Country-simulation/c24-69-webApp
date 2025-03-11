@@ -2,13 +2,15 @@
 
 :root[data-theme='light'] {
     --containerColor: #9bc1ff;
-    --layoutBackground: #0037B5;
+    --layoutBackground: #0037b5;
     --themeBackground: #73C0FC; 
     --backgroundLinear: linear-gradient(to bottom, #9bc1ff, #105C93 50%, #9bc1ff);
     --linearGradient: linear-gradient(30deg, #9bc1ff, #105C93);
     --specialBorder: #EDD5BB;
     --textColor: #001F3F; 
     --titleColor: #183153;
+    --rgb: 115, 192, 252;
+    --opacity: 0.7;
   }
 
   :root[data-theme='dark'] {
@@ -20,6 +22,8 @@
     --specialBorder: #AE4947;
     --textColor: #9bc1ff; 
     --titleColor: #4DACE1;
+    --rgb: 16, 92, 147;
+    --opacity: 0.7;
   }
 
 
@@ -197,7 +201,7 @@ contain: layout paint;
 
 .modal-effect {
     padding: 5px;
-    background: var(--effectGradient);
+    background: var(--linearGradient);
     width:75%;
 }
 
@@ -222,6 +226,23 @@ contain: layout paint;
 }
 
 /* Sections */
+.answers-section {
+  @apply relative w-full h-auto p-6 mx-auto flex flex-col flex-grow z-10;
+}
+
+.answers-section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(var(--rgb), var(--opacity));
+  z-index: -1;
+}
+
+.answers-text {
+  @apply text-start text-lg font-["Poppins"] font-semibold;
+  color: var(--textColor);
+}
+
 .nav-section {
   @apply fixed top-0 left-0 w-full h-auto z-20 p-4 flex min-h-24;
   background-color: var(--layoutBackground);

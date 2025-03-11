@@ -61,7 +61,7 @@ const NavBar: React.FC = () => {
     to="/about"
     className={`nav-btn ${location.pathname === "/about" ? "nav-btn-active" : ""}`}
     >
-    Sobre Nos
+    Nosotros
     </Link>
     <Link
     to="/form"

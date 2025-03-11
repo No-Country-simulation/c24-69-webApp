@@ -101,12 +101,12 @@ const MultiStepForm: React.FC = () => {
 };
 
   return (
-    <div className="flex flex-col items-center min-h-[500px] p-10">
+    <div className="flex flex-col items-center min-h-[600px] p-10">
       {/* Selector de vehículos */}
       <select 
         value={selectedPatente} 
         onChange={(e) => setSelectedPatente(e.target.value)}
-        className="select-input"
+        className="vehicle-form-input mb-8"
       >
         <option value="">Selecciona un vehículo</option>
         {vehicles.map((vehiculo) => (
@@ -134,14 +134,14 @@ const MultiStepForm: React.FC = () => {
             <button 
               onClick={prevStep} 
               disabled={currentStep === 0} 
-              className="cursor-pointer bg-gray-400 hover:bg-gray-500 duration-300 px-4 py-2 rounded"
+              className="cursor-pointer bg-gray-400 hover:bg-gray-500 duration-300 text-center rounded w-1/4 h-10"
             >
               Atrás
             </button>
             {currentStep < questionsPerStep.length - 1 ? (
               <button 
                 onClick={nextStep} 
-                className="cursor-pointer hover:bg-blue-700 duration-300 bg-blue-600 text-white px-4 py-2 rounded"
+                className="cursor-pointer hover:bg-blue-700 duration-300 bg-blue-600 text-white text-center rounded w-1/4 h-10"
               >
                 Siguiente
               </button>

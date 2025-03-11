@@ -81,14 +81,25 @@
   color: var(--titleColor);
 }
 
-.select-input:hover, .search-input:hover, .search-input:focus {
-  background: var(--layoutBackground);
+.select-input:hover, .search-input:hover, .search-input:focus, .select-input:focus {
+  background: var(--themeBackground);
+  color: var(--textColor)
+}
+
+.vehicle-form-input:hover , .vehicle-form-input:focus {
+  background: var(--specialBorder);
 }
 
 .search-input {
   @apply font-["Puppins"] font-semibold py-2 px-4 rounded-md cursor-text h-15;
   background: var(--containerColor);
   color: var(--titleColor);
+}
+
+.vehicle-form-input {
+  @apply font-["Puppins"] text-xl font-normal py-2 px-4 rounded-md cursor-pointer w-3/4 h-15;
+  background: var(--themeBackground);
+  color: var(--textColor);
 }
 
 /* Theme Button */

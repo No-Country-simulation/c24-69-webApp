@@ -15,7 +15,7 @@ const Step: React.FC<StepProps> = ({ stepNumber, questions, type }) => {
   return (
     <form className="flex flex-col w-full">
       <h2 className="text-center text-xl font-bold mb-4">Parte {stepNumber + 1}</h2>
-      <div className="flex flex-col justify-between gap-4">
+      <div className="answers-section">
       {questions.map((question, index) => (
         <Checkbox 
           type ={type}

@@ -21,24 +21,24 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({
 
   return (
     <div className="modal-background">
-      <section className='modalEffect'>
-      <div className="modalContainer">
-        <h2 className="title mb-2">{title}</h2>
-        <p className="bannerBText text-center">{message}</p>
+      <section className='modal-effect'>
+      <div className="modal-container">
+        <h2 className="title text-center mb-2">{title}</h2>
+        <p className="text-active text-center">{message}</p>
         <div className='flex flex-wrap justify-center items-center w-full gap-4'>
           {singleButton ? (
             // Si es singleButton, mostramos un único botón que cierra el modal
-            <button className="" onClick={onConfirm}>
-              Close
+            <button className="close-button" onClick={onConfirm}>
+              Cerrar
             </button>
           ) : (
             // Caso por defecto, mostramos ambos botones: Cancel y Confirm
             <div className='custom-grid justify-center items-center w-full mt-4'>
               <button className="conf-button w-full" onClick={onConfirm}>
-                <span>Confirm</span>
+                <span>Confirmar</span>
               </button>
-              <button className="cls-btn cls-btn-1 w-full" onClick={onCancel}>
-                Cancel
+              <button className="close-button" onClick={onCancel}>
+                Cancelar
               </button>
             </div>
           )}
