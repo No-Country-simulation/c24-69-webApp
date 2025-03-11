@@ -9,7 +9,7 @@ interface StepProps {
   questions: string[];
 }
 
-const Step: React.FC<StepProps> = ({ stepNumber, questions, type }) => {
+const Step: React.FC<StepProps> = ({stepNumber, questions, type }) => {
   const { answers, setAnswer } = useFormContext();
 
   return (
