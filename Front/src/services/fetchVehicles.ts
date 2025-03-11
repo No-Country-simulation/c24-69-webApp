@@ -4,15 +4,17 @@ export const fetchVehicles = async () => {
     const response = await fetch(`${apiUrl}/vehicles`, {
         method: "GET",
         headers: {
-            'Content-Type': 'application/json',
-        }
-    })
+            "Content-Type": "application/json",
+        },
+    });
+
     if (!response.ok) {
         throw new Error(`Error fetching vehicles: ${response.statusText}`);
     }
-    const vehiclesData = await response.json();
-    return vehiclesData;
-}
+
+    const { data } = await response.json(); // Extraer solo `data`
+    return data; // Devolver solo la lista de vehículos
+};
 
 export const disapproveVehicle = async (id: string) => {
     const response = await fetch(`${apiUrl}/vehicles/update?id=${id}`, {

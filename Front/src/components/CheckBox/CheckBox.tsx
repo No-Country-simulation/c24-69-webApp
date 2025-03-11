@@ -11,7 +11,7 @@ interface CheckboxProps {
 const Checkbox: React.FC<CheckboxProps> = ({ type,label, value, checked, onChange }) => {
     return (
         <div className="mb-4 flex justify-between items-center">
-            <span>{label}</span>
+            <span className='answers-text'>{label}</span>
             <label className="flex items-center">
                 <input 
                     type={type} 
