@@ -1,4 +1,5 @@
-import { BeforeInsert, BeforeUpdate, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Formulario } from "src/formularios/entities/formulario.entity";
+import { BeforeInsert, BeforeUpdate, Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Vehiculo {
@@ -50,6 +51,13 @@ export class Vehiculo {
         nullable: true,
     })
     checkedAt: Date
+
+
+    @OneToMany(
+        () => Formulario,
+        formulario => formulario.patente
+    )
+    formulario: Formulario
 
     @BeforeInsert()
     setCreatedAt(){

@@ -1,30 +1,22 @@
 @import 'tailwindcss';
 
 /* Filters Buttons */
-/* From Uiverse.io by Creatlydev */ 
 .filter-button {
-  line-height: 1;
-  text-decoration: none;
-  display: inline-flex;
-  border: none;
-  cursor: pointer;
-  align-items: center;
-  gap: 0.75rem;
+  @apply inline-flex justify-center items-center cursor-pointer font-medium whitespace-nowrap overflow-hidden text-ellipsis leading-none no-underline border-none rounded-full gap-4 px-8 font-[Poppins] w-full h-24 text-3xl;
   background: var(--linearGradient);
   color: var(--textColor);
-  border-radius: 10rem;
-  font-family: "Poppins", serif;
-  font-weight: bold;
-  padding: 0.75rem 1.5rem;
-  padding-left: 20px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
-.filter-button:hover, .filter-button-active:hover {
-  transition: 1s;
-  background: var(--layoutBackground);
+@keyframes scale {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); } /* Aumenta un 20% */
+  100% { transform: scale(1); }
+}
+.filter-button:hover {
+  background-size: 200% auto !important; 
+}
+.filter-button:hover img {
+  animation: scale 0.8s infinite ease-in-out;
 }
 
 /* Nav Button */
@@ -46,10 +38,10 @@
  }
  
  .nav-btn:hover {
-  background-position: right center;
-  background-size: 200% auto;
-  -webkit-animation: pulse 2s infinite;
-  animation: pulse512 1.5s infinite;
+  /* background-position: right center;*/
+  background-size: 200% auto; 
+  -webkit-animation: pulse 1s infinite;
+  animation: pulse512 1s infinite;
  }
  
  @keyframes pulse512 {
@@ -66,9 +58,48 @@
   }
  }
 
-.nav-btn-active, .filter-button-active {
+.nav-btn-active, .filter-button-active, .view-button-active, .page-button-active {
   background: var(--containerColor);
   border: 2px solid var(--textColor);
+}
+
+/* Pagination Button */
+.page-button {
+  @apply inline-flex justify-center items-center cursor-pointer font-medium whitespace-nowrap overflow-hidden text-ellipsis leading-none no-underline border-none rounded-full px-8 font-[Poppins] w-12 h-8 text-xl;
+  background: var(--linearGradient);
+  color: var(--textColor);
+}
+
+.page-button:hover {
+  background-size: 200% auto !important; 
+}
+
+/* Select Button || Input */
+.select-input {
+  @apply font-["Puppins"] font-semibold py-2 px-4 rounded-md cursor-pointer h-15;
+  background: var(--containerColor);
+  color: var(--titleColor);
+}
+
+.select-input:hover, .search-input:hover, .search-input:focus, .select-input:focus {
+  background: var(--themeBackground);
+  color: var(--textColor)
+}
+
+.vehicle-form-input:hover , .vehicle-form-input:focus {
+  background: var(--specialBorder);
+}
+
+.search-input {
+  @apply font-["Puppins"] font-semibold py-2 px-4 rounded-md cursor-text h-15;
+  background: var(--containerColor);
+  color: var(--titleColor);
+}
+
+.vehicle-form-input {
+  @apply font-["Puppins"] text-xl font-normal py-2 px-4 rounded-md cursor-pointer w-3/4 h-15;
+  background: var(--themeBackground);
+  color: var(--textColor);
 }
 
 /* Theme Button */
@@ -130,4 +161,46 @@
 
 .theme-slider {
   @apply absolute w-5 h-5 bg-white rounded-full shadow-md transition-all duration-300;
+}
+
+/* View Button */
+.view-button {
+  @apply inline-flex justify-center items-center cursor-pointer whitespace-nowrap overflow-hidden text-ellipsis leading-none no-underline border-none rounded-full gap-4 py-4  w-[30%] h-[4rem] relative;
+  background: var(--layoutBackground); /* Fondo inicial */
+  position: relative;
+}
+
+.view-button .view-text {
+  @apply z-10 text-2xl font-normal font-[Poppins]; 
+  color: var(--textColor);
+}
+
+.view-button .bg-span {
+  @apply absolute w-0 h-0 rounded-full transition-all duration-500 ease-out;
+  background: var(--linearGradient); /* Fondo del span */
+  z-index: 0; /* Coloca el span detrás del contenido */
+}
+
+.view-button:hover .bg-span {
+  @apply w-full h-56; /* El fondo se expande en el hover */
+}
+
+@keyframes scale {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); } /* Aumenta un 10% */
+  100% { transform: scale(1); }
+}
+
+.view-button:hover img {
+  animation: scale 0.8s infinite ease-in-out; /* Animación para la imagen */
+}
+
+/* Responsive */
+@media screen and (max-width: 480px) {
+  .filter-button {
+    @apply w-[8rem] h-14 px-8 py-8 gap-0;
+  }
+  .filter-button img{
+    @apply w-10 h-10;
+  }
 }

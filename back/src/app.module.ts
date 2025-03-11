@@ -6,6 +6,7 @@ import { AppService } from './app.service';
 import { VehiculosModule } from './vehiculos/vehiculos.module';
 import { CommonModule } from './common/common.module';
 import { UsersModule } from './users/users.module'; // Import UsersModule
+import { FormulariosModule } from './formularios/formularios.module';
 
 @Module({
     imports: [
@@ -21,10 +22,13 @@ import { UsersModule } from './users/users.module'; // Import UsersModule
             username: process.env.DB_USERNAME,
             password: process.env.DB_PASSWORD,
             entities: ['dist/**/*.entity{.ts,.js}'],
+            synchronize: true,
+            autoLoadEntities: true,
        }),
         VehiculosModule,
         CommonModule,
         UsersModule, // Add UsersModule
+        FormulariosModule, 
     ],
     controllers: [AppController],
     providers: [AppService],

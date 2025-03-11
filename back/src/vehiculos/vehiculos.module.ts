@@ -16,5 +16,6 @@ import { CommonModule } from 'src/common/common.module';
   ],
   controllers: [VehiculosController],
   providers: [VehiculosService],
+  exports: [VehiculosService, TypeOrmModule]
 })
 export class VehiculosModule {}

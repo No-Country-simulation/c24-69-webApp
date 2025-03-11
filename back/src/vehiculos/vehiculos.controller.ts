@@ -18,6 +18,11 @@ export class VehiculosController {
     return this.vehiculosService.findAll(paginationDto);
   }
 
+  @Get('searchByPatente')
+  searchByPatente(@Query('patente') patente: string) {
+    return this.vehiculosService.searchByPatente(patente);
+  } 
+
   @Get(':id')
   findOne(@Param('id', ParseIntPipe) id: string) {
     return this.vehiculosService.findOne(+id);
