@@ -3,6 +3,7 @@
 :root[data-theme='light'] {
     --containerColor: #9bc1ff;
     --layoutBackground: #0037B5;
+    --inputBackground: #85a6db;
     --themeBackground: #73C0FC; 
     --backgroundLinear: linear-gradient(to bottom, #9bc1ff, #105C93 50%, #9bc1ff);
     --linearGradient: linear-gradient(30deg, #9bc1ff, #105C93);
@@ -12,6 +13,7 @@
   }
 
   :root[data-theme='dark'] {
+    --inputBackground: #01172d;
     --containerColor: #001F3F; 
     --layoutBackground: #010016; 
     --themeBackground: #183153; 
@@ -245,6 +247,9 @@ background: var(--containerColor);
   background-position: center;
   background-size: cover;
   width: 400px;
+  color: #53bbf3;
+  transition: border .3s;
+  font-family: 'Quicksand', serif;
 }
 
 /* styles for custom checkbox */
@@ -283,4 +288,21 @@ input[type="checkbox"]:checked + .custom-checkbox {
 .container-form{
   width: 800px;
   background-color: var(--containerColor);
+  transition: background-color .3s;
 }
+
+.input-bg-theme{
+  background-color: var(--inputBackground);
+  color: var(--titleColor);
+}
+
+.bg-tm-custom{
+  @apply text-2xl;
+  border: 5px solid var(--specialBorder);
+  background-image: url("./assets/red-blue BKG.jpg");
+  background-position:0cqmax;
+  color: #4DACE1;
+  font-family: "Poppins", serif;
+  font-weight: bold;
+}
+

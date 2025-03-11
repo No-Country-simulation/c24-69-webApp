@@ -65,9 +65,7 @@ const NavBar: React.FC = () => {
     </Link>
     <Link
     to="/form"
-    className={`nav-btn ${
-    location.pathname === "/form" ? "nav-btn-active" : ""
-    }`}
+    className={`nav-btn ${location.pathname === "/form" ? "nav-btn-active" : ""}`}
     >
     Form
     </Link>

@@ -16,8 +16,15 @@ const questionsPerStep: string[][] = [
 const MultiStepForm: React.FC = () => {
   const { currentStep, setCurrentStep, answers } = useFormContext();
 
-  const nextStep = () => setCurrentStep(Math.min(currentStep + 1, questionsPerStep.length - 1));
-  const prevStep = () => setCurrentStep(Math.max(currentStep - 1, 0));
+  const nextStep = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault(); // Evita el envío automático del formulario
+    setCurrentStep(Math.min(currentStep + 1, questionsPerStep.length - 1));
+  };
+  
+  const prevStep = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault(); // Evita el envío automático del formulario
+    setCurrentStep(Math.max(currentStep - 1, 0));
+  };
 
   // Variantes de animación para toda la tarjeta del formulario
   const variants = {
@@ -27,7 +34,7 @@ const MultiStepForm: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col items-center min-h-[500px] p-10">
+    <form className="flex flex-col items-center min-h-[500px] p-10">
       <AnimatePresence mode="wait">
       <motion.div
         key={currentStep}
@@ -36,7 +43,7 @@ const MultiStepForm: React.FC = () => {
         animate="center"
         exit="exit"
         transition={{ duration: 0.450 }}
-        className="background-form overflow-hidden w-full max-w-[400px] p-6 mx-auto text-white rounded-lg shadow-xl relative flex flex-col flex-grow"
+        className="background-form overflow-hidden w-full max-w-[400px] p-6 mx-auto text-white rounded-lg shadow-2xl relative flex flex-col flex-grow"
       >
         {/* Contenido del formulario */}
         <Step type={"checkbox"} stepNumber={currentStep} questions={questionsPerStep[currentStep]} />
@@ -44,14 +51,16 @@ const MultiStepForm: React.FC = () => {
         {/* Botones de navegación */}
         <div className="flex justify-between mt-auto">
           <button 
+            type="button"
             onClick={prevStep} 
             disabled={currentStep === 0} 
-            className="cursor-pointer bg-gray-400 hover:bg-gray-500 duration-300 px-4 py-2 rounded"
+            className="text-white  cursor-pointer bg-gray-400 hover:bg-gray-500 duration-300 px-4 py-2 rounded"
           >
             Atrás
           </button>
           {currentStep < questionsPerStep.length - 1 ? (
             <button 
+              type="button"
               onClick={nextStep} 
               className="cursor-pointer hover:bg-blue-700 duration-300 bg-blue-600 text-white px-4 py-2 rounded"
             >
@@ -59,6 +68,7 @@ const MultiStepForm: React.FC = () => {
             </button>
           ) : (
             <button 
+              type="submit" 
               onClick={() => console.log("Respuestas:", answers)}
               className="cursor-pointer hover:bg-green-700 duration-300 bg-green-600 text-white px-4 py-2 rounded"
             >
@@ -68,7 +78,7 @@ const MultiStepForm: React.FC = () => {
         </div>
       </motion.div>
     </AnimatePresence>
-  </div>
+  </form>
   );
 };
 
