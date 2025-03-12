@@ -1,17 +1,19 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import UsersList from './UsersList';
-import ConfirmModal from '../../ConfirmModal';
-import { IUser, IUserFilters } from "../../../types/Users/interfaceUser";
-import { banUser, fetchUsers, reactivateUser } from '../../../services/fetchUsers';
+import ConfirmModal from '../../../ConfirmModal';
+import { IUser, IUserFilters } from "../../../../types/Users/interfaceUser";
+import { banUser, fetchUsers, reactivateUser } from '../../../../services/fetchUsers';
 import UsersPie from './UsersPie';
-import list from "../../../assets/list-icon.png";
-import stats from "../../../assets/stats-icon.png";
+import list from "../../../../assets/list-icon.png";
+import stats from "../../../../assets/stats-icon.png";
 // import animation from "../../../assets/404-animation.json";
 // import Lottie from 'lottie-react';
 
 const UsersArea: React.FC = () => {
     const [users, setUsers] = useState<IUser[]>([]);
     const [filters, setFilters] = useState<IUserFilters>({ nombre: 'asc', rol: '', isActive: 'all' });
+    const [loading, setLoading] = useState<boolean>(true);  // Nuevo estado de carga
+    const [error, setError] = useState<string | null>(null); // Estado de error
     const [view, setView] = useState<"list" | "pie">("list");
 
     const [modalData, setModalData] = useState<{
@@ -30,28 +32,33 @@ const UsersArea: React.FC = () => {
         singleButton: true
     });
 
-useEffect(() => {
-    const loadUsers = async () => {
-        try {
-            const allUsers = await fetchUsers();
-            setUsers(allUsers.filter((user: { rol: string; }) => user.rol !== 'admin')); // Filtra admin al cargar
-        } catch (error) {
-            console.error("Error al presentar usuarios: ", error);
-        }
-    };
+    useEffect(() => {
+        const loadUsers = async () => {
+            try {
+                setLoading(true);  // Establecer loading como true al iniciar la carga
+                setError(null); // Resetear cualquier error anterior
+                const allUsers = await fetchUsers();
+                setUsers(allUsers.filter((user: { rol: string; }) => user.rol !== 'admin')); // Filtra admin al cargar
+            } catch (error) {
+                setError("Error al cargar los usuarios. Intenta nuevamente.");
+                console.error("Error al presentar usuarios: ", error);
+            } finally {
+                setLoading(false);  // Establecer loading como false después de intentar cargar los datos
+            }
+        };
 
-    loadUsers();
-}, []); // 🔥 Se ejecuta solo una vez
+        loadUsers();
+    }, []); 
 
-const filteredUsers = useMemo(() => {
-    return users
-        .filter(user => 
-            filters.isActive === 'all' || 
-            (user.isActive) || 
-            (!user.isActive))
-        .filter(user => filters.rol === '' || user.rol === filters.rol)
-        .sort((a, b) => filters.nombre === 'asc' ? a.nombre.localeCompare(b.nombre) : b.nombre.localeCompare(a.nombre));
-}, [users, filters]); // 🔥 Solo recalcula cuando cambia `users` o `filters`
+    const filteredUsers = useMemo(() => {
+        return users
+            .filter(user => 
+                filters.isActive === 'all' || 
+                (user.isActive) || 
+                (!user.isActive))
+            .filter(user => filters.rol === '' || user.rol === filters.rol)
+            .sort((a, b) => filters.nombre === 'asc' ? a.nombre.localeCompare(b.nombre) : b.nombre.localeCompare(a.nombre));
+    }, [users, filters]); // 🔥 Solo recalcula cuando cambia `users` o `filters`
 
 const handleModalClose = () => {
     setModalData((prev) => ({ ...prev, show: false }));
@@ -106,8 +113,8 @@ const handleReactivateUser = (id: string) => {
     });
 };
     
-const activeUsers = useMemo(() => filteredUsers.filter(user => user.isActive).length, [filteredUsers]);
-const inactiveUsers = useMemo(() => filteredUsers.filter(user => !user.isActive).length, [filteredUsers]);
+// const activeUsers = useMemo(() => filteredUsers.filter(user => user.isActive).length, [filteredUsers]);
+// const inactiveUsers = useMemo(() => filteredUsers.filter(user => !user.isActive).length, [filteredUsers]);
 
 // if (users.length === 0) {
 //     return (
@@ -144,6 +151,12 @@ return (
             </button>
         </div>
 
+        <div className='loader-banner'>
+            {loading && <p className='title text-center'>Cargando usuarios...</p>}
+            {error && <p className='error-text'>{error}</p>}
+            <div className='loader'></div>
+            </div>
+
         {/* Render de Vista */}
         {view === 'list' && (
             <UsersList
@@ -157,7 +170,7 @@ return (
 
         {view === 'pie' && (
             <div className='max-w-6xl m-auto'>
-                <UsersPie activeUsers={activeUsers} inactiveUsers={inactiveUsers} />
+                <UsersPie />
             </div>
         )}
 

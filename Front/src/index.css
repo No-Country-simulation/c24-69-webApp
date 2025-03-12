@@ -110,6 +110,11 @@ background: var(--containerColor);
   @apply absolute flex items-center right-[10px] top-1/2 -translate-y-1/2;
 }
 
+.loader-banner {
+  @apply m-auto gap-8 w-1/2 h-3/4 my-8 p-8 rounded-lg shadow-rose-600 shadow-2xl;
+  background: var(--containerColor);
+}
+
 .modal-container {
     @apply rounded-lg relative p-6 flex flex-col h-1/2 w-full z-50;
     background-color: var(--containerColor);
@@ -125,12 +130,34 @@ background: var(--containerColor);
     contain: layout paint;
 }
 
+.swiper-container {
+  @apply mt-5;
+}
+
+.swiper-slide {
+  @apply flex justify-center;
+}
+
 .users-banner {
   @apply max-w-6xl h-auto flex flex-row justify-center items-center rounded-lg;
 background: var(--containerColor);
 contain: layout paint;
-
 }
+
+.vehicle-card {
+  @apply p-5 rounded-lg shadow-emerald-400 cursor-pointer transition-transform duration-300 ease-in-out;
+  background: var(--themeBackground);
+}
+
+.vehicle-card:hover {
+  transform: scale(1.05);
+}
+
+.vehicle-cards-banner {
+  @apply flex flex-col gap-4 justify-center w-full max-w-6xl shadow-lg p-6 rounded-lg;
+  background: var(--containerColor);
+    contain: layout paint;
+  }
 
 /* Tables */
 .table {
@@ -251,6 +278,10 @@ contain: layout paint;
 }
 
 /* Texts */
+.error-text {
+  @apply sm:text-2xl md:text-4xl text-red-500 font-['Poppins'] font-normal text-center;
+}
+
 .footer-title {
   @apply sm:text-base md:text-3xl;
   color: var(--textColor);

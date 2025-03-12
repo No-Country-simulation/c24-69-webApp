@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { fetchVehicles } from '../../../services/fetchVehicles'; // Tu función de fetch
+import { fetchVehicles } from '../../../../services/fetchVehicles'; // Tu función de fetch
 import { Bar } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
-import { IVehicleFilters, IVehicles } from '../../../types/Vehicles/interfaceVehicle';
+import { IVehicleFilters, IVehicles } from '../../../../types/Vehicles/interfaceVehicle';
 
 // Registrar los componentes necesarios de Chart.js
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);

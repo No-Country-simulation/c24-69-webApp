@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import ApexCharts from 'react-apexcharts';
 import { ApexOptions } from 'apexcharts';
-import { fetchUsers } from '../../../services/fetchUsers';  // Asegúrate de importar el servicio correctamente
-import { IUser } from '../../../types/Users/interfaceUser';  // Asegúrate de importar la interfaz IUser
+import { fetchUsers } from '../../../../services/fetchUsers';  // Asegúrate de importar el servicio correctamente
+import { IUser } from '../../../../types/Users/interfaceUser';  // Asegúrate de importar la interfaz IUser
 
 const UsersPie: React.FC = () => {
     const [users, setUsers] = useState<IUser[]>([]);  // Estado para almacenar los usuarios

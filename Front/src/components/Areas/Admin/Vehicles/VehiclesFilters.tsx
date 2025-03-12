@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { IVehicleFilters } from '../../../types/Vehicles/interfaceVehicle';
+import { IVehicleFilters } from '../../../../types/Vehicles/interfaceVehicle';
 
 interface VehicleFiltersProps {
   onFilter: (filters: IVehicleFilters) => void;

@@ -1,17 +1,16 @@
-import blockIcon from "../../../assets/block-icon.png";
-import checkIcon from "../../../assets/check-icon.png";
-import { IVehicles, IVehicleFilters } from "../../../types/Vehicles/interfaceVehicle";
+import blockIcon from "../../../../assets/block-icon.png";
+import checkIcon from "../../../../assets/check-icon.png";
+import { IVehicles, IVehicleFilters } from "../../../../types/Vehicles/interfaceVehicle";
 import VehiclesFilters from "./VehiclesFilters";
-import { usePagination } from "../../../hooks/usePagination";
-import Pagination from "../../Pagination/index";
-
+import { usePagination } from "../../../../hooks/usePagination";
+import Pagination from "../../../Pagination/index";
 
 interface VehiclesListProps {
     vehicles: IVehicles[];
     filters: IVehicleFilters;
     onFilter: (filters: IVehicleFilters) => void;
-    onDisapproveVehicle: (id: string) => void;
-    onReapproveVehicle: (id: string) => void;
+    onDisapproveVehicle?: (id: string) => void;
+    onReapproveVehicle?: (id: string) => void;
 }
 
 const VehiclesList: React.FC<VehiclesListProps> = ({vehicles, filters, onFilter, onDisapproveVehicle, onReapproveVehicle}) => {
@@ -51,7 +50,7 @@ const { paginatedData, currentPage, totalPages, nextPage, prevPage, setCurrentPa
                 <th className='table-head-b'>Acción</th>
             </tr>
             </thead>
-            <tbody className="tableBody flex flex-col gap-2">
+            <tbody className="flex flex-col gap-2">
             {paginatedData.map(vehicle => (
                 <tr className="flex flex-row justify-around" key={vehicle.id}>
                 <td className='table-data'>{vehicle.marca}</td>
@@ -60,11 +59,11 @@ const { paginatedData, currentPage, totalPages, nextPage, prevPage, setCurrentPa
                 <td className='table-data-b'>{vehicle.status ? 'Aprobado' : 'Desaprobado'}</td>
                 <td className="table-data-b">
                     {vehicle.status ? (
-                    <button onClick={() => onDisapproveVehicle(vehicle.id)}>
+                    <button onClick={() => onDisapproveVehicle && onDisapproveVehicle(vehicle.id)}>
                         <img src={blockIcon} alt="Deactivate Icon" className="h-5 w-5"/>
                     </button>
                     ) : (
-                    <button onClick={() => onReapproveVehicle(vehicle.id)}>
+                    <button onClick={() => onReapproveVehicle && onReapproveVehicle(vehicle.id)}>
                         <img src={checkIcon} alt="Reactivate Icon" />
                     </button>
                     )}

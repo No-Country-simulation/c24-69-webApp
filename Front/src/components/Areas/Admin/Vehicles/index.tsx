@@ -1,17 +1,18 @@
-import React, { useState, useEffect } from 'react';
-import ConfirmModal from '../../ConfirmModal';
-import { IVehicles, IVehicleFilters } from "../../../types/Vehicles/interfaceVehicle";
-import { fetchVehicles, disapproveVehicle, reapproveVehicle } from '../../../services/fetchVehicles';
+import React, { useState } from 'react';
+import ConfirmModal from '../../../ConfirmModal';
+import { IVehicleFilters } from "../../../../types/Vehicles/interfaceVehicle";
+import { disapproveVehicle, reapproveVehicle } from '../../../../services/fetchVehicles';
 // import animation from "../../../assets/404-animation.json";
 // import Lottie from 'lottie-react';
 import VehiclesList from './VehiclesList';
 import VehiclesStats from './VehiclesStats';
-import list from "../../../assets/list-icon.png";
-import stats from "../../../assets/stats-icon.png";
+import list from "../../../../assets/list-icon.png";
+import stats from "../../../../assets/stats-icon.png";
+import useVehicles from '../../../../hooks/useVehicles';
 
 const VehiclesArea: React.FC = () => {
-    const [vehicles, setVehicles] = useState<IVehicles[]>([]);
     const [filters, setFilters] = useState<IVehicleFilters>({marca: '', modelo: '', patente: '', status: null });
+    const { vehicles, loading, error } = useVehicles(filters);
     const [vehicleToDisapprove, setVehicleToDisapprove] = useState<string | null>(null);
     const [vehicleToReapprove, setVehicleToReapprove] = useState<string | null>(null);
     const [modalData, setModalData] = useState<{
@@ -30,45 +31,6 @@ const VehiclesArea: React.FC = () => {
         singleButton: true
     });
 
-    useEffect(() => {
-        const loadVehicles = async () => {
-            try {
-                const allVehicles = await fetchVehicles();
-                const filteredVehicles = allVehicles
-                .filter((vehicle: IVehicles) => {
-                    const stateMatch = filters.status === null || filters.status === undefined 
-                        ? true  // Si status es null, no filtra por estado
-                        : vehicle.status === filters.status; // Si status tiene un valor, filtra por ese valor
-                    
-                    return stateMatch;
-                })
-                    .sort((a: { marca: string; }, b: { marca: string; }) => {
-                        if (filters.marca === 'asc') {
-                            return a.marca.localeCompare(b.marca);
-                        } else if (filters.marca === 'desc') {
-                            return b.marca.localeCompare(a.marca);
-                        } else {
-                            return 0;
-                        }
-                    })
-                    .sort((a: { modelo: string; }, b: { modelo: string; }) => {
-                        if (filters.modelo === 'asc') {
-                            return a.modelo.localeCompare(b.modelo);
-                        } else if (filters.modelo === 'desc') {
-                            return b.modelo.localeCompare(a.modelo);
-                        } else {
-                            return 0;
-                        }
-                    });
-
-                setVehicles(filteredVehicles);
-            } catch (error) {
-                console.error("Error al cargar vehículos: ", error);
-            }
-        };
-
-        loadVehicles();
-    }, [filters]);
 
     const handleFilter = (newFilters: IVehicleFilters) => {
         setFilters(newFilters);
@@ -189,6 +151,12 @@ return (
                     <img src={stats} alt="List Icon" className='icon' />
                     <span className='view-text'>Gráficos</span>
             </button>
+            </div>
+
+            <div className='loader-banner'>
+            {loading && <p className='title text-center'>Cargando vehículos...</p>}
+            {error && <p className='error-text'>{error}</p>}
+            <div className='loader'></div>
             </div>
 
             {view === 'table' && (
