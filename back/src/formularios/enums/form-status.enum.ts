@@ -1,11 +1,11 @@
 export enum FormStatus {
     APROBADO = 'APROBADO',
-    POSPUESTO = 'POSPUESTO',
+    DESAPROBADO = 'DESAPROBADO',
     PENDIENTE = 'PENDIENTE',
 }
 
 export const FormStatusList = [
     FormStatus.APROBADO,
-    FormStatus.POSPUESTO,
+    FormStatus.DESAPROBADO,
     FormStatus.PENDIENTE,
 ]

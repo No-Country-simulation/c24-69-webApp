@@ -5,8 +5,8 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { VehiculosModule } from './vehiculos/vehiculos.module';
 import { CommonModule } from './common/common.module';
-import { UsersModule } from './users/users.module'; // Import UsersModule
 import { FormulariosModule } from './formularios/formularios.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
     imports: [
@@ -25,10 +25,12 @@ import { FormulariosModule } from './formularios/formularios.module';
             synchronize: true,
             autoLoadEntities: true,
        }),
+
+
         VehiculosModule,
         CommonModule,
-        UsersModule, // Add UsersModule
-        FormulariosModule, 
+        FormulariosModule,
+        AuthModule, 
     ],
     controllers: [AppController],
     providers: [AppService],
