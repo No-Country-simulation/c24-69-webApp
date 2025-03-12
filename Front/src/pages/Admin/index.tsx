@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import UsersArea from "../../components/Areas/Users";
+import UsersArea from "../../components/Areas/Admin/Users";
 // import VehiclesArea from "../../components/Areas/Vehicles";
 import userIcon from "../../assets/user-icon.png";
 import truckIcon from "../../assets/truck-icon.png";
-import VehiclesArea from "../../components/Areas/Vehicles";
+import VehiclesArea from "../../components/Areas/Admin/Vehicles";
 
 const AdminPage: React.FC = () => {
     // Estado para controlar qué área se muestra

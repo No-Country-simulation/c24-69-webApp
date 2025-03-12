@@ -46,6 +46,12 @@ const NavBar: React.FC = () => {
     Admin
     </Link>
     <Link
+    to="/attendant"
+    className={`nav-btn ${location.pathname === "/attendant" ? "nav-btn-active" : ""}`}
+    >
+    Encargado
+    </Link>
+    <Link
     to="/signup"
     className={`nav-btn ${location.pathname === "/signup" ? "nav-btn-active" : ""}`}
     >
@@ -76,7 +82,7 @@ const NavBar: React.FC = () => {
     <div className="md:hidden flex items-center pr-4"> {/* Agregado 'pr-4' para espaciado */}
       <button
         onClick={() => setIsMenuOpen(!isMenuOpen)}
-        className="bg-amber-400 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-500"
+        className="bg-blue-400 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-500"
       >
         {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
       </button>

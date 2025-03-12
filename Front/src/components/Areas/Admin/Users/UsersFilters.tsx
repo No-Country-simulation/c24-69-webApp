@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { IUserFilters } from '../../../types/Users/interfaceUser';
+import { IUserFilters } from '../../../../types/Users/interfaceUser';
 
 interface UserFiltersProps {
   onFilter: (filters: IUserFilters) => void;

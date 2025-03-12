@@ -1,9 +1,9 @@
-import blockIcon from "../../../assets/block-icon.png";
-import checkIcon from "../../../assets/check-icon.png";
-import { IUser, IUserFilters } from "../../../types/Users/interfaceUser";
+import blockIcon from "../../../../assets/block-icon.png";
+import checkIcon from "../../../../assets/check-icon.png";
+import { IUser, IUserFilters } from "../../../../types/Users/interfaceUser";
 import UserFilters from "./UsersFilters";
-import { usePagination } from "../../../hooks/usePagination";
-import Pagination from "../../Pagination/index";
+import { usePagination } from "../../../../hooks/usePagination";
+import Pagination from "../../../Pagination/index";
 
 interface UsersListProps {
     users: IUser[];
@@ -46,7 +46,7 @@ const UsersList: React.FC<UsersListProps> = ({ users, filters, onFilter, onDeact
                         <th className='table-head-b'>Banear Usuario</th>
                     </tr>
                 </thead>
-                <tbody className="tableBody flex flex-col gap-2">
+                <tbody className="flex flex-col gap-2">
                     {paginatedData.map(user => (
                         <tr className="flex flex-row justify-around" key={user.id}>
                             <td className='text-center w-36'>{user.nombre}</td>
