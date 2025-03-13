@@ -1,13 +1,16 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Not, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 
 import { Formulario } from './entities/formulario.entity';
 import { CreateFormularioDto } from './dto/create-formulario.dto';
 import { UpdateFormularioDto } from './dto/update-formulario.dto';
+
 import { VehiculosService } from 'src/vehiculos/vehiculos.service';
+import { AuthService } from 'src/auth/auth.service';
 
 import { PaginationDto } from 'src/common/dto/pagination.dto';
+import { FormStatus } from './enums';
 
 @Injectable()
 export class FormulariosService {
@@ -16,7 +19,9 @@ export class FormulariosService {
     @InjectRepository(Formulario)
     private readonly formularioRepository: Repository<Formulario>,
 
-    private readonly vehiculoService: VehiculosService
+    private readonly vehiculoService: VehiculosService,
+
+    private readonly authService: AuthService
   ){}
 
 
@@ -26,9 +31,12 @@ export class FormulariosService {
       // Creacion del formulario
       const patente = await this.vehiculoService.searchByPatente(createFormularioDto.patente)
 
+      const operario = await this.authService.searchByName(createFormularioDto.operario)
+
       const formulario = this.formularioRepository.create({
         ...createFormularioDto,
         patente,
+        operario
       })
       await this.formularioRepository.save(formulario)
 
@@ -95,7 +103,8 @@ export class FormulariosService {
      const formulario = await this.formularioRepository.preload({
       id,
       ...updateFormularioDto,
-      patente: { patente: updateFormularioDto.patente }
+      patente: { patente: updateFormularioDto.patente },
+      operario: { nombre: updateFormularioDto.operario }
      })
       if(!formulario) {
         throw new NotFoundException('Formulario no encontrado')
@@ -115,7 +124,21 @@ export class FormulariosService {
     }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} formulario`;
+
+  async approveForm(id: string) {
+    const form = await this.formularioRepository.update(id, { status: FormStatus.APROBADO })
+    return {
+      message: 'Formulario aprobado con éxito',
+      status: 200,
+    }
   }
+
+  async rejectForm(id: string) {
+    const form = await this.formularioRepository.update(id, { status: FormStatus.DESAPROBADO })
+    return {
+      message: 'Formulario rechazado con éxito',
+      status: 200,
+    }
+  }
+
 }

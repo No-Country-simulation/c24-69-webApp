@@ -1,11 +1,4 @@
-import { IsObject, IsOptional, IsString, Max, MaxLength, Min, MinLength, ValidateNested } from "class-validator";
-import { CargaDto } from "./secciones/seccion-carga.dto";
-import { DocumentacionDto } from "./secciones/seccion-documentacion.dto";
-import { ElementosDto } from "./secciones/seccion-elementos.dto";
-import { ExteriorDto } from "./secciones/seccion-exterior.dto";
-import { InteriorDto } from "./secciones/seccion-interior.dto";
-import { IzajeDto } from "./secciones/seccion-izaje.dto";
-import { MecanicaDto } from "./secciones/seccion-mecanica.dto";
+import { IsObject, IsOptional, IsString, MaxLength, MinLength, ValidateNested } from "class-validator";
 import { SeccionesDto } from "./secciones.dto";
 import { Type } from "class-transformer";
 
@@ -24,6 +17,11 @@ export class CreateFormularioDto {
     @IsString()
     @MinLength(1)
     patente: string;
+
+
+    @IsString()
+    @MinLength(1)
+    operario: string
 
     @IsObject()
     @ValidateNested()

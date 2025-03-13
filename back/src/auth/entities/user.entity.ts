@@ -1,8 +1,11 @@
+import { BeforeUpdate, Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import * as bcrypt from 'bcrypt'
+import { UserRoles } from "../enums";
 import { Formulario } from "src/formularios/entities/formulario.entity";
-import { BeforeInsert, BeforeUpdate, Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { ValidRoles } from "../interfaces";
 
 @Entity()
-export class Vehiculo {
+export class User {
 
     @PrimaryGeneratedColumn()
     id: number
@@ -10,33 +13,42 @@ export class Vehiculo {
     @Column({
         type: 'text',
         nullable: false,
+        unique: true,
     })
-    modelo: string
-
-    @Column({
-        type: 'text',
-        nullable: false,
-    })
-    marca: string
+    nombre: string
 
     @Column({
         type: 'text',
         nullable: false,
         unique: true,
     })
-    patente: string
+    dni: string
+
+    @Column({
+        type: 'text',
+        nullable: false,
+        unique: true,
+    })
+    email: string
 
 
     @Column({
-        type: 'boolean',
+        type: 'text',
         nullable: false,
-        default: true,
     })
-    status: boolean
+    contraseña: string
+
+    @Column({
+        type: 'text',
+        array: true,
+        default: ['operario']
+    })
+    rol: string[]
 
     @Column({
         type: 'date',
         nullable: false,
+        default: new Date()
     })
     createdAt: Date
 
@@ -46,26 +58,15 @@ export class Vehiculo {
     })
     updatedAt: Date
 
-    @Column({
-        type: 'date',
-        nullable: true,
-    })
-    checkedAt: Date
-
-
-    @OneToMany (
+    @OneToMany(
         () => Formulario,
-        ( formulario ) => formulario.patente
+        ( formulario ) => formulario.operario
     )
     formulario: Formulario
 
-    @BeforeInsert()
-    setCreatedAt(){
-        this.createdAt = new Date()
-    }
 
     @BeforeUpdate()
-    setUpdatedAt(){
+    updateTimestamp() {
         this.updatedAt = new Date()
     }
 

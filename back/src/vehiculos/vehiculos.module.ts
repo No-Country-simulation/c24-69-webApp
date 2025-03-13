@@ -4,6 +4,7 @@ import { Vehiculo } from './entities/vehiculo.entity';
 import { VehiculosService } from './vehiculos.service';
 import { VehiculosController } from './vehiculos.controller';
 import { CommonModule } from 'src/common/common.module';
+import { AuthModule } from 'src/auth/auth.module';
 
 @Module({
   imports: [
@@ -11,7 +12,9 @@ import { CommonModule } from 'src/common/common.module';
     TypeOrmModule.forFeature([Vehiculo]),
 
 
-    CommonModule
+    CommonModule,
+
+    AuthModule,
 
   ],
   controllers: [VehiculosController],

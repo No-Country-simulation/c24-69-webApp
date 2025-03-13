@@ -4,7 +4,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Formulario } from './entities/formulario.entity';
 import { FormulariosService } from './formularios.service';
 import { FormulariosController } from './formularios.controller';
+
 import { VehiculosModule } from 'src/vehiculos/vehiculos.module';
+import { AuthModule } from 'src/auth/auth.module';
 
 @Module({
   controllers: [FormulariosController],
@@ -13,7 +15,9 @@ import { VehiculosModule } from 'src/vehiculos/vehiculos.module';
 
     TypeOrmModule.forFeature([Formulario]),
 
-    VehiculosModule
+    VehiculosModule,
+
+    AuthModule
 
   ]
 })

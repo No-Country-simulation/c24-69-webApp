@@ -1,6 +1,9 @@
-import { Vehiculo } from "src/vehiculos/entities/vehiculo.entity";
 import { BeforeInsert, Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+
+import { Vehiculo } from "src/vehiculos/entities/vehiculo.entity";
 import { FormStatus } from "../enums";
+import { User } from "src/auth/entities/user.entity";
+
 @Entity()
 export class Formulario {
 
@@ -28,9 +31,15 @@ export class Formulario {
 
     @ManyToOne(
         () => Vehiculo,
-        vehiculo => vehiculo.formulario
+        ( vehiculo ) => vehiculo.formulario
     )
     patente: Vehiculo;
+
+    @ManyToOne(
+        () => User,
+        ( user ) => user.formulario
+    )
+    operario: User;
 
     @Column({
         type: 'date',
