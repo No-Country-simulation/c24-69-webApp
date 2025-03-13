@@ -139,9 +139,8 @@ background: var(--containerColor);
 }
 
 .users-banner {
-  @apply max-w-6xl h-auto flex flex-row justify-center items-center rounded-lg;
+  @apply max-w-6xl flex flex-col justify-center items-center rounded-lg;
 background: var(--containerColor);
-contain: layout paint;
 }
 
 .vehicle-card {
@@ -176,27 +175,28 @@ contain: layout paint;
   color: var(--titleColor);
 }
 
-.table-header::after {
-  @apply absolute w-[95%] h-1;
-  content: "";
-  position: absolute;
-  bottom: -2px; /* Ajusta según el grosor del borde */
-  left: 2%;
-  background: var(--textColor);
-}
-
 .table-data {
   @apply text-center relative font-["Quicksand"] text-xl font-normal;
   color: var(--textColor); 
 }
 
-.table-data::after {
+.table-data-b {
+  @apply text-center relative font-["Quicksand"] text-xl font-normal;
+  border-left: 2px solid var(--textColor);
+  color: var(--textColor); 
+}
+
+thead {
+  border-bottom: 2px solid var(--textColor);
+}
+
+/* .table-data::after {
   @apply absolute w-[90%] h-1;
   content: "";
   bottom: -2px;
   left: 5%;
   background: var(--layoutBackground);
-}
+} */
 
 /* Distribution */
 .custom-grid {

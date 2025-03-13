@@ -33,9 +33,9 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({
             </button>
           ) : (
             // Caso por defecto, mostramos ambos botones: Cancel y Confirm
-            <div className='custom-grid justify-center items-center w-full mt-4'>
+            <div className='grid grid-cols-2 gap-4 justify-center items-center w-full mt-4'>
               <button className="conf-button w-full" onClick={onConfirm}>
-                <span>Confirmar</span>
+                Confirmar
               </button>
               <button className="close-button" onClick={onCancel}>
                 Cancelar

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import ApexCharts from 'react-apexcharts';
 import { ApexOptions } from 'apexcharts';
-import { fetchUsers } from '../../../../services/fetchUsers';  // Asegúrate de importar el servicio correctamente
+import { fetchUsersGraphic } from '../../../../services/fetchUsers';  // Asegúrate de importar el servicio correctamente
 import { IUser } from '../../../../types/Users/interfaceUser';  // Asegúrate de importar la interfaz IUser
 
 const UsersPie: React.FC = () => {
@@ -12,19 +12,23 @@ const UsersPie: React.FC = () => {
             type: 'pie' as const,
         },
         labels: ['Usuarios Activos', 'Usuarios Inactivos', 'Operarios', 'Encargados'],
-        colors: ['#3f51ff', '#EE00EE', '#7e39b7', '#301048'],
+        colors: ['#01172d', '#0037B5', '#105C93', '#9bc1ff'],
         legend: {
             position: 'right',
             fontSize: '18px',
-            offsetX: 0,
-            offsetY: 50,
+            offsetX: -10,
+            offsetY: 120,
             labels: {
-                colors: '#000',
+                colors: '#fff',
                 useSeriesColors: false,
             },
             itemMargin: {
-                horizontal: 5,
-                vertical: 10,
+                horizontal: 15,
+                vertical: 25,
+            },
+            markers: {
+                size: 10,
+                offsetX: -10, // Ajusta separación entre el color y el texto
             },
         },
         responsive: [
@@ -32,7 +36,8 @@ const UsersPie: React.FC = () => {
                 breakpoint: 1024,
                 options: {
                     chart: {
-                        width: '150%',
+                        width: '100%',
+                        height: '100%'
                     },
                     legend: {
                         position: 'bottom',
@@ -50,7 +55,8 @@ const UsersPie: React.FC = () => {
                 breakpoint: 768,
                 options: {
                     chart: {
-                        width: '130%',
+                        width: '80%',
+                        height: '80%'
                     },
                     legend: {
                         position: 'bottom',
@@ -68,7 +74,8 @@ const UsersPie: React.FC = () => {
                 breakpoint: 620,
                 options: {
                     chart: {
-                        width: '110%',
+                        width: '50%',
+                        height: '50%'
                     },
                     legend: {
                         position: 'bottom',
@@ -86,7 +93,7 @@ const UsersPie: React.FC = () => {
         plotOptions: {
             pie: {
                 donut: {
-                    size: '150%',
+                    size: '100%',
                 },
             },
         },
@@ -98,7 +105,7 @@ const UsersPie: React.FC = () => {
     useEffect(() => {
         const loadUsers = async () => {
             try {
-                const userData = await fetchUsers();  // Llamamos a la función para obtener los usuarios
+                const userData = await fetchUsersGraphic();  // Llamamos a la función para obtener los usuarios
                 setUsers(userData);  // Guardamos los usuarios en el estado
             } catch (error) {
                 console.error('Error fetching users:', error);
@@ -113,8 +120,8 @@ const UsersPie: React.FC = () => {
         if (users.length > 0) {
             const activeUsers = users.filter(user => user.isActive).length;
             const inactiveUsers = users.filter(user => !user.isActive).length;
-            const operariosUsers = users.filter(user => user.rol === 'operario').length;
-            const encargadosUsers = users.filter(user => user.rol === 'encargado').length;
+            const operariosUsers = users.filter(user => user.rol === 'OPERARIO').length;
+            const encargadosUsers = users.filter(user => user.rol === 'ENCARGADO').length;
 
             setSeries([activeUsers, inactiveUsers, operariosUsers, encargadosUsers]);
         }
@@ -122,7 +129,7 @@ const UsersPie: React.FC = () => {
 
     return (
         <div className="users-banner">
-            <ApexCharts options={options} series={series} type="pie" width={550} />
+            <ApexCharts options={options} series={series} type="pie" width={800} height={800} />
         </div>
     );
 };

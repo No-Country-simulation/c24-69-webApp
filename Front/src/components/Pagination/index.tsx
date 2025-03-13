@@ -9,7 +9,7 @@ const Pagination: React.FC<PaginationProps> = ({
 }) => {
   return (
     <div className="flex justify-center items-center m-auto gap-2 mt-4">
-      <button onClick={prevPage} disabled={currentPage === 1} className="page-button">
+      <button onClick={prevPage} disabled={currentPage === 1} className="move-button">
         Prev
       </button>
       {[...Array(totalPages)].map((_, index) => (
@@ -21,7 +21,7 @@ const Pagination: React.FC<PaginationProps> = ({
           {index + 1}
         </button>
       ))}
-      <button onClick={nextPage} disabled={currentPage === totalPages} className="page-button">
+      <button onClick={nextPage} disabled={currentPage === totalPages} className="move-button">
         Next
       </button>
     </div>

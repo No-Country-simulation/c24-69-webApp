@@ -31,5 +31,5 @@ export class CreateUserDto {
     @IsEnum( UserRolesList, {
         message: `Los roles válidos son ${UserRolesList}`
     })
-    rol: ValidRoles[]
+    rol: string
 }

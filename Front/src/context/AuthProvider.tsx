@@ -13,6 +13,7 @@ interface DecodedToken {
 }
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [, setError] = useState<string | null>(null);  // Asegúrate de que error sea un string o null
   const [token, setToken] = useState<string | null>(localStorage.getItem("token"));
   const [user, setUser] = useState<DecodedToken | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -50,14 +51,21 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const register = async (nombre: string, email: string, password: string, dni: string) => {
     setIsLoading(true);
+    setError(null);  // Limpiar el error antes de un nuevo intento
     try {
+      // Verifica que todos los campos estén completos antes de enviar la solicitud
+      if (!nombre || !email || !password || !dni) {
+        setError("Por favor, completa todos los campos.");
+        return;
+      }
       const { token } = await registerService(nombre, email, password, dni);
       localStorage.setItem("token", token);
       setToken(token);
       setUser(jwtDecode(token)); // Decodificar el token después de registrar
+      console.log("Token en AuthProvider: ", token);
     } catch (error: unknown) {
-      console.error(error);
-      alert("Error en el registro");
+      console.error("Error en el registro:", error);
+      setError("Error al registrar usuario. Inténtalo de nuevo.");
     } finally {
       setIsLoading(false);
     }

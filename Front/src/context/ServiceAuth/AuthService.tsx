@@ -1,31 +1,29 @@
 import Cookies from "js-cookie";
 import {jwtDecode} from "jwt-decode";
 
-const API_URL = "https://api.example.com";
+const API_URL = "http://localhost:3000/auth";
 
 interface AuthResponse {
   token: string;
 }
 
-export const loginService = async (email: string, password: string): Promise<AuthResponse> => {
+export const loginService = async (email: string, contraseña: string): Promise<AuthResponse> => {
   const response = await fetch(`${API_URL}/login`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ email, password }),
+    body: JSON.stringify({ email, contraseña }),
   });
-
+  console.log(email, contraseña);
   if (!response.ok) throw new Error("Credenciales incorrectas");
-
-  const authHeader = response.headers.get("Authorization");
-  if (!authHeader || !authHeader.startsWith("Bearer ")) throw new Error("Token no encontrado en la respuesta");
-
-  const token = authHeader.split(" ")[1]; // Extrae el token después de "Bearer"
+  const data = await response.json();
+  const token = data.token;
 
   // 🔹 Decodificamos el token para verificarlo
   try {
     const decoded = jwtDecode(token);
     console.log("Usuario autenticado:", decoded);
-  } catch (error) {
+
+  } catch {
     throw new Error("Token inválido");
   }
 
@@ -35,24 +33,23 @@ export const loginService = async (email: string, password: string): Promise<Aut
   return { token };
 };
 
-export const registerService = async (nombre: string, email: string, password: string, dni: string): Promise<AuthResponse> => {
+export const registerService = async (nombre: string, email: string, contraseña: string, dni: string): Promise<AuthResponse> => {
+  console.log("Datos de usuario en AuthService.tsx: ", nombre, email, contraseña, dni)
   const response = await fetch(`${API_URL}/register`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ nombre, email, password, dni }),
+    body: JSON.stringify({ nombre, email, contraseña, dni }),
   });
-
+  console.log ("Response de AuthService: ", response)
   if (!response.ok) throw new Error("Error al registrar usuario");
 
   const authHeader = response.headers.get("Authorization");
-  if (!authHeader || !authHeader.startsWith("Bearer ")) throw new Error("Token no encontrado en la respuesta");
-
-  const token = authHeader.split(" ")[1];
+  const token = authHeader ? authHeader.split(" ")[1] : (await response.json()).token;
 
   // 🔹 Guardamos el token en cookies
   Cookies.set("authToken", token, { expires: 1, secure: true, sameSite: "Strict" });
-
-  return { token };
+  console.log("Token en AuthService: ", token)
+  return {token};
 };
 
 export const logoutService = async (): Promise<void> => {

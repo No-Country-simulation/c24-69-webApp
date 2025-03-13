@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import UsersList from './UsersList';
 import ConfirmModal from '../../../ConfirmModal';
 import { IUser, IUserFilters } from "../../../../types/Users/interfaceUser";
-import { banUser, fetchUsers, reactivateUser } from '../../../../services/fetchUsers';
+import { banUser , fetchUsers, reactivateUser  } from '../../../../services/fetchUsers';
 import UsersPie from './UsersPie';
 import list from "../../../../assets/list-icon.png";
 import stats from "../../../../assets/stats-icon.png";
@@ -10,11 +10,13 @@ import stats from "../../../../assets/stats-icon.png";
 // import Lottie from 'lottie-react';
 
 const UsersArea: React.FC = () => {
-    const [users, setUsers] = useState<IUser[]>([]);
+    const [users, setUsers] = useState<IUser []>([]);
     const [filters, setFilters] = useState<IUserFilters>({ nombre: 'asc', rol: '', isActive: 'all' });
-    const [loading, setLoading] = useState<boolean>(true);  // Nuevo estado de carga
-    const [error, setError] = useState<string | null>(null); // Estado de error
+    const [loading, setLoading] = useState<boolean>(true);
+    const [error, setError] = useState<string | null>(null);
     const [view, setView] = useState<"list" | "pie">("list");
+    const [currentPage, setCurrentPage] = useState<number>(1);
+    const [totalPages, setTotalPages] = useState<number>(1);
 
     const [modalData, setModalData] = useState<{
         show: boolean;
@@ -35,20 +37,20 @@ const UsersArea: React.FC = () => {
     useEffect(() => {
         const loadUsers = async () => {
             try {
-                setLoading(true);  // Establecer loading como true al iniciar la carga
-                setError(null); // Resetear cualquier error anterior
-                const allUsers = await fetchUsers();
-                setUsers(allUsers.filter((user: { rol: string; }) => user.rol !== 'admin')); // Filtra admin al cargar
+                setLoading(true);
+                setError(null);
+                const { data, meta } = await fetchUsers(currentPage); // Obtener usuarios y metadata
+                setUsers(data.filter((user: { rol: string; }) => user.rol !== 'admin'));
+                setTotalPages(meta.totalPages); // Establecer total de páginas
             } catch (error) {
                 setError("Error al cargar los usuarios. Intenta nuevamente.");
                 console.error("Error al presentar usuarios: ", error);
             } finally {
-                setLoading(false);  // Establecer loading como false después de intentar cargar los datos
+                setLoading(false);
             }
         };
-
         loadUsers();
-    }, []); 
+    }, [currentPage]); // Cargar usuarios cuando cambie la página
 
     const filteredUsers = useMemo(() => {
         return users
@@ -159,12 +161,15 @@ return (
 
         {/* Render de Vista */}
         {view === 'list' && (
-            <UsersList
+                <UsersList
                 users={filteredUsers}
                 filters={filters}
                 onFilter={setFilters}
-                onDeactivateUser={handleBanUser}
-                onReactivateUser={handleReactivateUser}
+                onDeactivateUser ={handleBanUser }
+                onReactivateUser ={handleReactivateUser }
+                currentPage={currentPage}
+                totalPages={totalPages}
+                setCurrentPage={setCurrentPage}
             />
         )}
 
@@ -180,7 +185,7 @@ return (
             title={modalData.title}
             message={modalData.message}
             onConfirm={handleModalClose}
-            singleButton={true}
+            singleButton={modalData.singleButton}
         />
     </div>
 );
