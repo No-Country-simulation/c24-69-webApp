@@ -2,7 +2,7 @@ import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/
 import { InjectRepository } from '@nestjs/typeorm';
 import { JwtService } from '@nestjs/jwt';
 
-import { Not, Repository } from 'typeorm';
+import { Like, Not, Raw, Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt'
 
 import { User } from './entities/user.entity';
@@ -115,7 +115,7 @@ export class AuthService {
     const { page = 1, limit = 10 } = paginationDto;
 
     const totalUsers = await this.userRepository.count({
-        where: { rol: Not(UserRoles.ADMIN) }
+        where: { rol: Raw(alias => `NOT ('admin' = ANY(${alias}))`) }
     });
 
     const totalPages = Math.ceil(totalUsers / limit);
@@ -123,7 +123,7 @@ export class AuthService {
     const data = await this.userRepository.find({
         skip: (page - 1) * limit,
         take: limit,
-        where: { rol: Not(UserRoles.ADMIN) }
+        where: { rol: Raw(alias => `NOT ('admin' = ANY(${alias}))`) }
     });
 
     return {
