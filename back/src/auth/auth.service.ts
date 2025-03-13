@@ -25,29 +25,37 @@ export class AuthService {
     private readonly jwtService: JwtService
    ) {} 
 
-   async register(createUserDto: CreateUserDto){
-
+   async register(createUserDto: CreateUserDto) {
     try {
         const { contraseña, ...userData } = createUserDto;
+        console.log('Contraseña en backend:', contraseña); 
+        // Verificar si la contraseña está definida
+        if (!contraseña) {
+            throw new BadRequestException('La contraseña es obligatoria');
+        }
+
+        // Generar el salt con un número de rondas (por ejemplo, 10)
+        const salt = await bcrypt.genSalt(10);
+        // Hash de la contraseña con el salt
+        const hashedPassword = await bcrypt.hash(contraseña, salt);
 
         const user = this.userRepository.create({
             ...userData,
-            contraseña: bcrypt.hashSync(contraseña, 10)
-        })
+            contraseña: hashedPassword
+        });
 
-        await this.userRepository.save(user)
+        await this.userRepository.save(user);
 
         return {
             status: 201,
-            message: 'Usuario creado con exito',
-            ...user,
+            message: 'Usuario creado con éxito',
+            user: { id: user.id, nombre: user.nombre, email: user.email },
             token: this.getJwtToken({ id: user.id })
-        }
-
+        };
     } catch (error) {
-        return this.commonService.handleDBExceptions(error)
+        return this.commonService.handleDBExceptions(error);
     }
-   }
+}
 
    async login(loginUserDto: LoginUserDto){
 
@@ -103,20 +111,20 @@ export class AuthService {
     }
    }
 
-   async findAll(paginationDto: PaginationDto){
-
+   async findAll(paginationDto: PaginationDto) {
     const { page = 1, limit = 10 } = paginationDto;
 
     const totalUsers = await this.userRepository.count({
         where: { rol: Not(UserRoles.ADMIN) }
-    })
-    const totalPages = Math.ceil(totalUsers / limit)
+    });
+
+    const totalPages = Math.ceil(totalUsers / limit);
 
     const data = await this.userRepository.find({
         skip: (page - 1) * limit,
         take: limit,
         where: { rol: Not(UserRoles.ADMIN) }
-    })
+    });
 
     return {
         data,
@@ -125,7 +133,7 @@ export class AuthService {
             totalPages,
             page
         }
-    }
+    };
 }
 
     async findOne(id: number){

@@ -64,14 +64,25 @@
 }
 
 /* Pagination Button */
-.page-button {
+.move-button {
   @apply inline-flex justify-center items-center cursor-pointer font-medium whitespace-nowrap overflow-hidden text-ellipsis leading-none no-underline border-none rounded-full px-8 font-[Poppins] w-12 h-8 text-xl;
   background: var(--linearGradient);
   color: var(--textColor);
 }
 
-.page-button:hover {
+.move-button:hover, .page-button:hover {
   background-size: 200% auto !important; 
+}
+
+.page-button {
+  @apply rounded-sm w-10 h-10 text-xl;
+  background: var(--linearGradient);
+  color: var(--titleColor)
+}
+
+.page-button-active {
+  @apply rounded-full w-10 h-10 text-xl;
+  color: var(--titleColor)
 }
 
 /* Select Button || Input */

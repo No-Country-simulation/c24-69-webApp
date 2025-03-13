@@ -40,10 +40,10 @@ export class User {
 
     @Column({
         type: 'text',
-        array: true,
-        default: ['operario']
+        nullable: false,
+        default: 'OPERARIO',
     })
-    rol: string[]
+    rol: string;
 
     @Column({
         type: 'date',

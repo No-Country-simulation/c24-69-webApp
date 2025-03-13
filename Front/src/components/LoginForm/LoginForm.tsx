@@ -1,17 +1,59 @@
 import {useState} from "react";
 import { useAuth } from "../../hooks/UseAuth";
 import InputCustom from "../InputCustom/InputCustom"
+import ConfirmModal from "../ConfirmModal";
+import { useNavigate } from "react-router-dom";
 
 
 const LoginForm: React.FC = () => {
+  const navigate = useNavigate();
     const { login, isLoading } = useAuth(); // ⬅ Usamos useAuth()
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [rememberMe, setRememberMe] = useState(false);
+
+        const [modalData, setModalData] = useState<{
+            show: boolean;
+            title: string;
+            message: string;
+            isSuccess: boolean;
+            onConfirm?: () => void;
+            onCancel?: () => void;
+            singleButton?: boolean;
+        }>({
+            show: false,
+            title: "",
+            message: "",
+            isSuccess: false,
+            singleButton: true
+        });
   
+  const handleModalClose = () => {
+  setModalData((prev) => ({ ...prev, show: false }));
+  };
+      
+
     const handleSubmit = async (e: React.FormEvent) => {
       e.preventDefault();
-      await login(email, password);
+      try {
+        await login(email, password);
+        setModalData({
+          show: true,
+          title: "Inicio de Sesión Exitoso",
+          message: "Sesión iniciada. Será redirigido a la página de inicio.",
+          isSuccess: true
+      });
+      setTimeout(() => {
+        navigate("/");
+    }, 3000);
+      }catch{
+        setModalData({
+          show: true,
+          title: "Error",
+          message: "Ha ocurrido un error al iniciar sesión. Intente nuevamente.",
+          isSuccess: false
+      });
+      }
     };
   
     return (
@@ -28,6 +70,13 @@ const LoginForm: React.FC = () => {
             {isLoading ? "Cargando..." : "Iniciar Sesión"}
           </button>
         </form>
+        <ConfirmModal
+            show={modalData.show}
+            title={modalData.title}
+            message={modalData.message}
+            onConfirm={handleModalClose}
+            singleButton={modalData.singleButton}
+        />
       </div>
     );
   };

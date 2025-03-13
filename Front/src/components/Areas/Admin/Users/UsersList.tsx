@@ -11,9 +11,13 @@ interface UsersListProps {
     onFilter: (filters: IUserFilters) => void;
     onDeactivateUser: (id: string) => void;
     onReactivateUser: (id: string) => void;
+    currentPage: number;
+    totalPages: number;
+    setCurrentPage: (page: number) => void;
 }
 
-const UsersList: React.FC<UsersListProps> = ({ users, filters, onFilter, onDeactivateUser, onReactivateUser }) => {
+const UsersList: React.FC<UsersListProps> = ({ users, filters, onFilter, onDeactivateUser , onReactivateUser , currentPage, totalPages, setCurrentPage }) => {
+    const itemsPerPage = 10;
 
     const filteredUsers = users
         .filter(user => {
@@ -30,15 +34,13 @@ const UsersList: React.FC<UsersListProps> = ({ users, filters, onFilter, onDeact
             return 0;
         });
 
-    const itemsPerPage = 10;
-    const { paginatedData, currentPage, totalPages, nextPage, prevPage, setCurrentPage } =
-        usePagination(filteredUsers, itemsPerPage);
+    const { paginatedData } = usePagination(filteredUsers, itemsPerPage);
 
     return (
         <div>
             <UserFilters onFilter={onFilter} />
             <table className='table'>
-                <thead className='table-header'>
+                <thead >
                     <tr>
                         <th className='table-head'>Nombre</th>
                         <th className='table-head-b'>Rol</th>
@@ -46,20 +48,20 @@ const UsersList: React.FC<UsersListProps> = ({ users, filters, onFilter, onDeact
                         <th className='table-head-b'>Banear Usuario</th>
                     </tr>
                 </thead>
-                <tbody className="flex flex-col gap-2">
+                <tbody>
                     {paginatedData.map(user => (
-                        <tr className="flex flex-row justify-around" key={user.id}>
-                            <td className='text-center w-36'>{user.nombre}</td>
+                        <tr key={user.id}>
+                            <td className='table-data'>{user.nombre}</td>
                             <td className='table-data-b'>{user.rol}</td>
                             <td className='table-data-b'>{user.isActive ? 'Activo' : 'Baneado'}</td>
                             <td className="table-data-b">
                                 {user.isActive ? (
-                                    <button onClick={() => onDeactivateUser(user.id)}>
-                                        <img src={blockIcon} alt="Deactivate Icon" className="h-5 w-5" />
+                                    <button onClick={() => onDeactivateUser (user.id)}>
+                                        <img src={blockIcon} alt="Deactivate Icon" className="h-14 w-14 m-auto" />
                                     </button>
                                 ) : (
-                                    <button onClick={() => onReactivateUser(user.id)}>
-                                        <img src={checkIcon} alt="Reactivate Icon" />
+                                    <button onClick={() => onReactivateUser (user.id)}>
+                                        <img src={checkIcon} alt="Reactivate Icon" className="w-14 h-14 m-auto" />
                                     </button>
                                 )}
                             </td>
@@ -70,8 +72,8 @@ const UsersList: React.FC<UsersListProps> = ({ users, filters, onFilter, onDeact
             <Pagination
                 currentPage={currentPage}
                 totalPages={totalPages}
-                nextPage={nextPage}
-                prevPage={prevPage}
+                nextPage={() => setCurrentPage(currentPage + 1)}
+                prevPage={() => setCurrentPage(currentPage - 1)}
                 setCurrentPage={setCurrentPage}
             />
         </div>
