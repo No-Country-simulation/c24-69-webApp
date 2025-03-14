@@ -1,10 +1,25 @@
-const apiUrl = "https://c24-69-webapp.onrender.com";
+const apiUrl = "http://localhost:3000";
+
+const getCookie = (name: string) => {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop()?.split(';').shift();
+    return null;
+}
 
 export const fetchUsers = async (page: number = 1, limit: number = 10) => {
+    // Obtener el token de las cookies
+    const token = getCookie("authToken"); 
+
+    if (!token) {
+        throw new Error("No se encontró el token de autenticación.");
+    }
+
     const response = await fetch(`${apiUrl}/auth?page=${page}&limit=${limit}`, {
         method: "GET",
         headers: {
             'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}` // Incluir el token en la cabecera
         }
     });
 
@@ -17,10 +32,18 @@ export const fetchUsers = async (page: number = 1, limit: number = 10) => {
 }
 
 export const fetchUsersGraphic = async (page: number = 1, limit: number = 10) => {
+    // Obtener el token de las cookies
+    const token = getCookie("authToken"); 
+
+    if (!token) {
+        throw new Error("No se encontró el token de autenticación.");
+    }
+
     const response = await fetch(`${apiUrl}/auth?page=${page}&limit=${limit}`, {
         method: "GET",
         headers: {
             'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}` // Incluir el token en la cabecera
         }
     });
 
@@ -33,10 +56,12 @@ export const fetchUsersGraphic = async (page: number = 1, limit: number = 10) =>
 }
 
 export const updateUser = async (id: string, updateData: Record<string, string>) => {
+    const token = getCookie("authToken");
     const response = await fetch(`${apiUrl}/auth/${id}`, { // Cambiamos la URL
-        method: 'PUT',
+        method: 'PATCH',
         headers: {
             'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify(updateData) // Enviar cualquier dato a actualizar
     });

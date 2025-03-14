@@ -12,7 +12,7 @@ const UsersPie: React.FC = () => {
             type: 'pie' as const,
         },
         labels: ['Usuarios Activos', 'Usuarios Inactivos', 'Operarios', 'Encargados'],
-        colors: ['#01172d', '#0037B5', '#105C93', '#9bc1ff'],
+        colors: ['#105C93', '#9bc1ff'],
         legend: {
             position: 'right',
             fontSize: '18px',
@@ -118,12 +118,10 @@ const UsersPie: React.FC = () => {
     // useEffect para actualizar la serie de datos cada vez que los usuarios cambian
     useEffect(() => {
         if (users.length > 0) {
-            const activeUsers = users.filter(user => user.isActive).length;
-            const inactiveUsers = users.filter(user => !user.isActive).length;
             const operariosUsers = users.filter(user => user.rol === 'OPERARIO').length;
             const encargadosUsers = users.filter(user => user.rol === 'ENCARGADO').length;
 
-            setSeries([activeUsers, inactiveUsers, operariosUsers, encargadosUsers]);
+            setSeries([operariosUsers, encargadosUsers]);
         }
     }, [users]);  // Dependencia de users, actualiza cuando los usuarios cambian
 

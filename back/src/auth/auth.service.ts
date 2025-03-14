@@ -75,7 +75,11 @@ export class AuthService {
             code: 200,
             message: "inicio de sesion exitoso",
             ...user,
-            token: this.getJwtToken({ id: user.id })
+            token: this.getJwtToken({
+                id: user.id,
+                nombre: user.nombre,
+                rol: user.rol,
+            })
         }
 
     } catch (error) {

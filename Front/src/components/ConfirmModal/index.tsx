@@ -30,7 +30,7 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({
         <div className='flex flex-wrap justify-center items-center w-full gap-4'>
           {singleButton ? (
             // Si es singleButton, mostramos un único botón que cierra el modal
-            <button className="close-button w-3/4 m-auto" onClick={onConfirm}>
+            <button className="close-button w-3/4 h-15 m-auto mt-4" onClick={onCancel}>
               Cerrar
             </button>
           ) : (

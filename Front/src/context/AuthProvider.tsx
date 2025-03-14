@@ -23,6 +23,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     if (token) {
       try {
         const decoded: DecodedToken = jwtDecode(token);
+        console.log("🔹 Token decodificado en AuthProvider:", decoded); // 👀 Verifica que tenga todos los datos
         if (decoded.exp * 1000 < Date.now()) {
           logout();
         } else {

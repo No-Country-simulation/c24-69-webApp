@@ -39,10 +39,16 @@ const UsersArea: React.FC = () => {
         const loadUsers = async () => {
             try {
                 setLoading(true);
-                setError(null);
+                setError(null);  // Limpiar el error cuando cargamos datos
                 const { data, meta } = await fetchUsers(currentPage); // Obtener usuarios y metadata
-                setUsers(data.filter((user: { rol: string; }) => user.rol !== 'admin'));
-                setTotalPages(meta.totalPages); // Establecer total de páginas
+    
+                if (data.length === 0) {
+                    // Si no hay usuarios, mostrar el error
+                    setError("No se encontraron usuarios. Asegúrate de que haya usuarios disponibles.");
+                } else {
+                    setUsers(data.filter((user: { rol: string; }) => user.rol !== 'admin'));
+                    setTotalPages(meta.totalPages); // Establecer total de páginas
+                }
             } catch (error) {
                 setError("Error al cargar los usuarios. Intenta nuevamente.");
                 console.error("Error al presentar usuarios: ", error);
@@ -50,6 +56,7 @@ const UsersArea: React.FC = () => {
                 setLoading(false);
             }
         };
+    
         loadUsers();
     }, [currentPage]); // Cargar usuarios cuando cambie la página
 

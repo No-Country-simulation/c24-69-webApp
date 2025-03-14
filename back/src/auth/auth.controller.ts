@@ -50,7 +50,6 @@ export class AuthController {
   }
 
   @Patch(':id')
-  @Auth(ValidRoles.admin)
   @ApiOperation({ summary: 'Actualiza un usuario por id' })
   @ApiResponse({ status: 200, description: 'Usuario actualizado', type: User })
   @ApiResponse({ status: 400, description: 'Error en los datos enviados' })
