@@ -37,12 +37,22 @@ export class FormulariosController {
 
   @Get(':id')
   @Auth()
+  @ApiOperation({ summary: 'Devuelve un formulario por su id' })
+  @ApiResponse({ status: 200, description: 'Formulario encontrado', type: Formulario })
+  @ApiResponse({ status: 404, description: 'Formulario no encontrado' })
+  @ApiResponse({ status: 401, description: 'Necesita estar autenticado para ingresar a esta ruta' })
   findOne(@Param('id') id: string) {
     return this.formulariosService.findOne(id);
   }
 
   @Patch(':id')
   @Auth(ValidRoles.operario, ValidRoles.encargado)
+  @ApiOperation({ summary: 'Actualiza un formulario por id' })
+  @ApiResponse({ status: 200, description: 'Formulario actualizado', type: Formulario })
+  @ApiResponse({ status: 400, description: 'Error en los datos enviados' })
+  @ApiResponse({ status: 401, description: 'Necesita estar autenticado para ingresar a esta ruta' })
+  @ApiResponse({ status: 403, description: 'Necesita un rol valido(operario, encargado) para ingresar a esta ruta' })
+  @ApiResponse({ status: 404, description: 'Formulario no encontrado' })
   update(
     @Param('id') id: string,
     @Body() updateFormularioDto: UpdateFormularioDto
@@ -52,12 +62,16 @@ export class FormulariosController {
 
   @Patch(':id/aprobarForm')
   @Auth(ValidRoles.encargado)
+  @ApiOperation({ summary: 'Aprueba un formulario por id' })
+  @ApiResponse({ status: 200, description: 'Formulario aprobado' })
   approveForm(@Param('id') id: string) {
     return this.formulariosService.approveForm(id);
   }
 
   @Patch(':id/rechazarForm')
   @Auth(ValidRoles.encargado)
+  @ApiOperation({ summary: 'Rechaza un formulario por id' })
+  @ApiResponse({ status: 200, description: 'Formulario rechazado'})
   rejectForm(@Param('id') id: string) {
     return this.formulariosService.rejectForm(id);
   }
