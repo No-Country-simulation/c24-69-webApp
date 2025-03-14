@@ -1,3 +1,5 @@
+import Cookies from "js-cookie";
+
 const apiUrl = "https://c24-69-webapp.onrender.com";
 
 export const fetchVehicles = async () => {
@@ -5,7 +7,7 @@ export const fetchVehicles = async () => {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
-            "authorization": `Bearer ${localStorage.getItem("token")}`,
+            "authorization": `Bearer ${Cookies.get("authToken")}`,
         },
     });
 
