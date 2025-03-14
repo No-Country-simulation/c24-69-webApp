@@ -3,9 +3,9 @@ import 'swiper/swiper-bundle.css'; // Necesario para los estilos de Swiper
 import { IVehicles } from "../../../../types/Vehicles/interfaceVehicle";
 import { IForm } from "../../../../types/Forms/interfaceForms";
 import { useState } from "react";
-import MultiStepForm from "../../../MultiStepForm/MultiStepForm";
 import { updateFormStatus } from "../../../../services/fetchForms";
 import ConfirmModal from "../../../ConfirmModal";
+import VehiclesForm from '../../../VehicleForm/VehicleForm';
 
 interface FormsCheckProps {
     forms: IForm[];
@@ -131,9 +131,15 @@ return (
       return (
         <SwiperSlide key={form.id}>
           <div className="vehicle-card" onClick={() => setSelectedForm(form)}>
-            <h3>{vehicle?.marca}</h3>
-            <h3>{vehicle?.modelo}</h3>
-            <p>Patente: {vehicle?.patente}</p>
+          {vehicle ? (
+            <>
+              <h3>{vehicle.marca}</h3>
+              <h3>{vehicle.modelo}</h3>
+              <p>Patente: {vehicle.patente}</p>
+            </>
+            ) : (
+              <p>Vehículo no encontrado</p>
+            )}
           </div>
         </SwiperSlide>
       );
@@ -142,19 +148,19 @@ return (
 
   {/* Mostrar formulario si hay uno seleccionado */}
   {selectedForm && (
-    <MultiStepForm
+    <VehiclesForm
       form={selectedForm}
-      onApprove={() => confirmApprove(selectedForm.id)}
-      onDisapprove={() => confirmDisapprove(selectedForm.id)}
+      onApprove={() => confirmApprove(selectedForm?.id)}
+      onDisapprove={() => confirmDisapprove(selectedForm?.id)}
     />
-  )}
+)}
 </div>
 
     <ConfirmModal
       show={modalData.show}
       title={modalData.title}
       message={modalData.message}
-      onConfirm={handleModalClose}
+      onConfirm={modalData.onConfirm || handleModalClose}
       singleButton={true}
       />
     </section>
