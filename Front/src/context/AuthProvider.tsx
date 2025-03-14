@@ -41,6 +41,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     try {
       const { token } = await loginService(email, password);
       Cookies.set("authToken", token, { expires: 1, secure: true, sameSite: "Strict" });
+
       setToken(token);
       setUser(jwtDecode(token));
     } catch (error: unknown) {
@@ -61,6 +62,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       }
       const { token } = await registerService(nombre, email, password, dni);
       Cookies.set("authToken", token, { expires: 1, secure: true, sameSite: "Strict" });
+
       setToken(token);
       setUser(jwtDecode(token));
     } catch (error: unknown) {

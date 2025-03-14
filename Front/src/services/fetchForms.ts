@@ -1,3 +1,5 @@
+import Cookies from "js-cookie";
+
 const apiUrl = "https://c24-69-webapp.onrender.com";
 
 export const fetchForms = async (page = 1, limit = 10) => {
@@ -43,7 +45,7 @@ export const sendForm = async (formData: {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "authorization": `Bearer ${localStorage.getItem("token")}`,
+        "authorization": `Bearer ${Cookies.get("authToken")}`,
       },
       body: JSON.stringify(formData),
     });

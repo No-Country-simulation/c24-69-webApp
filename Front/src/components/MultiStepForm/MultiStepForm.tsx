@@ -6,7 +6,6 @@ import { IVehicles } from "../../types/Vehicles/interfaceVehicle";
 import { fetchVehicles } from "../../services/fetchVehicles";
 import { sendForm } from "../../services/fetchForms";
 import ConfirmModal from "../ConfirmModal";
-// import { IForm } from "../../types/Forms/interfaceForms";
 
 const questionsPerStep: string[][] = [
   ["¿Revisaste el nivel de agua?", "¿Notaste fugas?", "¿Las válvulas funcionan correctamente?"],
@@ -17,12 +16,6 @@ const questionsPerStep: string[][] = [
   ["¿El acceso a la cisterna está despejado?", "¿Las medidas de seguridad están en su lugar?"],
   ["¿Está lista la cisterna para salir de mantenimiento?", "¿Hay alguna observación adicional?"],
 ];
-
-// interface MultiStepFormProps {
-//   form: IForm;
-//   onApprove: () => void;
-//   onDisapprove: () => void;
-// }
 
 const MultiStepForm: React.FC = () => {  
   const { currentStep, setCurrentStep, answers } = useFormContext();
