@@ -1,84 +1,100 @@
+import { useMemo, useState } from "react";
 import { IUser, IUserFilters } from "../../../../types/Users/interfaceUser";
+import Pagination from "../../../Pagination";
 import UserFilters from "./UsersFilters";
-import { usePagination } from "../../../../hooks/usePagination";
-import Pagination from "../../../Pagination/index";
 import confirmIcon from "../../../../assets/check-icon.png";
-import { useState } from "react";
 
 interface UsersListProps {
     users: IUser[];
     filters: IUserFilters;
-    onFilter: (filters: IUserFilters) => void;
-    changeRole: (userId: string, userRol: string) => void;
+    onFilter: React.Dispatch<React.SetStateAction<IUserFilters>>;
+    changeRole: (id: number, rol: string) => void;  // id ahora es number
     currentPage: number;
     totalPages: number;
-    setCurrentPage: (page: number) => void;
+    setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
 }
 
 const UsersList: React.FC<UsersListProps> = ({ users, filters, onFilter, changeRole, currentPage, totalPages, setCurrentPage }) => {
-    const [newRole, setNewRole] = useState<string>('');
-    const itemsPerPage = 10;
+    const { sortOrder, rol } = filters; // Desestructurando el filtro actual
+    const [selectedRole, setSelectedRole] = useState<{ [key: number]: string }>({});
+    
+    // Filtrar y ordenar usuarios de forma optimizada
+    const filteredUsers = useMemo(() => {
+        let filtered = [...users];
 
-    const filteredUsers = users
-        .filter(user => {
-            const roleMatch = filters.rol === '' || user.rol === filters.rol;
-            return roleMatch;
-        })
-        .sort((a, b) => {
-            if (filters.nombre === 'asc') {
-                return a.nombre.localeCompare(b.nombre);
-            } else if (filters.nombre === 'desc') {
-                return b.nombre.localeCompare(a.nombre);
-            }
-            return 0;
-        });
+        // Filtrar por rol
+        if (rol) {
+            filtered = filtered.filter(user => user.rol.includes(rol));
+        }
 
-    const { paginatedData } = usePagination(filteredUsers, itemsPerPage);
+        // Ordenar por nombre
+        return filtered.sort((a, b) => 
+            sortOrder === "asc" 
+                ? a.nombre.localeCompare(b.nombre)
+                : b.nombre.localeCompare(a.nombre)
+        );
+    }, [users, rol, sortOrder]);
+
+    const handleSelectChange = (userId: number, newRole: string) => {
+        setSelectedRole(prev => ({ ...prev, [userId]: newRole })); // Guarda el nuevo rol en el estado
+    };
+
+    const handleRoleChange = (userId: number, newRole: string) => {
+        console.log(`Cambiando rol de usuario ${userId} a ${newRole}`);
+        changeRole(userId, newRole);
+    };
 
     return (
-        <div>
-            <UserFilters onFilter={onFilter} />
-            <table className='table'>
-                <thead >
+        <section>
+            <UserFilters onFilter={onFilter} resetPage={() => setCurrentPage(1)} />
+            
+            {/* Tabla de Usuarios */}
+            <div>
+            <table className="table">
+                <thead>
                     <tr>
-                        <th className='table-head'>Nombre</th>
-                        <th className='table-head-b'>Rol</th>
-                        <th className='table-head-b'>Asignar Rol</th>
+                        <th className="table-head">Nombre</th>
+                        <th className="table-head-b">Rol</th>
+                        <th className="table-head-b">Cambiar Rol</th>
+                        <th className="table-head-b">Confirmar</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {paginatedData.map(user => (
-                        <tr key={user.id}>
-                            <td className='table-data'>{user.nombre}</td>
-                            <td className='table-data-b'>{user.rol}</td>
-                            <td className="table-data-input">
-                        <select 
-                            name="rol" 
-                            defaultValue={user.rol} 
-                            className='select-input' 
-                            onChange={(e) => setNewRole(e.target.value)} // Guarda el nuevo rol seleccionado
-                        >
-                            <option value="">Seleccionar Rol</option>
-                            <option value="operario">Operario</option>
-                            <option value="encargado">Encargado</option>
-                        </select>
-                        <button type="submit" onClick={() => changeRole(user.id, newRole)} className="conf-button w-3/4 m-auto">
-                            <img src={confirmIcon} alt="Confirm Icon" className="icon" />
-                            Confirmar
+                {filteredUsers.map(user => (
+                    <tr key={user.id}>
+                        <td className="table-data">{user.nombre}</td>
+                        <td className="table-data-b">{user.rol}</td>
+                        <td className="table-data-b">
+                            <select
+                                className="select-input"
+                                value={selectedRole[user.id] || user.rol} 
+                                onChange={(e) => handleSelectChange(user.id, e.target.value)}
+                            >
+                                <option value="">Selecciona un Rol</option>
+                                <option value="encargado">Encargado</option>
+                                <option value="operario">Operario</option>
+                            </select>
+                        </td>
+                        <td className="table-data-b">
+                        <button onClick={() => handleRoleChange(user.id, selectedRole[user.id] || user.rol[0])}>
+                            <img src={confirmIcon} alt="Confirmar" />
                         </button>
-                    </td>
-                        </tr>
-                    ))}
-                </tbody>
+                        </td>
+                    </tr>
+                ))}
+            </tbody>
             </table>
+            </div>
+
+            {/* Paginación */}
             <Pagination
                 currentPage={currentPage}
                 totalPages={totalPages}
-                nextPage={() => setCurrentPage(currentPage + 1)}
-                prevPage={() => setCurrentPage(currentPage - 1)}
+                nextPage={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                prevPage={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
                 setCurrentPage={setCurrentPage}
             />
-        </div>
+        </section>
     );
 };
 

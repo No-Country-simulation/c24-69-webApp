@@ -52,7 +52,7 @@ const LoginForm: React.FC = () => {
     setModalData({
       show: true,
       title: "Error",
-      message: (error as Error).message || "Ha ocurrido un error al iniciar sesión. Intente nuevamente.",
+      message: "Ha ocurrido un error al iniciar sesión. Intente nuevamente.",
       isSuccess: false,
       singleButton: true
     });
@@ -60,16 +60,16 @@ const LoginForm: React.FC = () => {
 };
   
     return (
-      <div className="max-w-md mx-auto mt-10 p-6 special-border rounded-lg shadow-xl">
-        <h2 className="text-2xl font-bold mb-4">Iniciar Sesión</h2>
+      <div className="max-w-md mx-auto special-border rounded-lg shadow-xl">
+        <h2 className="title text-center font-bold m-4">Iniciar Sesión</h2>
         <form className="text-sm" onSubmit={handleSubmit}>
           <InputCustom label="Correo Electrónico" type="email" value={email} onChange={setEmail} placeholder="Ingresa tu email" />
           <InputCustom label="Contraseña" type="password" value={password} onChange={setPassword} placeholder="Ingresa tu contraseña" />
           
           {/* Checkbox de Recordarme */}
-          <InputCustom customStyle="custom-checkbox" label="Recordarme" type="checkbox" value="rememberMe" checked={rememberMe} onChange={() => setRememberMe(!rememberMe)} />
+          <InputCustom label="Recordarme" type="checkbox" value="rememberMe" checked={rememberMe} onChange={() => setRememberMe(!rememberMe)} />
   
-          <button type="submit" disabled={isLoading} className="filter-button-form w-full flex justify-center ">
+          <button type="submit" disabled={isLoading} className="filter-button-form w-full flex justify-center mt-4">
             {isLoading ? "Cargando..." : "Iniciar Sesión"}
           </button>
         </form>
@@ -78,6 +78,7 @@ const LoginForm: React.FC = () => {
             title={modalData.title}
             message={modalData.message}
             onConfirm={handleModalClose}
+            onCancel={handleModalClose}
             singleButton={modalData.singleButton}
         />
       </div>

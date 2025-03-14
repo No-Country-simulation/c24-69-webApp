@@ -44,7 +44,7 @@
   50% { transform: scale(1.1); } /* Aumenta un 20% */
   100% { transform: scale(1); }
 }
-.filter-button:hover, .cancel-button:hover, .cancel-button:hover {
+.filter-button:hover, .close-button:hover, .cancel-button:hover {
   background-size: 400% auto !important; 
 }
 .filter-button:hover img, .conf-button:hover img, .cancel-button:hover img{
@@ -53,20 +53,10 @@
 
 /* Nav Button */
 .nav-btn {
-  border: none;
+  @apply w-[12rem] h-auto p-4 border-0 rounded-3xl flex items-center justify-center font-["Quicksand"] font-bold;
   color: var(--textColor);
   background-image: var(--linearGradient);
-  border-radius: 1.2rem;
   background-size: 100% auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: 'Quicksand', serif;
-  font-weight: bold;
-  width: 8rem;
-  height: auto;
-  padding: 1rem;
-  text-wrap: nowrap;
  }
  
  .nav-btn:hover {
