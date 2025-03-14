@@ -22,6 +22,7 @@ export const fetchVehicles = async () => {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
+            "authorization": `Bearer ${localStorage.getItem("token")}`,
         },
     });
 
@@ -30,6 +31,7 @@ export const fetchVehicles = async () => {
     }
 
     const { data } = await response.json(); // Extraer solo `data`
+    console.log("Este es la data del vehicles", data);
     return data; // Devolver solo la lista de vehículos
 };
 
