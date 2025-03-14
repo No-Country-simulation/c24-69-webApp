@@ -5,7 +5,7 @@ import { IForm } from "../../../../types/Forms/interfaceForms";
 import { useState } from "react";
 import { updateFormStatus } from "../../../../services/fetchForms";
 import ConfirmModal from "../../../ConfirmModal";
-import VehiclesForm from '../../../VehiclesForm/VehiclesForm';
+import VehiclesForm from '../../../VehicleForm/VehicleForm';
 
 interface FormsCheckProps {
     forms: IForm[];
