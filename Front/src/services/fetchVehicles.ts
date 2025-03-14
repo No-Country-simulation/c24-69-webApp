@@ -1,10 +1,11 @@
-const apiUrl = "http://localhost:3000";
+const apiUrl = "https://c24-69-webapp.onrender.com";
 
 export const fetchVehicles = async () => {
-    const response = await fetch(`${apiUrl}/vehicles`, {
+    const response = await fetch(`${apiUrl}/vehiculos`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
+            "authorization": `Bearer ${localStorage.getItem("token")}`,
         },
     });
 
@@ -13,6 +14,7 @@ export const fetchVehicles = async () => {
     }
 
     const { data } = await response.json(); // Extraer solo `data`
+    console.log("Este es la data del vehicles", data);
     return data; // Devolver solo la lista de vehículos
 };
 

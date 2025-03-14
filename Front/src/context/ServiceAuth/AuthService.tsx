@@ -1,7 +1,7 @@
 import Cookies from "js-cookie";
 import {jwtDecode} from "jwt-decode";
 
-const API_URL = "http://localhost:3000/auth";
+const API_URL = "https://c24-69-webapp.onrender.com/auth";
 
 interface AuthResponse {
   token: string;
@@ -16,11 +16,13 @@ export const loginService = async (email: string, contraseña: string): Promise<
   console.log(email, contraseña);
   if (!response.ok) throw new Error("Credenciales incorrectas");
   const data = await response.json();
-  const token = data.token;
+  console.log("Data de login: ", data);
+  const token  = data.token;
 
   // 🔹 Decodificamos el token para verificarlo
   try {
     const decoded = jwtDecode(token);
+
     console.log("Usuario autenticado:", decoded);
 
   } catch {
