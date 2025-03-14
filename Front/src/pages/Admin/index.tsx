@@ -11,9 +11,9 @@ const AdminPage: React.FC = () => {
     const [activeArea, setActiveArea] = useState<'users' | 'vehicles'>('users'); 
 
     return (
-        <div className="flex flex-col items-center gap-5">
+        <div className="flex flex-col items-center">
             {/* Botones para cambiar entre áreas */}
-            <div className="filters-container flex gap-4">
+            <div className="filters-container flex gap-x-4">
                 <button 
                     className={`filter-button ${activeArea === 'users' ? 'filter-button-active' : ''}`} 
                     onClick={() => setActiveArea('users')}

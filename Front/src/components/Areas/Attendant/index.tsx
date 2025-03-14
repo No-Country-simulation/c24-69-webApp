@@ -2,14 +2,17 @@ import { AnimatePresence, motion } from "framer-motion";
 import FormCheck from "./FormCheck/FormCheck"
 import VehiclesList from "../Admin/Vehicles/VehiclesList";
 import listIcon from "../../../assets/list-icon.png";
-import vehicleIcon from "../../../assets/truck-icon.png";
+import formIcon from "../../../assets/form-icon.png";
 import { useEffect, useState } from "react";
 import { IVehicleFilters, IVehicles } from "../../../types/Vehicles/interfaceVehicle";
 import { fetchVehicles } from "../../../services/fetchVehicles";
 
 const AttendantArea: React.FC = () => {
     const [vehicles, setVehicles] = useState<IVehicles[]>([]);
+    const [error, setError] = useState<string | null>(null);
     const [filters, setFilters] = useState<IVehicleFilters>({marca: '', modelo: '', patente: '', status: null });
+    const [loading, setLoading] = useState<boolean>(true);
+    
     const handleFilter = (newFilters: IVehicleFilters) => {
     setFilters(newFilters);
     };
@@ -17,6 +20,8 @@ const AttendantArea: React.FC = () => {
         useEffect(() => {
             const loadVehicles = async () => {
                 try {
+                    setLoading(true);
+                    setError(null);
                     const allVehicles = await fetchVehicles();
                     const filteredVehicles = allVehicles
                     .filter((vehicle: IVehicles) => {
@@ -47,6 +52,7 @@ const AttendantArea: React.FC = () => {
     
                     setVehicles(filteredVehicles);
                 } catch (error) {
+                    setError("Error al cargar los vehículos. Intenta nuevamente.");
                     console.error("Error al cargar vehículos: ", error);
                 }
             };
@@ -57,27 +63,50 @@ const AttendantArea: React.FC = () => {
     const [activeArea, setActiveArea] = useState<'forms' | 'vehicles'>('forms'); 
 
 return(
-    <section>
-    <div className="flex flex-col items-center gap-5">
-        {/* Botones para cambiar entre áreas */}
-        <div className="filters-container flex gap-4">
-        <button
-            className={`view-button ${activeArea === "forms" && "view-button-active"}`}
-            onClick={() => setActiveArea('forms')}
-            >
-            <span className="bg-span"></span> {/* Aquí está el span que controla el fondo */}
-            <img src={listIcon} alt="Forms Icon" className='icon' />
-            <span className='view-text'>Formularios</span>
+    <section className="area-section">
+        {/* Botones de Vista */}
+        <div className="filters-container">
+        <button 
+    className={`view-button ${(() => {
+        return activeArea === 'forms' ? 'view-button-active' : '';
+    })()}`} 
+    onClick={() => setActiveArea('forms')}
+>
+                <span className="bg-span"></span>
+                <img src={formIcon} alt="Form Icon" className='icon' />
+                <span className='view-text'>Formularios</span>
             </button>
-            <button className={`view-button ${activeArea === "vehicles" && "view-button-active"}`} onClick={() => setActiveArea('vehicles')}>
-                    <span className="bg-span"></span>
-                    <img src={vehicleIcon} alt="List Icon" className='icon' />
-                    <span className='view-text'>Vehículos</span>
+            <button 
+    className={`view-button ${(() => {
+        return activeArea === 'vehicles' ? 'view-button-active' : '';
+    })()}`} 
+    onClick={() => setActiveArea('vehicles')}
+>
+                <span className="bg-span"></span>
+                <img src={listIcon} alt="List Icon" className='icon'/>
+                <span className='view-text'>Lista</span>
             </button>
-        </div>
+</div>
+
+        <AnimatePresence>
+    {(loading || error) && (
+        <motion.div
+            key="loader"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.9 }} // 🔥 Se oculta antes de ser eliminado del DOM
+            transition={{ duration: 0.3 }}
+            className="loader-banner"
+        >
+            {loading && <p className='title text-center mb-4'>Cargando vehículos...</p>}
+            {error && <p className='error-text'>{error}</p>}
+            <div className='loader'></div>
+        </motion.div>
+    )}
+</AnimatePresence>
 
         {/* Contenedor con animación */}
-        <section className="flex justify-center w-full max-w-6xl h-full overflow-hidden">
+        <div className="flex justify-center w-full max-w-6xl h-full overflow-hidden">
             <AnimatePresence mode="wait">
                 {activeArea === "forms" && (
                     <motion.div
@@ -116,7 +145,6 @@ return(
                     </motion.div>
                 )}
             </AnimatePresence>
-    </section>
     </div>
     </section>
     );

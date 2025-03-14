@@ -1,7 +1,7 @@
 import Cookies from "js-cookie";
-import {jwtDecode} from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 
-const API_URL = "http://localhost:3000/auth";
+const API_URL = "https://c24-69-webapp.onrender.com";
 
 interface AuthResponse {
   token: string;
@@ -13,16 +13,17 @@ export const loginService = async (email: string, contraseña: string): Promise<
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ email, contraseña }),
   });
-  console.log(email, contraseña);
-  if (!response.ok) throw new Error("Credenciales incorrectas");
+
+  if (!response.ok) {
+    throw new Error(`Error ${response.status}: Credenciales incorrectas`);
+  }
+
   const data = await response.json();
   const token = data.token;
 
-  // 🔹 Decodificamos el token para verificarlo
   try {
     const decoded = jwtDecode(token);
     console.log("Usuario autenticado:", decoded);
-
   } catch {
     throw new Error("Token inválido");
   }
@@ -34,22 +35,21 @@ export const loginService = async (email: string, contraseña: string): Promise<
 };
 
 export const registerService = async (nombre: string, email: string, contraseña: string, dni: string): Promise<AuthResponse> => {
-  console.log("Datos de usuario en AuthService.tsx: ", nombre, email, contraseña, dni)
   const response = await fetch(`${API_URL}/register`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ nombre, email, contraseña, dni }),
   });
-  console.log ("Response de AuthService: ", response)
+
   if (!response.ok) throw new Error("Error al registrar usuario");
 
-  const authHeader = response.headers.get("Authorization");
-  const token = authHeader ? authHeader.split(" ")[1] : (await response.json()).token;
+  const data = await response.json();
+  const token = data.token;
 
   // 🔹 Guardamos el token en cookies
   Cookies.set("authToken", token, { expires: 1, secure: true, sameSite: "Strict" });
-  console.log("Token en AuthService: ", token)
-  return {token};
+
+  return { token };
 };
 
 export const logoutService = async (): Promise<void> => {

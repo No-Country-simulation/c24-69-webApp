@@ -9,12 +9,15 @@ import VehiclesStats from './VehiclesStats';
 import list from "../../../../assets/list-icon.png";
 import stats from "../../../../assets/stats-icon.png";
 import useVehicles from '../../../../hooks/useVehicles';
+import { AnimatePresence, motion } from 'framer-motion';
 
 const VehiclesArea: React.FC = () => {
     const [filters, setFilters] = useState<IVehicleFilters>({marca: '', modelo: '', patente: '', status: null });
     const { vehicles, loading, error } = useVehicles(filters);
     const [vehicleToDisapprove, setVehicleToDisapprove] = useState<string | null>(null);
     const [vehicleToReapprove, setVehicleToReapprove] = useState<string | null>(null);
+    const [activeArea, setActiveArea] = useState<'list' | 'stats'>('list'); 
+
     const [modalData, setModalData] = useState<{
         show: boolean;
         title: string;
@@ -49,6 +52,7 @@ const VehiclesArea: React.FC = () => {
             isSuccess: false,
             singleButton: false,
             onConfirm: confirmDisapproveVehicle,
+            onCancel: handleModalClose,
         });
     };
 
@@ -80,10 +84,11 @@ const VehiclesArea: React.FC = () => {
         setModalData({
             show: true,
             title: "Reactivar Vehículo",
-            message: "Reactivación de Vehículo exitosa.",
+            message: "¿Estás seguro de querer aprobar el vehículo?",
             isSuccess: false,
             singleButton: false,
             onConfirm: confirmReapproveVehicle,
+            onCancel: handleModalClose,
         });
     };
 
@@ -109,58 +114,59 @@ const VehiclesArea: React.FC = () => {
         }
     };
 
-    const [view, setView] = useState<string>('table');
-
-    const handleChangeView = (view: string) => {
-        setView(view);
-    };
-
-    // if (vehicles.length === 0) {
-    //     return (
-    //         <div className='banner-container'>
-    //             <div className='banner-child-container'>
-    //                 <div className='text-banner-area'>
-    //                     <h1 className='title text-center'>¡Algo salió mal!</h1>
-    //                     <p className='text-active text-center'>No hay vehículos registrados o activos aún...</p>
-    //                 </div>
-    //                 <div>
-    //                     <Lottie 
-    //                         animationData={animation} 
-    //                         loop 
-    //                         className="animation-404" 
-    //                     />            
-    //                 </div>
-    //             </div>
-    //         </div>
-    //     );
-    // }
-
 return (
-    <div>
-        <div className="flex flex-row justify-center gap-4 mb-4">
-            <button
-            className={`view-button ${view === "table" && "view-button-active"}`}
-            onClick={() => handleChangeView('table')}
-            >
-            <span className="bg-span"></span> {/* Aquí está el span que controla el fondo */}
-            <img src={list} alt="List Icon" className='icon' />
-            <span className='view-text'>Lista</span>
+    <section className="area-section">
+        {/* Botones de Vista */}
+        <div className="filters-container">
+        <button 
+    className={`view-button ${(() => {
+        return activeArea === 'list' ? 'view-button-active' : '';
+    })()}`} 
+    onClick={() => setActiveArea('list')}
+>
+                <span className="bg-span"></span>
+                <img src={list} alt="List Icon" className='icon' />
+                <span className='view-text'>Lista</span>
             </button>
-            <button className={`view-button ${view === "stats" && "view-button-active"}`} onClick={() => handleChangeView('stats')}>
-                    <span className="bg-span"></span>
-                    <img src={stats} alt="List Icon" className='icon' />
-                    <span className='view-text'>Gráficos</span>
+            <button 
+    className={`view-button ${(() => {
+        return activeArea === 'stats' ? 'view-button-active' : '';
+    })()}`} 
+    onClick={() => setActiveArea('stats')}
+>
+                <span className="bg-span"></span>
+                <img src={stats} alt="Stats Icon" className='icon'/>
+                <span className='view-text'>Gráficos</span>
             </button>
-            </div>
+</div>
 
-            <div className='loader-banner'>
-            {loading && <p className='title text-center'>Cargando vehículos...</p>}
+<AnimatePresence>
+    {(loading || error) && (
+        <motion.div
+            key="loader"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.9 }} // 🔥 Se oculta antes de ser eliminado del DOM
+            transition={{ duration: 0.3 }}
+            className="loader-banner"
+        >
+            {loading && <p className='title text-center mb-4'>Cargando vehículos...</p>}
             {error && <p className='error-text'>{error}</p>}
             <div className='loader'></div>
-            </div>
+        </motion.div>
+    )}
+</AnimatePresence>
 
-            {view === 'table' && (
-                <div className='max-w-6xl m-auto px-4'>
+<AnimatePresence mode="wait">
+    {activeArea === "list" && (
+        <motion.div
+            key="list"
+            initial={{ x: -100, opacity: 0 }} // Aparece desde la izquierda
+            animate={{ x: 0, opacity: 1 }}
+            exit={{ x: 100, opacity: 0 }} // Desaparece hacia la derecha
+            transition={{ duration: 0.5 }}
+            className="max-w-6xl m-auto px-4"
+        >
                     <VehiclesList
                         vehicles={vehicles}
                         filters={filters}
@@ -168,23 +174,33 @@ return (
                         onDisapproveVehicle={handleDisapproveVehicle}
                         onReapproveVehicle={handleReapproveVehicle}
                     />
-                </div>
-            )}
+        </motion.div>
+    )}
 
-            {view === 'stats' && (
-                <div className='col-span-3'>
+
+    {activeArea === "stats" && (
+        <motion.div
+            key="stats"
+            initial={{ x: 100, opacity: 0 }} // Aparece desde la derecha
+            animate={{ x: 0, opacity: 1 }}
+            exit={{ x: -100, opacity: 0 }} // Desaparece hacia la izquierda
+            transition={{ duration: 0.5 }}
+            className="max-w-6xl m-auto"
+        >
                     <VehiclesStats vehicles={vehicles} filters={filters} />  {/* Agregado el componente de estadísticas */}
-                </div>
-            )}
+        </motion.div>
+    )}
+</AnimatePresence>
 
             <ConfirmModal
                 show={modalData.show}
                 title={modalData.title}
                 message={modalData.message}
                 onConfirm={handleModalClose}
+                onCancel={handleModalClose}
                 singleButton={true}
             />
-        </div>
+        </section>
     );
 };
 

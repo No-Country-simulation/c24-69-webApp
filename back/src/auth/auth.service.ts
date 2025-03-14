@@ -28,12 +28,10 @@ export class AuthService {
    async register(createUserDto: CreateUserDto) {
     try {
         const { contraseña, ...userData } = createUserDto;
-        console.log('Contraseña en backend:', contraseña); 
         // Verificar si la contraseña está definida
         if (!contraseña) {
             throw new BadRequestException('La contraseña es obligatoria');
         }
-
         // Generar el salt con un número de rondas (por ejemplo, 10)
         const salt = await bcrypt.genSalt(10);
         // Hash de la contraseña con el salt

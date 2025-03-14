@@ -1,4 +1,4 @@
-const apiUrl = "http://localhost:3000";
+const apiUrl = "https://c24-69-webapp.onrender.com";
 
 export const fetchForms = async (page = 1, limit = 10) => {
   try {

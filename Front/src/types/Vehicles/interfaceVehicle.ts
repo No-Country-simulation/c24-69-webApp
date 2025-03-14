@@ -6,6 +6,12 @@ export interface IVehicles {
     status: boolean
 }
 
+export interface IVehicleCreate {
+    marca: string;
+    modelo: string;
+    patente: string;
+}
+
 export interface IVehicleFilters {
     marca: string;
     modelo: string;

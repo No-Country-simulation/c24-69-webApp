@@ -2,19 +2,20 @@ import React, { useState, useEffect, useMemo } from 'react';
 import UsersList from './UsersList';
 import ConfirmModal from '../../../ConfirmModal';
 import { IUser, IUserFilters } from "../../../../types/Users/interfaceUser";
-import { banUser , fetchUsers, reactivateUser  } from '../../../../services/fetchUsers';
+import { fetchUsers, updateUser  } from '../../../../services/fetchUsers';
 import UsersPie from './UsersPie';
 import list from "../../../../assets/list-icon.png";
-import stats from "../../../../assets/stats-icon.png";
+import pieIcon from "../../../../assets/pie-icon.png";
+import { AnimatePresence, motion } from 'framer-motion';
 // import animation from "../../../assets/404-animation.json";
 // import Lottie from 'lottie-react';
 
 const UsersArea: React.FC = () => {
     const [users, setUsers] = useState<IUser []>([]);
-    const [filters, setFilters] = useState<IUserFilters>({ nombre: 'asc', rol: '', isActive: 'all' });
+    const [filters, setFilters] = useState<IUserFilters>({ nombre: 'asc', rol: ''});
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
-    const [view, setView] = useState<"list" | "pie">("list");
+    const [activeArea, setActiveArea] = useState<'list' | 'pie'>('list'); 
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [totalPages, setTotalPages] = useState<number>(1);
 
@@ -54,10 +55,6 @@ const UsersArea: React.FC = () => {
 
     const filteredUsers = useMemo(() => {
         return users
-            .filter(user => 
-                filters.isActive === 'all' || 
-                (user.isActive) || 
-                (!user.isActive))
             .filter(user => filters.rol === '' || user.rol === filters.rol)
             .sort((a, b) => filters.nombre === 'asc' ? a.nombre.localeCompare(b.nombre) : b.nombre.localeCompare(a.nombre));
     }, [users, filters]); // 🔥 Solo recalcula cuando cambia `users` o `filters`
@@ -66,128 +63,130 @@ const handleModalClose = () => {
     setModalData((prev) => ({ ...prev, show: false }));
 };
 
-const updateUserState = async (id: string, isActive: boolean) => {
+const updateUserState = async (id: string, rol: string) => {
     try {
-        if (isActive) {
-            await reactivateUser(id);
-        } else {
-            await banUser(id);
-        }
+        await updateUser(id, {rol}); // Enviar el nuevo rol al backend
         setModalData({
             show: true,
-            title: isActive ? "Restaurar Usuario" : "Banear Usuario",
-            message: isActive ? "El usuario ha sido restaurado exitosamente." : "Usuario baneado exitosamente.",
+            title: "Rol Asignado",
+            message: "Nuevo rol asignado al usuario exitosamente.",
             isSuccess: true,
             singleButton: true
         });
 
-        setUsers(users.map(user => user.id === id ? { ...user, state: isActive } : user));
+        setUsers(users.map(user => user.id === id ? { ...user, rol } : user)); // Asegurar que `rol` se actualiza
     } catch (error) {
         console.error("Error al actualizar usuario:", error);
         setModalData({
             show: true,
             title: "Error",
-            message: isActive ? "Restauración de usuario fallida." : "Error al banear usuario.",
+            message: "Error al asignar nuevo rol al usuario. Intente nuevamente",
             isSuccess: false
         });
     }
 };
 
-const handleBanUser = (id: string) => {
+const confirmUpdate = (id: string, rol:string) => {
     setModalData({
         show: true,
         title: "Confirmar Acción",
-        message: "¿Estás seguro de realizar esta acción?",
+        message: "¿Estás seguro de asignarle este rol al usuario?",
         isSuccess: false,
         singleButton: false,
-        onConfirm: () => updateUserState(id, false),
+        onConfirm: () => updateUserState(id, rol),
+        onCancel: handleModalClose,
     });
 };
-
-const handleReactivateUser = (id: string) => {
-    setModalData({
-        show: true,
-        title: "Confirmar Acción",
-        message: "¿Estás seguro de restaurar al usuario?",
-        isSuccess: false,
-        singleButton: false,
-        onConfirm: () => updateUserState(id, true),
-    });
-};
-    
-// const activeUsers = useMemo(() => filteredUsers.filter(user => user.isActive).length, [filteredUsers]);
-// const inactiveUsers = useMemo(() => filteredUsers.filter(user => !user.isActive).length, [filteredUsers]);
-
-// if (users.length === 0) {
-//     return (
-//         <div className='banner-container'>
-//             <div className='banner-child-container'>
-//                 <div className='text-banner-area'>
-//             <h1 className='title text-center'>¡Algo salió mal!</h1>
-//             <p className='text-active text-center'>No hay usuarios registrados o activos aún...</p>
-//                 </div>
-//             <div>
-//             <Lottie 
-//                     animationData={animation} 
-//                     loop 
-//                     className="animation-404" 
-//                 />            </div>
-//             </div>
-//         </div>
-//     );
-// }
 
 return (
-    <div className='max-w-6xl m-auto'>
+    <section className="area-section">
         {/* Botones de Vista */}
-        <div className="flex flex-row justify-center gap-4 mb-4">
-            <button className={`view-button ${view === "list" && "view-button-active"}`} onClick={() => setView('list')}>
+        <div className="filters-container">
+        <button 
+    className={`view-button ${(() => {
+        return activeArea === 'list' ? 'view-button-active' : '';
+    })()}`} 
+    onClick={() => setActiveArea('list')}
+>
                 <span className="bg-span"></span>
                 <img src={list} alt="List Icon" className='icon' />
                 <span className='view-text'>Lista</span>
             </button>
-            <button className={`view-button ${view === "pie" && "view-button-active"}`} onClick={() => setView('pie')}>
+            <button 
+    className={`view-button ${(() => {
+        return activeArea === 'pie' ? 'view-button-active' : '';
+    })()}`} 
+    onClick={() => setActiveArea('pie')}
+>
                 <span className="bg-span"></span>
-                <img src={stats} alt="Stats Icon" className='icon'/>
+                <img src={pieIcon} alt="Graphs Icon" className='icon'/>
                 <span className='view-text'>Gráficos</span>
             </button>
         </div>
 
-        <div className='loader-banner'>
-            {loading && <p className='title text-center'>Cargando usuarios...</p>}
+        <AnimatePresence>
+    {(loading || error) && (
+        <motion.div
+            key="loader"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.9 }} // 🔥 Se oculta antes de ser eliminado del DOM
+            transition={{ duration: 0.3 }}
+            className="loader-banner"
+        >
+            {loading && <p className='title text-center mb-4'>Cargando usuarios...</p>}
             {error && <p className='error-text'>{error}</p>}
             <div className='loader'></div>
-            </div>
+        </motion.div>
+    )}
+</AnimatePresence>
 
         {/* Render de Vista */}
-        {view === 'list' && (
-                <UsersList
+        <AnimatePresence mode="wait">
+    {activeArea === "list" && (
+        <motion.div
+            key="list"
+            initial={{ x: -100, opacity: 0 }} // Aparece desde la izquierda
+            animate={{ x: 0, opacity: 1 }}
+            exit={{ x: 100, opacity: 0 }} // Desaparece hacia la derecha
+            transition={{ duration: 0.5 }}
+            className="max-w-6xl w-full m-auto"
+        >
+            <UsersList
                 users={filteredUsers}
                 filters={filters}
                 onFilter={setFilters}
-                onDeactivateUser ={handleBanUser }
-                onReactivateUser ={handleReactivateUser }
+                changeRole={confirmUpdate}
                 currentPage={currentPage}
                 totalPages={totalPages}
                 setCurrentPage={setCurrentPage}
             />
-        )}
+        </motion.div>
+    )}
 
-        {view === 'pie' && (
-            <div className='max-w-6xl m-auto'>
-                <UsersPie />
-            </div>
-        )}
-
+    {activeArea === "pie" && (
+        <motion.div
+            key="pie"
+            initial={{ x: 100, opacity: 0 }} // Aparece desde la derecha
+            animate={{ x: 0, opacity: 1 }}
+            exit={{ x: -100, opacity: 0 }} // Desaparece hacia la izquierda
+            transition={{ duration: 0.5 }}
+            className="max-w-6xl m-auto"
+        >
+            <UsersPie />
+        </motion.div>
+    )}
+</AnimatePresence>
         {/* Modal de Confirmación */}
         <ConfirmModal
             show={modalData.show}
             title={modalData.title}
             message={modalData.message}
             onConfirm={handleModalClose}
+            onCancel={handleModalClose}
             singleButton={modalData.singleButton}
         />
-    </div>
+    </section>
 );
 }
 

@@ -1,26 +1,36 @@
 @import "tailwindcss";
 
 :root[data-theme='light'] {
+  --closeLinear: linear-gradient(30deg, #ff9797, #440000 );
+  --layoutBackground: #0037B5;
+  --inputBackground: #85a6db;
+  --inputHoverBackground: #001F3F;
+  --themeBackground: #73C0FC; 
     --containerColor: #9bc1ff;
-    --layoutBackground: #0037B5;
-    --inputBackground: #85a6db;
-    --themeBackground: #73C0FC; 
     --backgroundLinear: linear-gradient(to bottom, #9bc1ff, #105C93 50%, #9bc1ff);
     --linearGradient: linear-gradient(30deg, #9bc1ff, #105C93);
+    --radialGradient: radial-gradient(circle, #9bc1ff, #0037B5);
     --specialBorder: #EDD5BB;
-    --textColor: #001F3F; 
+    --confirmTextShadow: #001F3F;
+    --closeText: #ff9797;
+    --textColor: #001F3F;
     --titleColor: #183153;
     --rgb: 115, 192, 252;
     --opacity: 0.7;
   }
 
   :root[data-theme='dark'] {
+    --closeLinear: linear-gradient(30deg, #440000, #ff9797);
     --inputBackground: #01172d;
-    --containerColor: #001F3F; 
+    --inputHoverBackground: #020091;
     --layoutBackground: #010016; 
     --themeBackground: #183153; 
+    --containerColor: #001F3F; 
     --backgroundLinear: linear-gradient(to bottom, #105C93, #9bc1ff 50%, #105C93);
     --linearGradient: linear-gradient(30deg, #0400ff, #4ce3f7);
+    --radialGradient: radial-gradient(circle, #010016, #0400ff);
+    --confirmTextShadow: #008079;
+    --closeText: #ff0000;
     --specialBorder: #AE4947;
     --textColor: #9bc1ff; 
     --titleColor: #4DACE1;
@@ -98,7 +108,7 @@ background: var(--containerColor);
 }
 
 .filters-container {
-  @apply flex items-center justify-center gap-4 w-full max-w-6xl mt-8;
+  @apply flex items-center justify-center gap-4 w-full max-w-6xl m-4;
   contain: layout paint;
 }
 
@@ -111,12 +121,12 @@ background: var(--containerColor);
 }
 
 .loader-banner {
-  @apply m-auto gap-8 w-1/2 h-3/4 my-8 p-8 rounded-lg shadow-rose-600 shadow-2xl;
+  @apply m-auto w-1/2 h-3/4 mb-8 p-8 rounded-lg shadow-rose-600 shadow-2xl;
   background: var(--containerColor);
 }
 
 .modal-container {
-    @apply rounded-lg relative p-6 flex flex-col h-1/2 w-full z-50;
+    @apply rounded-lg relative p-6 flex flex-col h-full w-full z-50;
     background-color: var(--containerColor);
 }
 
@@ -176,12 +186,18 @@ background: var(--containerColor);
 }
 
 .table-data {
-  @apply text-center relative font-["Quicksand"] text-xl font-normal;
+  @apply text-center relative font-["Quicksand"] text-xl font-normal p-4;
   color: var(--textColor); 
 }
 
 .table-data-b {
-  @apply text-center relative font-["Quicksand"] text-xl font-normal;
+  @apply text-center relative font-["Quicksand"] text-xl font-normal p-4;
+  border-left: 2px solid var(--textColor);
+  color: var(--textColor); 
+}
+
+.table-data-input {
+  @apply m-auto p-4 grid grid-cols-2 justify-center items-center gap-4 text-center relative font-["Quicksand"] text-xl font-normal;
   border-left: 2px solid var(--textColor);
   color: var(--textColor); 
 }
@@ -272,6 +288,10 @@ thead {
   color: var(--textColor);
 }
 
+.area-section {
+  @apply flex flex-col justify-center items-center m-auto w-full;
+}
+
 .nav-section {
   @apply fixed top-0 left-0 w-full h-auto z-20 p-4 flex min-h-24;
   background-color: var(--layoutBackground);
@@ -279,7 +299,7 @@ thead {
 
 /* Texts */
 .error-text {
-  @apply sm:text-2xl md:text-4xl text-red-500 font-['Poppins'] font-normal text-center;
+  @apply sm:text-xl md:text-2xl text-red-500 font-['Poppins'] font-normal text-center;
 }
 
 .footer-title {
