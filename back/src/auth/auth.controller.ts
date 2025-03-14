@@ -6,6 +6,7 @@ import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { User } from './entities/user.entity';
 import { Auth } from './decorators/auth.decorator';
 import { ValidRoles } from './interfaces';
+import { UpdateRoleDto } from './dto/updateRole.dto';
 
 
 
@@ -46,6 +47,8 @@ export class AuthController {
   @ApiResponse({ status: 401, description: 'Necesita estar autenticado para ingresar a esta ruta' })
   @ApiResponse({ status: 403, description: 'Necesita un rol valido(admin) para ingresar a esta ruta' })
   findOne(@Param('id', ParseIntPipe) id: string){
+    console.log('Actualizando usuario con id:', id);
+    console.log('Datos recibidos para actualizar:', UpdateUserDto);
     return this.authService.findOne(+id)
   }
 
@@ -57,10 +60,10 @@ export class AuthController {
   @ApiResponse({ status: 401, description: 'Necesita estar autenticado para ingresar a esta ruta' })
   @ApiResponse({ status: 403, description: 'Necesita un rol valido(admin) para ingresar a esta ruta' })
   update(
-    @Param('id', ParseIntPipe) id: string,
-    @Body() updateUserDto: UpdateUserDto
-  ){
-    return this.authService.update(+id, updateUserDto)
+      @Param('id', ParseIntPipe) id: string,
+      @Body() updateRoleDto: UpdateRoleDto
+  ) {
+      return this.authService.update(+id, updateRoleDto);
   }
   
 }

@@ -1,4 +1,6 @@
-const apiUrl = "http://localhost:3000";
+import { IUserFilters } from "../types/Users/interfaceUser";
+
+const apiUrl = "https://c24-69-webapp.onrender.com";
 
 const getCookie = (name: string) => {
     const value = `; ${document.cookie}`;
@@ -7,19 +9,29 @@ const getCookie = (name: string) => {
     return null;
 }
 
-export const fetchUsers = async (page: number = 1, limit: number = 10) => {
-    // Obtener el token de las cookies
-    const token = getCookie("authToken"); 
+export const fetchUsers = async (
+    page: number = 1,
+    limit: number = 10,
+    filters: IUserFilters
+) => {
+    const token = getCookie("authToken");
 
     if (!token) {
         throw new Error("No se encontró el token de autenticación.");
     }
 
-    const response = await fetch(`${apiUrl}/auth?page=${page}&limit=${limit}`, {
+    const queryParams = new URLSearchParams({
+        page: page.toString(),
+        limit: limit.toString(),
+        sortOrder: filters.sortOrder,
+        rol: filters.rol,
+    });
+
+    const response = await fetch(`${apiUrl}/auth?${queryParams.toString()}`, {
         method: "GET",
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}` // Incluir el token en la cabecera
+            'Authorization': `Bearer ${token}`
         }
     });
 
@@ -27,12 +39,10 @@ export const fetchUsers = async (page: number = 1, limit: number = 10) => {
         throw new Error(`Error fetching users: ${response.statusText}`);
     }
 
-    const userData = await response.json();
-    return userData; // Asegúrate de que la respuesta contenga los datos y la metadata necesaria.
-}
+    return await response.json();
+};
 
 export const fetchUsersGraphic = async (page: number = 1, limit: number = 10) => {
-    // Obtener el token de las cookies
     const token = getCookie("authToken"); 
 
     if (!token) {
@@ -43,7 +53,7 @@ export const fetchUsersGraphic = async (page: number = 1, limit: number = 10) =>
         method: "GET",
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}` // Incluir el token en la cabecera
+            'Authorization': `Bearer ${token}`
         }
     });
 
@@ -55,20 +65,28 @@ export const fetchUsersGraphic = async (page: number = 1, limit: number = 10) =>
     return userData.data; // Asegúrate de que la respuesta contenga los datos y la metadata necesaria.
 }
 
-export const updateUser = async (id: string, updateData: Record<string, string>) => {
-    const token = getCookie("authToken");
-    const response = await fetch(`${apiUrl}/auth/${id}`, { // Cambiamos la URL
-        method: 'PATCH',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify(updateData) // Enviar cualquier dato a actualizar
-    });
+export const updateUser = async (id: number, rol: string) => {
+    const token = getCookie("authToken"); 
+    try {
+        console.log("Llamada de updateUser y datos a enviar: ", id, rol)
+        const response = await fetch(`${apiUrl}/auth/${id}`, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`,
+            },
+            body: JSON.stringify({ rol }),  // Solo el campo 'rol'
+        });
 
-    if (!response.ok) {
-        throw new Error('Failed to update user');
+        if (!response.ok) {
+            throw new Error(`Error en la actualización: ${response.statusText}`);
+        }
+
+        return await response.json();
+    } catch (error) {
+        console.error("Error en updateUser:", error);
+        throw error;
     }
-    return response.json();
 };
+
 

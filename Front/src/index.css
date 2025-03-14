@@ -356,17 +356,18 @@ thead {
 }
 
 /* styles for custom checkbox */
+/* Ajustamos la clase .custom-checkbox */
 .custom-checkbox {
-  width: 20px;
-  height: 20px;
+  @apply w-5 h-5 flex items-center justify-center ml-2;
   border: 2px solid #d1d5db; /* Gray border */
   border-radius: 4px; /* Rounded corners */
-  display: inline-block;
+  display: flex;
   position: relative;
   cursor: pointer;
   transition: background-color 0.3s, border-color 0.3s;
 }
 
+/* Aseguramos la alineación del icono dentro del checkbox */
 .custom-checkbox::after {
   content: '';
   position: absolute;

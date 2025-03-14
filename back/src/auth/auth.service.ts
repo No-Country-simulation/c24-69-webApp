@@ -12,6 +12,7 @@ import { CommonService } from 'src/common/common.service';
 import { PaginationDto } from 'src/common/dto/pagination.dto';
 import { UserRoles } from './enums';
 import { JwtPayload } from './interfaces/jwt-payload.interface';
+import { UpdateRoleDto } from './dto/updateRole.dto';
 
 @Injectable()
 export class AuthService {
@@ -87,45 +88,44 @@ export class AuthService {
     }
    }
 
-   async update(id: number, updateUserDto: UpdateUserDto){
+   async update(id: number, updateRoleDto: UpdateRoleDto) {
     try {
         const user = await this.userRepository.preload({
             id,
-            ...updateUserDto
-        })
-        if(!user){
-            throw new BadRequestException('Usuario no encontrado')
+            ...updateRoleDto // Esto solo actualizará el campo rol
+        });
+
+        if (!user) {
+            throw new BadRequestException('Usuario no encontrado');
         }
 
-        // En caso de que la contraseña sea actualizada, se vuelve a hashear
-        if(updateUserDto.contraseña){
-            user.contraseña = bcrypt.hashSync(updateUserDto.contraseña, 10)
-        }
-        await this.userRepository.save(user)
+        await this.userRepository.save(user);
 
         return {
             status: 200,
-            message: 'Usuario actualizado con exito',
-            ...user
-        }   
+            message: 'Usuario actualizado con éxito',
+            ...user,
+        };
     } catch (error) {
-        throw error
+        throw error;
     }
-   }
+}
 
    async findAll(paginationDto: PaginationDto) {
     const { page = 1, limit = 10 } = paginationDto;
 
-    const totalUsers = await this.userRepository.count({
-        where: { rol: Raw(alias => `NOT ('admin' = ANY(${alias}))`) }
-    });
+    const whereClause = {
+        rol: Raw(alias => `NOT ('admin' = ANY(${alias}))`), // Excluir admin
+    };
 
+    const totalUsers = await this.userRepository.count({ where: whereClause });
     const totalPages = Math.ceil(totalUsers / limit);
 
     const data = await this.userRepository.find({
         skip: (page - 1) * limit,
         take: limit,
-        where: { rol: Raw(alias => `NOT ('admin' = ANY(${alias}))`) }
+        where: whereClause,
+        order: { nombre: "ASC" } // Orden por defecto ascendente
     });
 
     return {
@@ -139,9 +139,7 @@ export class AuthService {
 }
 
     async findOne(id: number){
-
         try {
-
             const user = await this.userRepository.findOne( {where: {id}} )
             if(!user) 
                 throw new BadRequestException('Usuario no encontrado')
