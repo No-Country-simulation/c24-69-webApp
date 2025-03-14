@@ -104,5 +104,10 @@ export class VehiculosService {
 
   async updateCheckedAt(id: number){
     const vehiculo = await this.vehiculoRepository.update(id, {checkedAt: new Date()})
+    return {
+      message: 'Vehiculo actualizado correctamente',
+      status: 200,
+      vehiculo
+    }
   }
 }

@@ -4,6 +4,7 @@ import { FormProvider } from "../../context/FormContext";
 import ProgressBar from "../../components/ProgressBar/ProgressBar";
 
 const FormPage: React.FC = () => {
+
   return (
     <FormProvider>
       <div className="duration 300 flex flex-col items-center justify-center w-full">

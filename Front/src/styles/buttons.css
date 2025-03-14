@@ -1,9 +1,41 @@
 @import 'tailwindcss';
 
+.close-button, .cancel-button {
+  @apply relative overflow-hidden flex flex-row justify-center items-center gap-4 px-4 rounded-xl cursor-pointer transition-transform duration-100 font-["Poppins"] font-semibold text-2xl text-center;
+  background-image: var(--closeLinear);
+  color: var(--closeText);
+  z-index: 1;
+  text-shadow: 2px 2px 2px black;
+}
+
+/* Conf Button */
+.conf-button {
+  @apply relative overflow-hidden flex flex-row justify-center items-center gap-4 px-4 rounded-xl cursor-pointer transition-transform duration-100 font-["Poppins"] font-semibold text-2xl text-center;
+  background: var(--layoutBackground);
+  color: #00fff2;
+  z-index: 1;
+}
+
+.conf-button::before {
+  @apply block top-1/2 left-1/2 absolute h-full w-0 duration-300 ease-in;
+  content: '';
+  transform: translate(-50%, -50%);
+  background: var(--radialGradient);
+  z-index: -1;
+ }
+
+.conf-button:hover::before {
+ width: 105%;
+}
+
+.conf-button:hover {
+  text-shadow: 4px 4px 4px var(--confirmTextShadow);
+}
+
 /* Filters Buttons */
 .filter-button {
   @apply inline-flex justify-center items-center cursor-pointer font-medium whitespace-nowrap overflow-hidden text-ellipsis leading-none no-underline border-none rounded-full gap-4 px-8 font-[Poppins] w-full h-24 text-3xl;
-  background: var(--linearGradient);
+  background: var(--radialGradient);
   color: var(--textColor);
 }
 
@@ -12,10 +44,10 @@
   50% { transform: scale(1.1); } /* Aumenta un 20% */
   100% { transform: scale(1); }
 }
-.filter-button:hover {
-  background-size: 200% auto !important; 
+.filter-button:hover, .cancel-button:hover, .cancel-button:hover {
+  background-size: 400% auto !important; 
 }
-.filter-button:hover img {
+.filter-button:hover img, .conf-button:hover img, .cancel-button:hover img{
   animation: scale 0.8s infinite ease-in-out;
 }
 
@@ -59,52 +91,58 @@
  }
 
 .nav-btn-active, .filter-button-active, .view-button-active, .page-button-active {
-  background: var(--containerColor);
-  border: 2px solid var(--textColor);
+  background: var(--containerColor) !important;
+  border: 2px solid var(--textColor) !important;
 }
 
 /* Pagination Button */
 .move-button {
   @apply inline-flex justify-center items-center cursor-pointer font-medium whitespace-nowrap overflow-hidden text-ellipsis leading-none no-underline border-none rounded-full px-8 font-[Poppins] w-12 h-8 text-xl;
-  background: var(--linearGradient);
+  background: var(--radialGradient);
   color: var(--textColor);
 }
 
 .move-button:hover, .page-button:hover {
-  background-size: 200% auto !important; 
+  transform: scale(1.2); 
 }
 
 .page-button {
-  @apply rounded-sm w-10 h-10 text-xl;
+  @apply flex justify-center items-center text-center rounded-sm w-10 h-10 text-xl;
   background: var(--linearGradient);
   color: var(--titleColor)
 }
 
 .page-button-active {
-  @apply rounded-full w-10 h-10 text-xl;
+  @apply flex justify-center items-center text-center rounded-full w-10 h-10 text-xl;
   color: var(--titleColor)
 }
 
-/* Select Button || Input */
+/* Input */
+.search-input {
+  @apply font-["Puppins"] font-semibold py-2 px-4 rounded-md cursor-text h-15;
+  background: var(--layoutBackground);
+  color: #00fff2;
+}
+
 .select-input {
   @apply font-["Puppins"] font-semibold py-2 px-4 rounded-md cursor-pointer h-15;
-  background: var(--containerColor);
-  color: var(--titleColor);
+  background: var(--layoutBackground);
+  color: #00fff2;
 }
 
-.select-input:hover, .search-input:hover, .search-input:focus, .select-input:focus {
-  background: var(--themeBackground);
-  color: var(--textColor)
+.select-input:hover, .search-input:hover{
+  background: var(--inputHoverBackground);
+}
+.select-input:focus, .search-input:focus {
+  border: 2px solid var(--specialBorder);
 }
 
-.vehicle-form-input:hover , .vehicle-form-input:focus {
+.vehicle-form-input:hover{
   background: var(--specialBorder);
 }
 
-.search-input {
-  @apply font-["Puppins"] font-semibold py-2 px-4 rounded-md cursor-text h-15;
-  background: var(--containerColor);
-  color: var(--titleColor);
+.vehicle-form-input:focus{
+  border: 2px solid var(--titleColor);
 }
 
 .vehicle-form-input {
@@ -188,7 +226,7 @@
 
 .view-button .bg-span {
   @apply absolute w-0 h-0 rounded-full transition-all duration-500 ease-out;
-  background: var(--linearGradient); /* Fondo del span */
+  background: var(--radialGradient); /* Fondo del span */
   z-index: 0; /* Coloca el span detrás del contenido */
 }
 
@@ -209,10 +247,22 @@
 /* Responsive */
 @media screen and (max-width: 480px) {
   .filter-button {
-    @apply w-[8rem] h-14 px-8 py-8 gap-0;
+    @apply text-xl h-14 px-8 py-8 gap-0;
   }
   .filter-button img{
     @apply w-10 h-10;
+  }
+  .view-button {
+    @apply text-lg h-14 w-full gap-0;
+  }
+  .view-button-active {
+    @apply text-lg h-14 w-full gap-0;
+  }
+  .cancel-button {
+    @apply w-full text-lg h-14 gap-0;
+  }
+  .conf-button {
+    @apply w-full text-lg h-14 gap-0;
   }
 }
 

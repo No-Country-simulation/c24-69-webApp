@@ -41,20 +41,23 @@ const LoginForm: React.FC = () => {
           show: true,
           title: "Inicio de Sesión Exitoso",
           message: "Sesión iniciada. Será redirigido a la página de inicio.",
-          isSuccess: true
+          isSuccess: true,
+          singleButton: true
       });
       setTimeout(() => {
         navigate("/");
     }, 3000);
-      }catch{
-        setModalData({
-          show: true,
-          title: "Error",
-          message: "Ha ocurrido un error al iniciar sesión. Intente nuevamente.",
-          isSuccess: false
-      });
-      }
-    };
+  } catch (error) {
+    console.error("Hubo un error al iniciar sesión: ", error);
+    setModalData({
+      show: true,
+      title: "Error",
+      message: (error as Error).message || "Ha ocurrido un error al iniciar sesión. Intente nuevamente.",
+      isSuccess: false,
+      singleButton: true
+    });
+  }
+};
   
     return (
       <div className="max-w-md mx-auto mt-10 p-6 special-border rounded-lg shadow-xl">

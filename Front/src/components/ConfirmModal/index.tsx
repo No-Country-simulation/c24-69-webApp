@@ -1,4 +1,6 @@
 import React from 'react';
+import confirmIcon from "../../assets/check-icon.png";
+import cancelIcon from "../../assets/block-icon.png";
 
 interface ConfirmModalProps {
   show: boolean;
@@ -28,16 +30,18 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({
         <div className='flex flex-wrap justify-center items-center w-full gap-4'>
           {singleButton ? (
             // Si es singleButton, mostramos un único botón que cierra el modal
-            <button className="close-button" onClick={onConfirm}>
+            <button className="close-button w-3/4 h-15 m-auto mt-4" onClick={onCancel}>
               Cerrar
             </button>
           ) : (
             // Caso por defecto, mostramos ambos botones: Cancel y Confirm
             <div className='grid grid-cols-2 gap-4 justify-center items-center w-full mt-4'>
-              <button className="conf-button w-full" onClick={onConfirm}>
+              <button type="submit" onClick={onConfirm} className="conf-button w-3/4 m-auto">
+                <img src={confirmIcon} alt="Confirm Icon" className="icon" />
                 Confirmar
               </button>
-              <button className="close-button" onClick={onCancel}>
+              <button className="cancel-button w-3/4 m-auto" onClick={onCancel}>
+                <img src={cancelIcon} alt="Cancel Icon" className='icon' />
                 Cancelar
               </button>
             </div>

@@ -1,4 +1,6 @@
-const apiUrl = "http://localhost:3000";
+import Cookies from "js-cookie";
+
+const apiUrl = "https://c24-69-webapp.onrender.com";
 
 export const fetchForms = async (page = 1, limit = 10) => {
   try {
@@ -8,7 +10,7 @@ export const fetchForms = async (page = 1, limit = 10) => {
     if (!response.ok) {
       throw new Error(`Error al obtener formularios: ${data.message}`);
     }
-
+    console.log("Formularios obtenidos:", data);
     return data; // Devuelve los formularios con paginación
   } catch (error) {
     console.error("Error obteniendo formularios:", error);
@@ -43,6 +45,7 @@ export const sendForm = async (formData: {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        "authorization": `Bearer ${Cookies.get("authToken")}`,
       },
       body: JSON.stringify(formData),
     });
@@ -52,7 +55,7 @@ export const sendForm = async (formData: {
     if (!response.ok) {
       throw new Error(`Error al enviar formulario: ${data.message}`);
     }
-
+    console.log("Formulario enviado:", data);
     return data; // Devuelve la respuesta en caso de éxito
   } catch (error) {
     console.error("Error enviando formulario:", error);

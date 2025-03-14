@@ -6,10 +6,12 @@ import App from './App.tsx'
 import Footer from './layouts/Footer/index.tsx'
 import NavBar from './layouts/NavBar/index.tsx'
 import './index.css'
+import { AuthProvider } from './context/AuthProvider.tsx'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
+    <AuthProvider>
     <ThemeProvider>
     <div className="flex flex-col min-h-screen">
         <NavBar />
@@ -19,6 +21,7 @@ createRoot(document.getElementById('root')!).render(
         <Footer /> 
       </div>
     </ThemeProvider>
+    </AuthProvider>
     </BrowserRouter>
   </StrictMode>,
 )

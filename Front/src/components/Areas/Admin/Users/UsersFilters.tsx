@@ -8,8 +8,7 @@ interface UserFiltersProps {
 const UserFilters: React.FC<UserFiltersProps> = ({ onFilter }) => {
   const [filters, setFilters] = useState<IUserFilters>({ 
     nombre: 'asc', 
-    rol: '', 
-    isActive: 'all' 
+    rol: ''
   });
 
   const handleFilterChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -17,11 +16,7 @@ const UserFilters: React.FC<UserFiltersProps> = ({ onFilter }) => {
 
     const updatedFilters: IUserFilters = {
       ...filters,
-      [name]: name === 'isActive' 
-        ? value === 'active' ? true 
-          : value === 'inactive' ? false 
-          : 'all'
-        : value
+      [name]: value,
     };
 
     setFilters(updatedFilters);
@@ -29,7 +24,7 @@ const UserFilters: React.FC<UserFiltersProps> = ({ onFilter }) => {
   };
 
   return (
-    <section className='grid grid-cols-3 gap-4 justify-center max-w-6xl m-auto'>
+    <section className='grid grid-cols-2 gap-4 justify-center max-w-6xl m-auto w-2/3'>
       <select name="nombre" value={filters.nombre} className='select-input' onChange={handleFilterChange}>
         <option value="">Ordenar por Nombre</option>
         <option value="asc">A-Z</option>
@@ -39,11 +34,6 @@ const UserFilters: React.FC<UserFiltersProps> = ({ onFilter }) => {
         <option value="">Seleccionar Rol</option>
         <option value="operario">Operarios</option>
         <option value="encargado">Encargados</option>
-      </select>
-      <select name="isActive" value={filters.isActive === 'all' ? 'all' : filters.isActive ? 'active' : 'inactive'} className='select-input' onChange={handleFilterChange}>
-        <option value="all">Todos</option>
-        <option value="active">Activos</option>
-        <option value="inactive">Inactivos</option>
       </select>
     </section>
   );

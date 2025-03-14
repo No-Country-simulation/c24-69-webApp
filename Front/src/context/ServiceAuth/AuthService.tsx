@@ -13,25 +13,23 @@ export const loginService = async (email: string, contraseña: string): Promise<
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ email, contraseña }),
   });
-  console.log(email, contraseña);
+
   if (!response.ok) throw new Error("Credenciales incorrectas");
+  
   const data = await response.json();
   const token = data.token;
 
-  // 🔹 Decodificamos el token para verificarlo
   try {
     const decoded = jwtDecode(token);
-    console.log("Usuario autenticado:", decoded);
-
+    console.log("🔹 Token decodificado en loginService:", decoded); // 👀 Revisa qué datos tiene
   } catch {
     throw new Error("Token inválido");
   }
 
-  // 🔹 Guardamos el token en cookies (1 día de expiración)
   Cookies.set("authToken", token, { expires: 1, secure: true, sameSite: "Strict" });
-
   return { token };
 };
+
 
 export const registerService = async (nombre: string, email: string, contraseña: string, dni: string): Promise<AuthResponse> => {
   console.log("Datos de usuario en AuthService.tsx: ", nombre, email, contraseña, dni)
@@ -52,9 +50,30 @@ export const registerService = async (nombre: string, email: string, contraseña
   return {token};
 };
 
-export const logoutService = async (): Promise<void> => {
-  await fetch(`${API_URL}/logout`, { method: "POST" });
+export const registerServices = async (
+nombre: string,
+email: string,
+contraseña: string,
+dni: string
+): Promise<AuthResponse> => {
+const response = await fetch(`${API_URL}register`, {
+method: "POST",
+headers: { "Content-Type": "application/json" },
+body: JSON.stringify({ nombre, email, contraseña, dni }),
+});
 
+if (!response.ok) throw new Error("Error al registrar usuario");
+
+const data = await response.json();
+const token = data.token;
+
+// 🔹 Guardamos el token en cookies
+Cookies.set("authToken", token, { expires: 1, secure: true, sameSite: "Strict" });
+
+return { token };
+};
+
+export const logoutService = async (): Promise<void> => {
   // 🔹 Eliminamos el token de cookies
   Cookies.remove("authToken");
 };
