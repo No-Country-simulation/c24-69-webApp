@@ -38,7 +38,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setIsLoading(true);
     try {
       const { token } = await loginService(email, password);
-      localStorage.setItem("token", token);
+      //localStorage.setItem("token", token);
       setToken(token);
       setUser(jwtDecode(token)); // Decodificar el token al iniciar sesión
     } catch (error: unknown) {
@@ -59,7 +59,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         return;
       }
       const { token } = await registerService(nombre, email, password, dni);
-      localStorage.setItem("token", token);
+      //localStorage.setItem("token", token);
       setToken(token);
       setUser(jwtDecode(token)); // Decodificar el token después de registrar
       console.log("Token en AuthProvider: ", token);

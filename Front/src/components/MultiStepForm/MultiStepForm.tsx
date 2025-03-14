@@ -20,8 +20,6 @@ const questionsPerStep: string[][] = [
 
 interface MultiStepFormProps {
   form: IForm;
-  onApprove: () => void;
-  onDisapprove: () => void;
 }
 
 const MultiStepForm: React.FC<MultiStepFormProps> = () => {  

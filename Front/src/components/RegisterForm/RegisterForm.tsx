@@ -70,7 +70,7 @@ const RegisterForm: React.FC = () => {
         <InputCustom label="Contraseña" type="password" value={contraseña} onChange={setContraseña} placeholder="Ingresa tu contraseña" />
         <InputCustom label="DNI" type="text" value={dni} onChange={setDni} placeholder="Ingresa tu DNI" />
 
-        <button type="submit" disabled={isLoading} className="filter-button w-full flex justify-center">
+        <button type="submit" disabled={isLoading} className="filter-button-form w-full flex justify-center">
           {isLoading ? "Registrando..." : "Registrarse"}
         </button>
       </form>
