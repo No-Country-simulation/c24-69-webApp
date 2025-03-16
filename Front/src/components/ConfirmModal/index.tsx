@@ -6,7 +6,7 @@ interface ConfirmModalProps {
   show: boolean;
   title: string;
   message: string;
-  onConfirm: () => void;
+  onConfirm?: () => void;
   onCancel?: () => void;
   singleButton?: boolean;
 }

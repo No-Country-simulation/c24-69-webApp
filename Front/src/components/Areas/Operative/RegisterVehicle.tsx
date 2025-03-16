@@ -45,7 +45,7 @@ const handleSubmit = async (e: React.FormEvent) => {
             singleButton: true
         });
 
-        setTimeout(() => navigate("/operario"), 3000);
+        setTimeout(() => navigate("/operative"), 3000);
     } catch (error) {
         setError(`Error al registrar vehículo: ${(error as Error).message}`);
         setModalData({

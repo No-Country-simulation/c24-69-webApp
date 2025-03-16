@@ -13,6 +13,11 @@ interface DecodedToken {
   exp: number;
 }
 
+interface AuthResponse {
+  token: string;
+  error?: string;
+}
+
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [, setError] = useState<string | null>(null);
   const [token, setToken] = useState<string | null>(Cookies.get("authToken") || null);
@@ -36,7 +41,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setIsLoading(false);
   }, [token]);
 
-  const login = async (email: string, password: string) => {
+  const login = async (email: string, password: string): Promise<AuthResponse> => {
     setIsLoading(true);
     try {
       const { token } = await loginService(email, password);
@@ -44,9 +49,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
       setToken(token);
       setUser(jwtDecode(token));
+      return { token };
     } catch (error: unknown) {
       console.error("Ha ocurrido un error: ", error);
       setError("Credenciales incorrectas. Inténtalo de nuevo.");
+      return { token: "", error: `Ha ocurrido un error ${error} Inténtalo de nuevo.` };
     } finally {
       setIsLoading(false);
     }

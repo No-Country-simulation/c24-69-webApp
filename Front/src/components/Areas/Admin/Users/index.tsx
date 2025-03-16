@@ -7,12 +7,10 @@ import UsersPie from './UsersPie';
 import list from "../../../../assets/list-icon.png";
 import pieIcon from "../../../../assets/pie-icon.png";
 import { AnimatePresence, motion } from 'framer-motion';
-// import animation from "../../../assets/404-animation.json";
-// import Lottie from 'lottie-react';
 
 const UsersArea: React.FC = () => {
     const [users, setUsers] = useState<IUser []>([]);
-    const [filters, setFilters] = useState<IUserFilters>({ nombre: 'asc', rol: ''});
+    const [filters, setFilters] = useState<IUserFilters>({ sortOrder: 'asc', rol: ''});
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
     const [activeArea, setActiveArea] = useState<'list' | 'pie'>('list'); 
@@ -35,12 +33,14 @@ const UsersArea: React.FC = () => {
         singleButton: true
     });
 
+    const limit = 10;
+
     useEffect(() => {
         const loadUsers = async () => {
             try {
                 setLoading(true);
                 setError(null);  // Limpiar el error cuando cargamos datos
-                const { data, meta } = await fetchUsers(currentPage); // Obtener usuarios y metadata
+                const { data, meta } = await fetchUsers(currentPage, limit, filters); // Obtener usuarios y metadata
     
                 if (data.length === 0) {
                     // Si no hay usuarios, mostrar el error
@@ -58,21 +58,27 @@ const UsersArea: React.FC = () => {
         };
     
         loadUsers();
-    }, [currentPage]); // Cargar usuarios cuando cambie la página
+    }, [currentPage, filters]); // Cargar usuarios cuando cambie la página
 
     const filteredUsers = useMemo(() => {
         return users
-            .filter(user => filters.rol === '' || user.rol === filters.rol)
-            .sort((a, b) => filters.nombre === 'asc' ? a.nombre.localeCompare(b.nombre) : b.nombre.localeCompare(a.nombre));
-    }, [users, filters]); // 🔥 Solo recalcula cuando cambia `users` o `filters`
+            .filter(user => filters.rol === '' || user.rol.includes(filters.rol))  // Usar 'includes' para comparar
+            .sort((a, b) => filters.sortOrder === 'asc' 
+                ? a.nombre.localeCompare(b.nombre) 
+                : b.nombre.localeCompare(a.nombre));
+    }, [users, filters]);
 
 const handleModalClose = () => {
     setModalData((prev) => ({ ...prev, show: false }));
 };
 
-const updateUserState = async (id: string, rol: string) => {
+const updateUserState = async (id: number, rol: string) => {
     try {
-        await updateUser(id, {rol}); // Enviar el nuevo rol al backend
+        console.log("Datos de usuario recibidos en index.tsx: ", id, rol);
+        
+        const response = await updateUser(id, rol);  // Verifica la respuesta
+        console.log("Respuesta de updateUser:", response);
+        
         setModalData({
             show: true,
             title: "Rol Asignado",
@@ -81,19 +87,23 @@ const updateUserState = async (id: string, rol: string) => {
             singleButton: true
         });
 
-        setUsers(users.map(user => user.id === id ? { ...user, rol } : user)); // Asegurar que `rol` se actualiza
+        setUsers(users.map(user => 
+            user.id === Number(id) ? { ...user, rol: [rol] } : user
+        ));
     } catch (error) {
         console.error("Error al actualizar usuario:", error);
         setModalData({
             show: true,
             title: "Error",
             message: "Error al asignar nuevo rol al usuario. Intente nuevamente",
-            isSuccess: false
+            isSuccess: false,
+            singleButton: true
         });
     }
 };
 
-const confirmUpdate = (id: string, rol:string) => {
+const confirmUpdate = (id: number, rol:string) => {
+    console.log(`Confirmando cambio de rol: ${id} -> ${rol}`);
     setModalData({
         show: true,
         title: "Confirmar Acción",
@@ -189,7 +199,7 @@ return (
             show={modalData.show}
             title={modalData.title}
             message={modalData.message}
-            onConfirm={handleModalClose}
+            onConfirm={modalData.onConfirm} 
             onCancel={handleModalClose}
             singleButton={modalData.singleButton}
         />

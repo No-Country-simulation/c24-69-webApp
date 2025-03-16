@@ -6,7 +6,7 @@ import ConfirmModal from "../../components/ConfirmModal/index";
 import logo from "../../assets/logo1.png";
 import "../../styles/buttons.css";
 import { logoutService } from "../../context/ServiceAuth/AuthService";
-import { useAuth } from "../../hooks/UseAuth"; // Importa el hook useAuth
+import { useAuth } from "../../hooks/UseAuth"; 
 
 const NavBar: React.FC = () => {
   const location = useLocation(); // Obtiene la ruta actual
@@ -34,8 +34,10 @@ const NavBar: React.FC = () => {
 
   const confirmLogout = async () => {
     try {
-      // Aquí esperamos a que el usuario confirme el logout
+      // Esperamos a que el usuario confirme el logout
       await logoutService(); // Eliminar el token de las cookies
+
+      // Mostrar mensaje de éxito y redirigir
       setModalData({
         show: true,
         title: "Cierre de Sesión",
@@ -43,11 +45,11 @@ const NavBar: React.FC = () => {
         isSuccess: true,
         singleButton: true,
       });
-  
-      // Después de un breve delay para que el modal se vea, redirigimos al inicio
+
+      // Después de un breve delay, redirigimos al inicio
       setTimeout(() => {
         window.location.href = "/";  // Redirigir al inicio
-      }, 1500); // Puedes ajustar el tiempo de espera según lo desees
+      }, 1500); 
     } catch (error) {
       console.error("Error al cerrar sesión:", error);
       setModalData({
@@ -58,7 +60,7 @@ const NavBar: React.FC = () => {
       });
     }
   };
-  
+
   const handleLogout = () => {
     setModalData({
       show: true,
@@ -66,7 +68,12 @@ const NavBar: React.FC = () => {
       message: "¿Estás seguro de cerrar sesión?",
       isSuccess: false,
       singleButton: false,
-      onConfirm: () => confirmLogout(),  // Solo ejecuta logout si se confirma
+      onConfirm: () => {
+        // Primero cerramos el modal
+        handleModalClose();
+        // Luego ejecutamos el logout
+        confirmLogout(); 
+      },
       onCancel: handleModalClose,
     });
   };
@@ -74,13 +81,13 @@ const NavBar: React.FC = () => {
   console.log(user);
   const userRole = user?.rol?.[0]?.toLowerCase(); // Tomamos el primer rol y lo convertimos a minúsculas
 
-  // Lógica para mostrar los botones según el rol del usuario
   const renderNavLinks = () => {
     if (userRole === "admin") {
       return (
         <>
           <Link to="/" className={`nav-btn ${location.pathname === "/" ? "nav-btn-active" : ""}`}>Inicio</Link>
           <Link to="/admin" className={`nav-btn ${location.pathname === "/admin" ? "nav-btn-active" : ""}`}>Admin</Link>
+          <Link to="/signup" className={`nav-btn ${location.pathname === "/signup" ? "nav-btn-active" : ""}`}>Registrar Empleado</Link>
           <Link to="/" className={`nav-btn`} onClick={handleLogout}>Cerrar Sesión</Link>
           <Link to="/about" className={`nav-btn ${location.pathname === "/about" ? "nav-btn-active" : ""}`}>Nosotros</Link>
         </>
@@ -91,7 +98,7 @@ const NavBar: React.FC = () => {
       return (
         <>
           <Link to="/" className={`nav-btn ${location.pathname === "/" ? "nav-btn-active" : ""}`}>Inicio</Link>
-          <Link to="/attendant" className={`nav-btn ${location.pathname === "/attendant" ? "nav-btn-active" : ""}`}>Operario</Link>
+          <Link to="/operative" className={`nav-btn ${location.pathname === "/attendant" ? "nav-btn-active" : ""}`}>Operario</Link>
           <Link to="/" className={`nav-btn`} onClick={handleLogout}>Cerrar Sesión</Link>
           <Link to="/form" className={`nav-btn ${location.pathname === "/form" ? "nav-btn-active" : ""}`}>Form</Link>
           <Link to="/about" className={`nav-btn ${location.pathname === "/about" ? "nav-btn-active" : ""}`}>Nosotros</Link>
@@ -110,7 +117,6 @@ const NavBar: React.FC = () => {
       );
     }
   
-    // Si no está autenticado, solo los botones básicos
     return (
       <>
         <Link to="/" className={`nav-btn ${location.pathname === "/" ? "nav-btn-active" : ""}`}>Inicio</Link>
@@ -118,7 +124,7 @@ const NavBar: React.FC = () => {
         <Link to="/about" className={`nav-btn ${location.pathname === "/about" ? "nav-btn-active" : ""}`}>Nosotros</Link>
       </>
     );
-  };  
+  };
 
   return (
     <nav className="nav-section">
@@ -131,32 +137,22 @@ const NavBar: React.FC = () => {
       </div>
 
       <div className="fix-container-right relative">
-        {/* Menú hamburguesa en móviles */}
         <div className="md:hidden flex items-center pr-4">
-          <button
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="bg-blue-400 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-500"
-          >
+          <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="bg-blue-400 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-500">
             {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
           </button>
         </div>
         <ThemeButton />
       </div>
 
-      {/* Menú desplegable en móviles */}
-      {isMenuOpen && (
-        <div className="burger-menu">
-          {renderNavLinks()}
-        </div>
-      )}
+      {isMenuOpen && <div className="burger-menu">{renderNavLinks()}</div>}
 
-      {/* Modal de Confirmación */}
       <ConfirmModal
         show={modalData.show}
         title={modalData.title}
         message={modalData.message}
-        onConfirm={handleLogout}
-        onCancel={handleModalClose}
+        onConfirm={modalData.onConfirm}
+        onCancel={modalData.onCancel}
         singleButton={modalData.singleButton}
       />
     </nav>

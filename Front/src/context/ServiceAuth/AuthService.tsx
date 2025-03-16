@@ -1,10 +1,11 @@
 import Cookies from "js-cookie";
 import {jwtDecode} from "jwt-decode";
 
-const API_URL = "http://localhost:3000/auth";
+const API_URL = "https://c24-69-webapp.onrender.com/auth";
 
 interface AuthResponse {
   token: string;
+  error?: string;
 }
 
 export const loginService = async (email: string, contraseña: string): Promise<AuthResponse> => {

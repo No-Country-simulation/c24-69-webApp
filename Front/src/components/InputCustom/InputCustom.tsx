@@ -21,9 +21,10 @@ const InputCustom: React.FC<InputProps> = ({
 }) => {
   return (
     <div className="mb-4">
-      <label className="block text-md font-medium">{label}</label>
       {type === "checkbox" || type === "radio" ? (
-        <label className="flex items-center space-x-2 cursor-pointer">
+        // Div para checkbox/radio
+        <div className="flex items-center space-x-2">
+          <span className="ml-2 text-lg">{label}</span> {/* Texto al lado del checkbox */}
           <input
             type={type}
             value={value}
@@ -32,15 +33,19 @@ const InputCustom: React.FC<InputProps> = ({
             className="hidden"
           />
           <span className="custom-checkbox" />
-        </label>
+        </div>
       ) : (
-        <input
-          type={type}
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-          placeholder={placeholder}
-          className={`input-bg-theme w-full p-2 outline-none rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${customStyle}`}
-        />
+        // Div para otros tipos de input
+        <div className="flex flex-col">
+          <label className="text-lg text-start font-medium">{label}</label>
+          <input
+            type={type}
+            value={value}
+            onChange={(e) => onChange(e.target.value)}
+            placeholder={placeholder}
+            className={`input-bg-theme w-full p-2 outline-none rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${customStyle}`}
+          />
+        </div>
       )}
     </div>
   );
